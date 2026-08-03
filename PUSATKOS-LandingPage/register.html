@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="PUSATKOS">
+    <meta name="description" content="Daftar akun PUSATKOS gratis dan mulai temukan kos impianmu sekarang.">
+
+    <!--CSS -->
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="assets/css/pusatkos.css">
+
+    <title>Daftar - PUSATKOS</title>
+
+</head>
+
+<body>
+
+<!-- WRAPPER
+=====================================================================================================================-->
+<div class="ts-page-wrapper ts-auth-page" id="page-top">
+
+    <!--*********************************************************************************************************-->
+    <!-- TOP NAVBAR (Putih, Fixed Top, plus Logo - Seragam dengan halaman Login) ********************************-->
+    <!--*********************************************************************************************************-->
+    <header class="bg-white py-3 shadow-sm fixed-top" style="z-index: 1030; width: 100%;">
+        <div class="container d-flex justify-content-between align-items-center">
+            <!-- Bagian Kiri: Tombol Kembali, Logo & Judul Halaman -->
+            <div class="d-flex align-items-center">
+                <a href="index.html" class="btn btn-outline-dark btn-sm font-weight-bold mr-3">
+                    <i class="fa fa-arrow-left mr-1"></i> Kembali
+                </a>
+                
+                <!-- Logo PUSATKOS di Navbar -->
+                <a href="index.html" class="text-dark text-decoration-none d-flex align-items-center">
+                    <h4 class="mb-0 font-weight-bold"><i class="fa fa-home mr-1"></i> PUSATKOS</h4>
+                </a>
+                
+                <!-- Garis vertikal pembatas dan Judul Halaman -->
+                <span class="border-left mx-3" style="height: 24px; border-color: #ddd !important;"></span>
+                <h5 class="mb-0 text-dark font-weight-normal">Daftar</h5>
+            </div>
+            
+            <!-- Bagian Kanan: Bantuan -->
+            <a href="#" style="color: #212529; font-weight: 500; text-decoration: none;">Butuh bantuan?</a>
+        </div>
+    </header>
+
+    <!--*********************************************************************************************************-->
+    <!-- MAIN ***************************************************************************************************-->
+    <!--*********************************************************************************************************-->
+    
+    <main id="ts-main" style="background-color: #E0E0E0; margin-top: 0 !important; padding-top: 75px !important; margin-bottom: 0 !important; padding-bottom: 0 !important;">
+
+        <!-- Latar belakang abu-abu terang menyatu dengan footer -->
+        <section id="ts-auth" class="py-5" style="background-color: #E0E0E0; min-height: 85vh; display: flex; align-items: center; margin-bottom: 0 !important;">
+            <div class="container py-4">
+                <div class="row justify-content-center">
+
+                    <div class="col-md-9 col-lg-7 col-xl-6">
+                        
+                        <!-- CARD FORM DAFTAR (Centered layout) -->
+                        <div class="card border-0 bg-white" style="border-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 40px 50px;">
+
+                            <!-- Logo & Judul Card -->
+                            <div class="text-center mb-4">
+                                <h4 class="font-weight-bold text-dark mb-4" style="font-size: 24px;">
+                                    <i class="fa fa-home mr-1"></i> PUSATKOS
+                                </h4>
+                                <h3 class="font-weight-normal text-dark mb-2" style="font-size: 22px;">Daftar Akun Baru</h3>
+                                <p class="text-muted mb-0" style="font-size: 15px;">Gratis, dan cari kos impianmu jadi lebih mudah</p>
+                            </div>
+
+                            <form id="form-register">
+                                
+                                <!-- Baris 1: Nama Lengkap & No HP -->
+                                <div class="form-row mb-3">
+                                    <div class="col-md-6 mb-3 mb-md-0">
+                                        <label class="font-weight-bold text-muted mb-1" style="font-size: 13px;" for="reg-nama">Nama Lengkap</label>
+                                        <input type="text" class="form-control" id="reg-nama" name="nama" placeholder="Nama lengkap kamu" style="font-size: 15px; padding: 10px 15px;" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="font-weight-bold text-muted mb-1" style="font-size: 13px;" for="reg-hp">No. Handphone</label>
+                                        <input type="tel" class="form-control" id="reg-hp" name="handphone" placeholder="08xxxxxxxxxx" style="font-size: 15px; padding: 10px 15px;" required>
+                                    </div>
+                                </div>
+
+                                <!-- Baris 2: Email -->
+                                <div class="form-group mb-3">
+                                    <label class="font-weight-bold text-muted mb-1" style="font-size: 13px;" for="reg-email">Email</label>
+                                    <input type="email" class="form-control" id="reg-email" name="email" placeholder="nama@email.com" style="font-size: 15px; padding: 10px 15px;" required>
+                                </div>
+
+                                <!-- Baris 3: Password & Konfirmasi -->
+                                <div class="form-row mb-3">
+                                    <div class="col-md-6 mb-3 mb-md-0">
+                                        <label class="font-weight-bold text-muted mb-1" style="font-size: 13px;" for="reg-password">Kata Sandi</label>
+                                        <input type="password" class="form-control" id="reg-password" name="password" placeholder="Minimal 8 karakter" style="font-size: 15px; padding: 10px 15px;" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="font-weight-bold text-muted mb-1" style="font-size: 13px;" for="reg-password-confirm">Konfirmasi Kata Sandi</label>
+                                        <input type="password" class="form-control" id="reg-password-confirm" name="password_confirmation" placeholder="Ulangi kata sandi" style="font-size: 15px; padding: 10px 15px;" required>
+                                    </div>
+                                </div>
+
+                                <!-- Checkbox Syarat & Ketentuan -->
+                                <div class="custom-control custom-checkbox mb-4 mt-2">
+                                    <input type="checkbox" class="custom-control-input" id="agree-terms" name="agree" required>
+                                    <label class="custom-control-label text-muted" for="agree-terms" style="font-size: 13px; padding-top: 2px;">
+                                        Saya menyetujui <span class="text-dark font-weight-bold">Syarat &amp; Ketentuan</span> serta <span class="text-dark font-weight-bold">Kebijakan Privasi</span> PUSATKOS
+                                    </label>
+                                </div>
+
+                                <!-- Tombol Daftar -->
+                                <button type="submit" class="btn text-white w-100 font-weight-bold mb-4" style="background-color: #0000ff; border-color: #0000ff; border-radius: 4px; padding: 10px 0; font-size: 15px;">
+                                    <i class="fa fa-user-plus mr-2"></i> Daftar Sekarang
+                                </button>
+
+                                <!-- Divider -->
+                                <div class="text-center text-muted mb-3" style="font-size: 13px;">atau daftar dengan</div>
+
+                                <!-- Tombol Sosial Media -->
+                                <div class="form-row mb-4">
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-outline-secondary w-100" style="color: #555; border-color: #ccc; font-weight: 500; font-size: 14px; padding: 8px 0;">
+                                            <i class="fab fa-google mr-2 text-dark"></i>Google
+                                        </button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-outline-secondary w-100" style="color: #555; border-color: #ccc; font-weight: 500; font-size: 14px; padding: 8px 0;">
+                                            <i class="fab fa-facebook-f mr-2 text-dark"></i>Facebook
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Link Masuk -->
+                                <div class="text-center mt-3 text-muted" style="font-size: 13px;">
+                                    Sudah punya akun? <a href="login.html" class="text-dark font-weight-bold" style="text-decoration: none;">Masuk di sini</a>
+                                </div>
+
+                            </form>
+
+                        </div>
+                        <!--end card-->
+
+                    </div>
+                    <!--end col-->
+                </div>
+                <!--end row-->
+            </div>
+            <!--end container-->
+        </section>
+
+    </main>
+    <!--end #ts-main-->
+
+    <!--*********************************************************************************************************-->
+    <!--************ FOOTER *************************************************************************************-->
+    <!--*********************************************************************************************************-->
+    <footer id="ts-footer" style="margin-top: 0 !important;">
+
+        <!--MAIN FOOTER CONTENT
+        =============================================================================================================-->
+        <section id="ts-footer-main">
+            <div class="container">
+                <div class="row">
+
+                    <!--Brand and description-->
+                    <div class="col-md-4">
+                        <a href="index.html" class="brand">
+                            <span class="pk-logo pk-logo--footer"><i class="fa fa-home mr-2"></i>PUSATKOS</span>
+                        </a>
+                        <p class="mb-4">
+                            PUSATKOS membantu kamu menemukan kos impian dengan mudah, cepat, dan aman.
+                            Ribuan pilihan kos putra, putri, campur, dan eksklusif tersedia di seluruh Indonesia.
+                        </p>
+                        <a href="#kontak" class="btn btn-outline-dark mb-4">Hubungi Kami</a>
+                    </div>
+
+                    <!--Navigation-->
+                    <div class="col-md-2">
+                        <h4>Navigasi</h4>
+                        <nav class="nav flex-row flex-md-column mb-4">
+                            <a href="index.html" class="nav-link">Home</a>
+                            <a href="#cari-kos" class="nav-link">Cari Kos</a>
+                            <a href="#promo" class="nav-link">Promo</a>
+                            <a href="#artikel" class="nav-link">Artikel</a>
+                        </nav>
+                    </div>
+
+                    <!--Akun-->
+                    <div class="col-md-3">
+                        <h4>Akun</h4>
+                        <nav class="nav flex-row flex-md-column mb-4">
+                            <a href="login.html" class="nav-link">Masuk</a>
+                            <a href="register.html" class="nav-link">Daftar</a>
+                            <a href="submit.html" class="nav-link">Jadi Mitra Pemilik Kos</a>
+                        </nav>
+                    </div>
+
+                    <!--Contact Info-->
+                    <div class="col-md-3" id="kontak">
+                        <h4>Kontak</h4>
+                        <address class="ts-text-color-light">
+                            Jl. Raya Sidoarjo No. 17
+                            <br>
+                            Sidoarjo, Jawa Timur
+                            <br>
+                            <strong>Email: </strong>
+                            <a href="mailto:hello@pusatkos.id" class="btn-link">hello@pusatkos.id</a>
+                            <br>
+                            <strong>Telepon:</strong>
+                            0800-1-PUSATKOS
+                        </address>
+                    </div>
+
+                </div>
+                <!--end row-->
+            </div>
+            <!--end container-->
+        </section>
+        <!--end ts-footer-main-->
+
+        <!--SECONDARY FOOTER CONTENT
+        =============================================================================================================-->
+        <section id="ts-footer-secondary">
+            <div class="container">
+
+                <!--Copyright-->
+                <div class="ts-copyright">&copy; 2026 PUSATKOS. Seluruh hak cipta dilindungi.</div>
+
+                <!--Social Icons-->
+                <div class="ts-footer-nav">
+                    <nav class="nav">
+                        <a href="#" class="nav-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="nav-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="nav-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="nav-link"><i class="fab fa-youtube"></i></a>
+                    </nav>
+                </div>
+                <!--end ts-footer-nav-->
+
+            </div>
+            <!--end container-->
+        </section>
+        <!--end ts-footer-secondary-->
+
+    </footer>
+    <!--end #ts-footer-->
+
+</div>
+<!--end .ts-page-wrapper-->
+
+<!--JS-->
+<script src="assets/js/jquery-3.3.1.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/jquery.scrollbar.min.js"></script>
+<script src="assets/js/custom.js"></script>
+
+</body>
+</html>
