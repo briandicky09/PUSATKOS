@@ -6,6 +6,10 @@
                class="list-group-item list-group-item-action {{ request()->routeIs('customer.kos.index') ? 'active' : '' }}">
                 <i class="fa fa-bed mr-2"></i> Kos Saya
             </a>
+            <a href="{{ route('search.kos') }}"
+               class="list-group-item list-group-item-action {{ request()->routeIs('search.kos') ? 'active' : '' }}">
+                <i class="fa fa-search mr-2"></i> Cari Kos
+            </a>
             <a href="{{ route('customer.invoice.index') }}"
                class="list-group-item list-group-item-action {{ request()->routeIs('customer.invoice.*') ? 'active' : '' }}">
                 <i class="fa fa-file-invoice mr-2"></i> Tagihan / Invoice

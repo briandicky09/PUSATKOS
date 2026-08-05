@@ -50,8 +50,8 @@
                     <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
                         <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home @if(request()->routeIs('home'))<span class="sr-only">(current)</span>@endif</a>
                     </li>
-                    <li class="nav-item {{ request()->routeIs('owner.kos.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('owner.kos.index') }}">Cari Kos</a>
+                    <li class="nav-item {{ request()->routeIs('search.kos') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('search.kos') }}">Cari Kos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('home') }}#promo">Promo</a>

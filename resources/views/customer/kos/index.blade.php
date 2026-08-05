@@ -31,7 +31,7 @@
     <div class="col-12">
         <div class="card border-0 shadow-sm p-5 text-center">
             <p class="text-muted mb-3">Kamu belum menyewa kos apa pun saat ini.</p>
-            <a href="{{ route('owner.kos.index') }}" class="btn btn-primary">Cari Kos Sekarang</a>
+            <a href="{{ route('search.kos') }}" class="btn btn-primary">Cari Kos Sekarang</a>
         </div>
     </div>
     @endforelse

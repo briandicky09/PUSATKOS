@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// Pencarian Kos Umum
+Route::get('/search', [OwnerKosController::class, 'index'])->name('search.kos');
+
 // Autentikasi
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');

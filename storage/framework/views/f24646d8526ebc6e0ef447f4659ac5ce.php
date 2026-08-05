@@ -24,7 +24,7 @@
                     <h4>Navigasi</h4>
                     <nav class="nav flex-row flex-md-column mb-4">
                         <a href="<?php echo e(route('home')); ?>" class="nav-link">Home</a>
-                        <a href="<?php echo e(route('owner.kos.index')); ?>" class="nav-link">Cari Kos</a>
+                        <a href="<?php echo e(route('search.kos')); ?>" class="nav-link">Cari Kos</a>
                         <a href="<?php echo e(route('home')); ?>#promo" class="nav-link">Promo</a>
                         <a href="<?php echo e(route('home')); ?>#artikel" class="nav-link">Artikel</a>
                     </nav>

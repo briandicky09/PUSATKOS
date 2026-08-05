@@ -104,7 +104,7 @@
         =============================================================================================================-->
         <section id="category-select" class="ts-icons-select" data-bg-color="#eeeeee">
 
-            <a href="<?php echo e(route('owner.kos.index')); ?>">
+            <a href="<?php echo e(route('search.kos')); ?>">
                 <aside>128</aside>
                 <img src="<?php echo e(asset('assets/svg/icon-house.svg')); ?>" alt="">
                 <figure>
@@ -113,7 +113,7 @@
                 </figure>
             </a>
 
-            <a href="<?php echo e(route('owner.kos.index')); ?>">
+            <a href="<?php echo e(route('search.kos')); ?>">
                 <aside>146</aside>
                 <img src="<?php echo e(asset('assets/svg/icon-apartment.svg')); ?>" alt="">
                 <figure>
@@ -122,7 +122,7 @@
                 </figure>
             </a>
 
-            <a href="<?php echo e(route('owner.kos.index')); ?>">
+            <a href="<?php echo e(route('search.kos')); ?>">
                 <aside>84</aside>
                 <img src="<?php echo e(asset('assets/svg/icon-cabins.svg')); ?>" alt="">
                 <figure>
@@ -131,7 +131,7 @@
                 </figure>
             </a>
 
-            <a href="<?php echo e(route('owner.kos.index')); ?>">
+            <a href="<?php echo e(route('search.kos')); ?>">
                 <aside>52</aside>
                 <img src="<?php echo e(asset('assets/svg/icon-offices.svg')); ?>" alt="">
                 <figure>
@@ -140,7 +140,7 @@
                 </figure>
             </a>
 
-            <a href="<?php echo e(route('owner.kos.index')); ?>">
+            <a href="<?php echo e(route('search.kos')); ?>">
                 <aside>210</aside>
                 <img src="<?php echo e(asset('assets/svg/icon-garages.svg')); ?>" alt="">
                 <figure>
@@ -149,7 +149,7 @@
                 </figure>
             </a>
 
-            <a href="<?php echo e(route('owner.kos.index')); ?>">
+            <a href="<?php echo e(route('search.kos')); ?>">
                 <aside>63</aside>
                 <img src="<?php echo e(asset('assets/svg/icon-land.svg')); ?>" alt="">
                 <figure>
@@ -200,7 +200,7 @@
                 <!--end row-->
 
                 <div class="text-center mt-3">
-                    <a href="<?php echo e(route('owner.kos.index')); ?>" class="btn btn-outline-dark">Lihat Semua Kos Populer</a>
+                    <a href="<?php echo e(route('search.kos')); ?>" class="btn btn-outline-dark">Lihat Semua Kos Populer</a>
                 </div>
 
             </div>
