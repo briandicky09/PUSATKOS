@@ -50,8 +50,8 @@
                     <li class="nav-item <?php echo e(request()->routeIs('home') ? 'active' : ''); ?>">
                         <a class="nav-link <?php echo e(request()->routeIs('home') ? 'active' : ''); ?>" href="<?php echo e(route('home')); ?>">Home <?php if(request()->routeIs('home')): ?><span class="sr-only">(current)</span><?php endif; ?></a>
                     </li>
-                    <li class="nav-item <?php echo e(request()->routeIs('search.kos') ? 'active' : ''); ?>">
-                        <a class="nav-link" href="<?php echo e(route('search.kos')); ?>">Cari Kos</a>
+                    <li class="nav-item <?php echo e(request()->routeIs('kos.index') || request()->routeIs('search.kos') || request()->is('kos') ? 'active' : ''); ?>">
+                        <a class="nav-link <?php echo e(request()->routeIs('kos.index') || request()->routeIs('search.kos') || request()->is('kos') ? 'active' : ''); ?>" href="<?php echo e(route('kos.index')); ?>">Cari Kos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo e(route('home')); ?>#promo">Promo</a>

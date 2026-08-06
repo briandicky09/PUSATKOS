@@ -11,8 +11,6 @@
 
     <main id="ts-main">
 
-        <!--BREADCRUMB
-        =========================================================================================================-->
         <section id="breadcrumb">
             <div class="container">
                 <nav aria-label="breadcrumb">
@@ -24,63 +22,89 @@
             </div>
         </section>
 
-        <!--PAGE TITLE
-        =========================================================================================================-->
         <section id="page-title">
             <div class="container">
                 <div class="ts-title mb-0">
-                    <h1>Daftar Kos</h1>
-                    <h5 class="ts-opacity__90">Temukan kos impianmu di seluruh Indonesia</h5>
+                    <h1>Cari Kos</h1>
+                    <h5 class="ts-opacity__90">Temukan kos impianmu di seluruh Indonesia dengan pencarian yang mudah.</h5>
                 </div>
             </div>
         </section>
 
-        <!--CONTENT
-        =========================================================================================================-->
         <section id="content">
             <div class="container">
                 <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <aside class="card p-4 shadow-sm">
+                            <h3 class="h5 mb-3">Filter Pencarian</h3>
+                            <form action="{{ route('search.kos') }}" method="GET">
+                                <div class="form-group">
+                                    <label for="keyword">Kata Kunci</label>
+                                    <input type="text" class="form-control" id="keyword" name="keyword" placeholder="Kota, alamat, atau nama kos">
+                                </div>
+                                <div class="form-group">
+                                    <label for="type">Tipe Kos</label>
+                                    <select class="form-control" id="type" name="type">
+                                        <option value="">Semua</option>
+                                        <option value="putra">Putra</option>
+                                        <option value="putri">Putri</option>
+                                        <option value="campur">Campur</option>
+                                        <option value="eksklusif">Eksklusif</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="city">Kota</label>
+                                    <input type="text" class="form-control" id="city" name="city" placeholder="Contoh: Surabaya">
+                                </div>
+                                <div class="form-group">
+                                    <label for="max_price">Harga Maksimal</label>
+                                    <input type="number" class="form-control" id="max_price" name="max_price" placeholder="Contoh: 1000000">
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Cari Kos</button>
+                            </form>
+                        </aside>
+                    </div>
 
-                    @forelse($listKos as $kos)
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card ts-item ts-card ts-item__lg">
-                            <div class="ts-ribbon"><i class="fa fa-thumbs-up"></i></div>
-                            <a href="{{ route('kos.show', $kos['slug']) }}" class="card-img ts-item__image" data-bg-image="{{ asset($kos['thumbnail']) }}">
-                                <div class="ts-item__info-badge">Rp {{ number_format($kos['price'], 0, ',', '.') }} /bln</div>
-                                <figure class="ts-item__info">
-                                    <h4>{{ $kos['title'] }}</h4>
-                                    <aside><i class="fa fa-map-marker mr-2"></i>{{ $kos['city'] }}</aside>
-                                </figure>
-                            </a>
-                            <div class="card-body">
-                                <div class="ts-description-lists">
-                                    <dl><dt>Tipe</dt><dd>{{ $kos['type'] }}</dd></dl>
-                                    <dl><dt>Kamar</dt><dd>1</dd></dl>
-                                    <dl><dt>K. Mandi</dt><dd>Dalam</dd></dl>
+                    <div class="col-lg-8">
+                        <div class="row">
+                            @forelse($listKos as $kos)
+                            <div class="col-md-6 mb-4">
+                                <div class="card ts-item ts-card ts-item__lg h-100">
+                                    <div class="ts-ribbon"><i class="fa fa-thumbs-up"></i></div>
+                                    <a href="{{ route('kos.show', $kos['slug']) }}" class="card-img ts-item__image" data-bg-image="{{ asset($kos['thumbnail']) }}">
+                                        <div class="ts-item__info-badge">Rp {{ number_format($kos['price'], 0, ',', '.') }} /bln</div>
+                                        <figure class="ts-item__info">
+                                            <h4>{{ $kos['title'] }}</h4>
+                                            <aside><i class="fa fa-map-marker mr-2"></i>{{ $kos['city'] }}</aside>
+                                        </figure>
+                                    </a>
+                                    <div class="card-body">
+                                        <p class="text-muted mb-3">{{ Str::limit($kos['description'], 120) }}</p>
+                                        <div class="ts-description-lists">
+                                            <dl><dt>Tipe</dt><dd>{{ $kos['type'] }}</dd></dl>
+                                            <dl><dt>Kamar</dt><dd>{{ $kos['bedrooms'] ?? '1' }}</dd></dl>
+                                            <dl><dt>K. Mandi</dt><dd>{{ $kos['bathrooms'] ?? 'Dalam' }}</dd></dl>
+                                        </div>
+                                    </div>
+                                    <a href="{{ route('kos.show', $kos['slug']) }}" class="card-footer"><span class="ts-btn-arrow">Lihat Detail</span></a>
                                 </div>
                             </div>
-                            <a href="{{ route('kos.show', $kos['slug']) }}" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
+                            @empty
+                            <div class="col-12">
+                                <div class="ts-box text-center py-5">
+                                    <p class="text-muted mb-0">Belum ada kos yang tersedia saat ini.</p>
+                                </div>
+                            </div>
+                            @endforelse
                         </div>
                     </div>
-                    @empty
-                    <div class="col-12">
-                        <div class="ts-box text-center py-5">
-                            <p class="text-muted mb-0">Belum ada kos yang tersedia saat ini.</p>
-                        </div>
-                    </div>
-                    @endforelse
-
                 </div>
-                <!--end row-->
             </div>
-            <!--end container-->
         </section>
 
     </main>
-    <!--end #ts-main-->
 
     @include('partials.footer')
 
 </div>
-<!--end page-->
 @endsection

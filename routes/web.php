@@ -19,7 +19,10 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/tentang', [HomeController::class, 'about'])->name('about');
 
 // Pencarian Kos Umum
-Route::get('/search', [KosController::class, 'index'])->name('search.kos');
+Route::get('/search', function () {
+    return redirect('/kos');
+})->name('search.kos');
+Route::get('/kos', [KosController::class, 'index'])->name('kos.index');
 
 // Autentikasi
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -27,7 +30,6 @@ Route::get('/register', [AuthController::class, 'showRegister'])->name('register
 
 // Kos Publik
 Route::prefix('kos')->name('kos.')->group(function () {
-    Route::get('/', [KosController::class, 'index'])->name('index');
     Route::get('/{slug}', [KosController::class, 'show'])->name('show');
 });
 
