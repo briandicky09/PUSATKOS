@@ -17,27 +17,17 @@
     <!--end Header-->
 
     <!--*********************************************************************************************************-->
-    <!-- MAIN CONTENT (Split Layout) ****************************************************************************-->
+    <!-- MAIN CONTENT (Login Page) ****************************************************************************-->
     <!--*********************************************************************************************************-->
     
-    <!-- FIX DOBEL: Tambahkan background-color abu-abu ke dalam tag main agar jarak padding ikut berwarna abu-abu -->
-    <main id="ts-main" style="background-color: #E0E0E0; margin-top: 0 !important; padding-top: 75px !important; margin-bottom: 0 !important; padding-bottom: 0 !important;">
+    <main id="ts-main" style="background-image: url('{{ asset('assets/img/gambar-koss.jpeg') }}'); background-size: cover; background-position: center center; background-repeat: no-repeat; min-height: calc(100vh + 160px); margin-top: 0 !important; padding: 0 !important; background-color: transparent;">
 
-        <!-- Latar belakang abu-abu muda menyatu langsung dengan footer -->
-        <section id="ts-auth" class="pb-5" style="background-color: #E0E0E0; min-height: 80vh; display: flex; align-items: center; margin-bottom: 0 !important;" data-bg-color="#E0E0E0">
-            <div class="container py-4">
-                <div class="row align-items-center justify-content-between">
-
-                    <!-- KOLOM KIRI: Branding PUSATKOS -->
-                    <div class="col-md-6 text-center text-md-center mb-5 mb-md-0 d-flex flex-column align-items-center justify-content-center">
-                        <i class="fa fa-home" style="font-size: 8rem; color: #333;"></i>
-                        <h1 class="display-4 font-weight-bold mt-3" style="color: #333;">PUSATKOS</h1>
-                        <h3 class="font-weight-normal mt-2" style="color: #555;">Cari Kos Impianmu Lebih Mudah</h3>
-                    </div>
-
-                    <!-- KOLOM KANAN: Form Login -->
-                    <div class="col-md-6 col-lg-5">
-                        <div class="card ts-card p-4 p-md-5 border-0 shadow-lg" style="border-radius: 8px;">
+        <section id="ts-auth" class="py-5" style="position: relative; min-height: calc(100vh + 160px); display: flex; align-items: center; justify-content: center; margin-bottom: 0 !important; background: transparent;">
+            <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.28); z-index: 1;"></div>
+            <div class="container py-5" style="position: relative; z-index: 2;">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-5">
+                        <div class="card ts-card p-4 p-md-5 border-0 shadow-lg" style="border-radius: 8px; background: rgba(255,255,255,0.96); backdrop-filter: blur(10px);">
 
                             <!-- Judul Card -->
                             <div class="mb-4">

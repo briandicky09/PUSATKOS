@@ -56,14 +56,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('home') }}#promo">Promo</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}#artikel">Artikel</a>
+                    <li class="nav-item {{ request()->routeIs('artikel') ? 'active' : '' }}">
+                        <a class="nav-link {{ request()->routeIs('artikel') ? 'active' : '' }}" href="{{ route('artikel') }}">Artikel @if(request()->routeIs('artikel'))<span class="sr-only">(current)</span>@endif</a>
                     </li>
                     <li class="nav-item {{ request()->routeIs('about') ? 'active' : '' }}">
                         <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">Tentang @if(request()->routeIs('about'))<span class="sr-only">(current)</span>@endif</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}#kontak">Kontak</a>
+                    <li class="nav-item {{ request()->routeIs('contact') ? 'active' : '' }}">
+                        <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Kontak @if(request()->routeIs('contact'))<span class="sr-only">(current)</span>@endif</a>
                     </li>
                 </ul>
 

@@ -56,14 +56,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo e(route('home')); ?>#promo">Promo</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo e(route('home')); ?>#artikel">Artikel</a>
+                    <li class="nav-item <?php echo e(request()->routeIs('artikel') ? 'active' : ''); ?>">
+                        <a class="nav-link <?php echo e(request()->routeIs('artikel') ? 'active' : ''); ?>" href="<?php echo e(route('artikel')); ?>">Artikel <?php if(request()->routeIs('artikel')): ?><span class="sr-only">(current)</span><?php endif; ?></a>
                     </li>
                     <li class="nav-item <?php echo e(request()->routeIs('about') ? 'active' : ''); ?>">
                         <a class="nav-link <?php echo e(request()->routeIs('about') ? 'active' : ''); ?>" href="<?php echo e(route('about')); ?>">Tentang <?php if(request()->routeIs('about')): ?><span class="sr-only">(current)</span><?php endif; ?></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo e(route('home')); ?>#kontak">Kontak</a>
+                    <li class="nav-item <?php echo e(request()->routeIs('contact') ? 'active' : ''); ?>">
+                        <a class="nav-link <?php echo e(request()->routeIs('contact') ? 'active' : ''); ?>" href="<?php echo e(route('contact')); ?>">Kontak <?php if(request()->routeIs('contact')): ?><span class="sr-only">(current)</span><?php endif; ?></a>
                     </li>
                 </ul>
 

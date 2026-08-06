@@ -17,6 +17,12 @@ use Illuminate\Support\Facades\Route;
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/tentang', [HomeController::class, 'about'])->name('about');
+Route::get('/kontak', function () {
+    return view('contact.index');
+})->name('contact');
+Route::get('/artikel', function () {
+    return view('artikel.index');
+})->name('artikel');
 
 // Pencarian Kos Umum
 Route::get('/search', function () {
