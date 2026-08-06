@@ -45,6 +45,7 @@ Route::prefix('owner')->name('owner.')->group(function () {
         Route::get('/', [OwnerKosController::class, 'index'])->name('index');
         Route::get('/my', [OwnerKosController::class, 'myKos'])->name('my');
         Route::get('/create', [OwnerKosController::class, 'create'])->name('create');
+        Route::post('/store', [OwnerKosController::class, 'store'])->name('store');
         Route::get('/{slug}', [OwnerKosController::class, 'show'])->name('show');
     });
 });

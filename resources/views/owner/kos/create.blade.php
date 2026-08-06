@@ -9,8 +9,7 @@
 
         <h4 class="mb-4 font-weight-bold text-dark">Tambah Kos Baru</h4>
 
-        {{-- TODO: arahkan action ke route POST owner.kos.store setelah CRUD diimplementasikan --}}
-        <form id="form-create-kos" class="ts-form" method="POST" action="#">
+        <form id="form-create-kos" class="ts-form" method="POST" action="{{ route('owner.kos.store') }}">
             @csrf
 
             <div class="form-row">

@@ -61,6 +61,25 @@ class OwnerKosController extends Controller
     }
 
     /**
+     * Simpan kos baru (versi sementara, tanpa database).
+     */
+    public function store(\Illuminate\Http\Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'type' => ['required', 'string'],
+            'city' => ['required', 'string', 'max:255'],
+            'price' => ['required', 'numeric'],
+            'address' => ['nullable', 'string'],
+            'description' => ['nullable', 'string'],
+        ]);
+
+        session()->flash('success', 'Kos berhasil ditambahkan.');
+
+        return redirect()->route('owner.kos.my');
+    }
+
+    /**
      * Halaman Kos Saya untuk owner.
      */
     public function myKos(): View
