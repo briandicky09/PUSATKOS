@@ -1,22 +1,22 @@
-@extends('layouts.app')
 
-@section('title', 'PUSATKOS - Temukan Kos Impianmu dengan Mudah')
 
-@section('content')
+<?php $__env->startSection('title', 'PUSATKOS - Temukan Kos Impianmu dengan Mudah'); ?>
+
+<?php $__env->startSection('content'); ?>
 <div class="ts-page-wrapper ts-homepage" id="page-top">
 
     <!--*********************************************************************************************************-->
     <!--HEADER **************************************************************************************************-->
     <!--*********************************************************************************************************-->
-    @include('partials.navbar')
+    <?php echo $__env->make('partials.navbar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
-    @include('partials.alert')
+    <?php echo $__env->make('partials.alert', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
     <!--end Header-->
 
     <!--*********************************************************************************************************-->
     <!--HERO ****************************************************************************************************-->
     <!--*********************************************************************************************************-->
-    <section id="ts-hero" class="ts-separate-bg-element mb-0" data-bg-image="{{ asset('assets/img/bg-bedroom.jpg') }}" data-bg-color="#fff" data-bg-image-opacity=".55">
+    <section id="ts-hero" class="ts-separate-bg-element mb-0" data-bg-image="<?php echo e(asset('assets/img/bg-bedroom.jpg')); ?>" data-bg-color="#fff" data-bg-image-opacity=".55">
 
         <div class="container text-dark py-5">
             <div class="row ts-center__both ts-h__auto ts-min-h__40vh">
@@ -24,7 +24,7 @@
                 <!-- LEFT SIDE (TITLE)
                 =====================================================================================================-->
                 <div class="col-md-12 text-center mb-4" style="position: relative;">
-                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 320px; height: 320px; background-image: url('{{ asset('assets/img/bg-bedroom.jpg') }}'); background-size: cover; background-position: center; opacity: 0.18; filter: blur(1px); pointer-events: none; z-index: 0;"></div>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 320px; height: 320px; background-image: url('<?php echo e(asset('assets/img/bg-bedroom.jpg')); ?>'); background-size: cover; background-position: center; opacity: 0.18; filter: blur(1px); pointer-events: none; z-index: 0;"></div>
                     <div style="position: relative; z-index: 1;">
                         <h1 class="mb-2">Temukan Kos Impianmu <br class="d-none d-md-block">dengan Mudah</h1>
                         <h4 class="ts-opacity__50 font-weight-normal">Ribuan pilihan kos putra, putri, campur, dan eksklusif di seluruh Indonesia</h4>
@@ -84,7 +84,7 @@
                                 </button>
                             </div>
                             <div class="col-md-4 form-group my-2">
-                                <a href="{{ route('owner.kos.create') }}" class="btn btn-outline-dark w-100">Jadi Mitra PUSATKOS</a>
+                                <a href="<?php echo e(route('owner.kos.create')); ?>" class="btn btn-outline-dark w-100">Jadi Mitra PUSATKOS</a>
                             </div>
                         </div>
 
@@ -109,54 +109,54 @@
         =============================================================================================================-->
         <section id="category-select" class="ts-icons-select" data-bg-color="#eeeeee">
 
-            <a href="{{ route('search.kos') }}">
+            <a href="<?php echo e(route('search.kos')); ?>">
                 <aside>128</aside>
-                <img src="{{ asset('assets/svg/icon-house.svg') }}" alt="">
+                <img src="<?php echo e(asset('assets/svg/icon-house.svg')); ?>" alt="">
                 <figure>
                     <h6>Kos Putra</h6>
                     <small>Lihat Pilihan</small>
                 </figure>
             </a>
 
-            <a href="{{ route('search.kos') }}">
+            <a href="<?php echo e(route('search.kos')); ?>">
                 <aside>146</aside>
-                <img src="{{ asset('assets/svg/icon-apartment.svg') }}" alt="">
+                <img src="<?php echo e(asset('assets/svg/icon-apartment.svg')); ?>" alt="">
                 <figure>
                     <h6>Kos Putri</h6>
                     <small>Lihat Pilihan</small>
                 </figure>
             </a>
 
-            <a href="{{ route('search.kos') }}">
+            <a href="<?php echo e(route('search.kos')); ?>">
                 <aside>84</aside>
-                <img src="{{ asset('assets/svg/icon-cabins.svg') }}" alt="">
+                <img src="<?php echo e(asset('assets/svg/icon-cabins.svg')); ?>" alt="">
                 <figure>
                     <h6>Kos Campur</h6>
                     <small>Lihat Pilihan</small>
                 </figure>
             </a>
 
-            <a href="{{ route('search.kos') }}">
+            <a href="<?php echo e(route('search.kos')); ?>">
                 <aside>52</aside>
-                <img src="{{ asset('assets/svg/icon-offices.svg') }}" alt="">
+                <img src="<?php echo e(asset('assets/svg/icon-offices.svg')); ?>" alt="">
                 <figure>
                     <h6>Kos Eksklusif</h6>
                     <small>Lihat Pilihan</small>
                 </figure>
             </a>
 
-            <a href="{{ route('search.kos') }}">
+            <a href="<?php echo e(route('search.kos')); ?>">
                 <aside>210</aside>
-                <img src="{{ asset('assets/svg/icon-garages.svg') }}" alt="">
+                <img src="<?php echo e(asset('assets/svg/icon-garages.svg')); ?>" alt="">
                 <figure>
                     <h6>Kos Bulanan</h6>
                     <small>Lihat Pilihan</small>
                 </figure>
             </a>
 
-            <a href="{{ route('search.kos') }}">
+            <a href="<?php echo e(route('search.kos')); ?>">
                 <aside>63</aside>
-                <img src="{{ asset('assets/svg/icon-land.svg') }}" alt="">
+                <img src="<?php echo e(asset('assets/svg/icon-land.svg')); ?>" alt="">
                 <figure>
                     <h6>Kos Harian</h6>
                     <small>Lihat Pilihan</small>
@@ -178,34 +178,34 @@
 
                 <div class="row">
 
-                    @foreach($featuredKos as $kos)
+                    <?php $__currentLoopData = $featuredKos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $kos): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="col-sm-6 col-lg-4">
                         <div class="card ts-item ts-card ts-item__lg">
                             <div class="ts-ribbon"><i class="fa fa-thumbs-up"></i></div>
-                            <a href="{{ route('owner.kos.show', $kos['slug']) }}" class="card-img ts-item__image" data-bg-image="{{ asset($kos['thumbnail']) }}">
-                                <div class="ts-item__info-badge">Rp {{ number_format($kos['price'], 0, ',', '.') }} /bln</div>
+                            <a href="<?php echo e(route('owner.kos.show', $kos['slug'])); ?>" class="card-img ts-item__image" data-bg-image="<?php echo e(asset($kos['thumbnail'])); ?>">
+                                <div class="ts-item__info-badge">Rp <?php echo e(number_format($kos['price'], 0, ',', '.')); ?> /bln</div>
                                 <figure class="ts-item__info">
-                                    <h4>{{ $kos['title'] }}</h4>
-                                    <aside><i class="fa fa-map-marker mr-2"></i>{{ $kos['city'] }}</aside>
+                                    <h4><?php echo e($kos['title']); ?></h4>
+                                    <aside><i class="fa fa-map-marker mr-2"></i><?php echo e($kos['city']); ?></aside>
                                 </figure>
                             </a>
                             <div class="card-body">
                                 <div class="ts-description-lists">
-                                    <dl><dt>Tipe</dt><dd>{{ $kos['type'] }}</dd></dl>
+                                    <dl><dt>Tipe</dt><dd><?php echo e($kos['type']); ?></dd></dl>
                                     <dl><dt>Kamar</dt><dd>1</dd></dl>
                                     <dl><dt>K. Mandi</dt><dd>Dalam</dd></dl>
                                 </div>
                             </div>
-                            <a href="{{ route('owner.kos.show', $kos['slug']) }}" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
+                            <a href="<?php echo e(route('owner.kos.show', $kos['slug'])); ?>" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
                         </div>
                     </div>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                 </div>
                 <!--end row-->
 
                 <div class="text-center mt-3">
-                    <a href="{{ route('search.kos') }}" class="btn btn-outline-dark">Lihat Semua Kos Populer</a>
+                    <a href="<?php echo e(route('search.kos')); ?>" class="btn btn-outline-dark">Lihat Semua Kos Populer</a>
                 </div>
 
             </div>
@@ -228,56 +228,56 @@
                     <!--Item 4-->
                     <div class="col-sm-6 col-lg-3">
                         <div class="card ts-item ts-card">
-                            <a href="{{ route('owner.kos.show', 'kos-putri-melati') }}" class="card-img ts-item__image" data-bg-image="{{ asset('assets/img/img-item-thumb-04.jpg') }}">
+                            <a href="<?php echo e(route('owner.kos.show', 'kos-putri-melati')); ?>" class="card-img ts-item__image" data-bg-image="<?php echo e(asset('assets/img/img-item-thumb-04.jpg')); ?>">
                                 <div class="ts-item__info-badge">Rp 1.100.000 /bln</div>
                                 <figure class="ts-item__info">
                                     <h4>Kos Anggrek</h4>
                                     <aside><i class="fa fa-map-marker mr-2"></i>Sleman, Yogyakarta</aside>
                                 </figure>
                             </a>
-                            <a href="{{ route('owner.kos.show', 'kos-putri-melati') }}" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
+                            <a href="<?php echo e(route('owner.kos.show', 'kos-putri-melati')); ?>" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
                         </div>
                     </div>
 
                     <!--Item 5-->
                     <div class="col-sm-6 col-lg-3">
                         <div class="card ts-item ts-card">
-                            <a href="{{ route('owner.kos.show', 'kos-putri-melati') }}" class="card-img ts-item__image" data-bg-image="{{ asset('assets/img/img-item-thumb-05.jpg') }}">
+                            <a href="<?php echo e(route('owner.kos.show', 'kos-putri-melati')); ?>" class="card-img ts-item__image" data-bg-image="<?php echo e(asset('assets/img/img-item-thumb-05.jpg')); ?>">
                                 <div class="ts-item__info-badge">Rp 1.750.000 /bln</div>
                                 <figure class="ts-item__info">
                                     <h4>Kos Wijaya Kusuma</h4>
                                     <aside><i class="fa fa-map-marker mr-2"></i>Gubeng, Surabaya</aside>
                                 </figure>
                             </a>
-                            <a href="{{ route('owner.kos.show', 'kos-putri-melati') }}" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
+                            <a href="<?php echo e(route('owner.kos.show', 'kos-putri-melati')); ?>" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
                         </div>
                     </div>
 
                     <!--Item 6-->
                     <div class="col-sm-6 col-lg-3">
                         <div class="card ts-item ts-card">
-                            <a href="{{ route('owner.kos.show', 'kos-putri-melati') }}" class="card-img ts-item__image" data-bg-image="{{ asset('assets/img/img-item-thumb-06.jpg') }}">
+                            <a href="<?php echo e(route('owner.kos.show', 'kos-putri-melati')); ?>" class="card-img ts-item__image" data-bg-image="<?php echo e(asset('assets/img/img-item-thumb-06.jpg')); ?>">
                                 <div class="ts-item__info-badge">Rp 90.000 /hari</div>
                                 <figure class="ts-item__info">
                                     <h4>Kos Harian Sudirman</h4>
                                     <aside><i class="fa fa-map-marker mr-2"></i>Sudirman, Jakarta Pusat</aside>
                                 </figure>
                             </a>
-                            <a href="{{ route('owner.kos.show', 'kos-putri-melati') }}" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
+                            <a href="<?php echo e(route('owner.kos.show', 'kos-putri-melati')); ?>" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
                         </div>
                     </div>
 
                     <!--Item 7-->
                     <div class="col-sm-6 col-lg-3">
                         <div class="card ts-item ts-card">
-                            <a href="{{ route('owner.kos.show', 'kos-putri-melati') }}" class="card-img ts-item__image" data-bg-image="{{ asset('assets/img/img-item-thumb-07.jpg') }}">
+                            <a href="<?php echo e(route('owner.kos.show', 'kos-putri-melati')); ?>" class="card-img ts-item__image" data-bg-image="<?php echo e(asset('assets/img/img-item-thumb-07.jpg')); ?>">
                                 <div class="ts-item__info-badge">Rp 1.300.000 /bln</div>
                                 <figure class="ts-item__info">
                                     <h4>Kos Cendana Putri</h4>
                                     <aside><i class="fa fa-map-marker mr-2"></i>Lowokwaru, Malang</aside>
                                 </figure>
                             </a>
-                            <a href="{{ route('owner.kos.show', 'kos-putri-melati') }}" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
+                            <a href="<?php echo e(route('owner.kos.show', 'kos-putri-melati')); ?>" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
                         </div>
                     </div>
 
@@ -342,7 +342,7 @@
         <!-- NUMBERS / STATISTIK
         =============================================================================================================-->
         <section id="pusatkos-numbers">
-            <div id="numbers" class="py-5 text-white text-center ts-separate-bg-element" data-bg-color="#000037" data-bg-image="{{ asset('assets/img/bg-apartment-table.jpg') }}" data-bg-image-opacity=".3">
+            <div id="numbers" class="py-5 text-white text-center ts-separate-bg-element" data-bg-color="#000037" data-bg-image="<?php echo e(asset('assets/img/bg-apartment-table.jpg')); ?>" data-bg-image-opacity=".3">
                 <div class="container py-5">
                     <div class="ts-promo-numbers">
                         <div class="row">
@@ -449,7 +449,7 @@
                         <div class="owl-carousel" data-owl-items="1" data-owl-dots="1">
 
                             <div class="ts-slide">
-                                <div class="ts-circle__sm mx-auto" data-bg-image="{{ asset('assets/img/img-person-01.jpg') }}"></div>
+                                <div class="ts-circle__sm mx-auto" data-bg-image="<?php echo e(asset('assets/img/img-person-01.jpg')); ?>"></div>
                                 <h5 class="my-3">Anisa Rahmawati</h5>
                                 <p class="h5 font-weight-normal ts-text-color-light">
                                     Cari kos dekat kampus jadi gampang banget lewat PUSATKOS. Filter lokasinya
@@ -458,7 +458,7 @@
                             </div>
 
                             <div class="ts-slide">
-                                <div class="ts-circle__sm mx-auto" data-bg-image="{{ asset('assets/img/img-person-02.jpg') }}"></div>
+                                <div class="ts-circle__sm mx-auto" data-bg-image="<?php echo e(asset('assets/img/img-person-02.jpg')); ?>"></div>
                                 <h5 class="my-3">Bagus Prasetyo</h5>
                                 <p class="h5 font-weight-normal ts-text-color-light">
                                     Sebagai pemilik kos, saya terbantu sekali. Kamar cepat penuh setelah
@@ -467,7 +467,7 @@
                             </div>
 
                             <div class="ts-slide">
-                                <div class="ts-circle__sm mx-auto" data-bg-image="{{ asset('assets/img/img-person-03.jpg') }}"></div>
+                                <div class="ts-circle__sm mx-auto" data-bg-image="<?php echo e(asset('assets/img/img-person-03.jpg')); ?>"></div>
                                 <h5 class="my-3">Dewi Lestari</h5>
                                 <p class="h5 font-weight-normal ts-text-color-light">
                                     Tampilan website mudah dipahami, informasi kos lengkap, dan tim supportnya
@@ -499,7 +499,7 @@
 
                     <div class="col-sm-6 col-lg-4">
                         <div class="card ts-item ts-card">
-                            <a href="#" class="card-img ts-item__image" data-bg-image="{{ asset('assets/img/img-item-thumb-08.jpg') }}">
+                            <a href="#" class="card-img ts-item__image" data-bg-image="<?php echo e(asset('assets/img/img-item-thumb-08.jpg')); ?>">
                                 <figure class="ts-item__info">
                                     <h4>5 Tips Memilih Kos Dekat Kampus</h4>
                                     <aside><i class="fa fa-calendar mr-2"></i>2 Agustus 2026</aside>
@@ -514,7 +514,7 @@
 
                     <div class="col-sm-6 col-lg-4">
                         <div class="card ts-item ts-card">
-                            <a href="#" class="card-img ts-item__image" data-bg-image="{{ asset('assets/img/img-item-thumb-09.jpg') }}">
+                            <a href="#" class="card-img ts-item__image" data-bg-image="<?php echo e(asset('assets/img/img-item-thumb-09.jpg')); ?>">
                                 <figure class="ts-item__info">
                                     <h4>Perbedaan Kos Putra, Putri, dan Campur</h4>
                                     <aside><i class="fa fa-calendar mr-2"></i>28 Juli 2026</aside>
@@ -529,7 +529,7 @@
 
                     <div class="col-sm-6 col-lg-4">
                         <div class="card ts-item ts-card">
-                            <a href="#" class="card-img ts-item__image" data-bg-image="{{ asset('assets/img/img-item-thumb-10.jpg') }}">
+                            <a href="#" class="card-img ts-item__image" data-bg-image="<?php echo e(asset('assets/img/img-item-thumb-10.jpg')); ?>">
                                 <figure class="ts-item__info">
                                     <h4>Cara Aman Booking Kos Secara Online</h4>
                                     <aside><i class="fa fa-calendar mr-2"></i>15 Juli 2026</aside>
@@ -553,12 +553,12 @@
         <!-- CALL TO ACTION
         =============================================================================================================-->
         <section id="cta-pusatkos" class="ts-block pt-5">
-            <div class="text-white text-center py-5 ts-separate-bg-element" data-bg-color="#000037" data-bg-image="{{ asset('assets/img/bg-woman-mobile.jpg') }}" data-bg-image-opacity=".35">
+            <div class="text-white text-center py-5 ts-separate-bg-element" data-bg-color="#000037" data-bg-image="<?php echo e(asset('assets/img/bg-woman-mobile.jpg')); ?>" data-bg-image-opacity=".35">
                 <div class="container py-4">
                     <h2>Siap Menemukan Kos Impianmu?</h2>
                     <h5 class="ts-opacity__50 font-weight-normal mb-4">Ribuan kos berkualitas menunggumu di PUSATKOS</h5>
                     <a href="#cari-kos" class="ts-scroll btn btn-primary btn-lg mr-2">Cari Kos Sekarang</a>
-                    <a href="{{ route('owner.kos.create') }}" class="btn btn-outline-light btn-lg">Jadi Mitra</a>
+                    <a href="<?php echo e(route('owner.kos.create')); ?>" class="btn btn-outline-light btn-lg">Jadi Mitra</a>
                 </div>
             </div>
         </section>
@@ -571,8 +571,10 @@
     <!--************ FOOTER *************************************************************************************-->
     <!--*********************************************************************************************************-->
 
-    @include('partials.footer')
+    <?php echo $__env->make('partials.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
 </div>
 <!--end .ts-page-wrapper-->
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\USER\PUSATKOS\resources\views/home/index.blade.php ENDPATH**/ ?>

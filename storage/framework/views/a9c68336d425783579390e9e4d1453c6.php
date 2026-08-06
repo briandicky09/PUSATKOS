@@ -1,16 +1,16 @@
-@extends('layouts.app')
 
-@section('title', 'Cari Kos - PUSATKOS')
 
-@section('content')
+<?php $__env->startSection('title', 'Cari Kos - PUSATKOS'); ?>
+
+<?php $__env->startSection('content'); ?>
 <div class="ts-page-wrapper ts-has-bokeh-bg" id="page-top">
 
     <!--*********************************************************************************************************-->
     <!--HEADER **************************************************************************************************-->
     <!--*********************************************************************************************************-->
-    @include('partials.navbar')
+    <?php echo $__env->make('partials.navbar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
-    @include('partials.alert')
+    <?php echo $__env->make('partials.alert', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
     <!--end Header-->
 
     <!--*********************************************************************************************************-->
@@ -18,7 +18,9 @@
     <!--*********************************************************************************************************-->
     <main id="ts-main">
 
-    
+        <!-- PAGE TITLE
+            =========================================================================================================-->
+       
 
         <!-- ITEMS AND SIDEBAR
             =========================================================================================================-->
@@ -48,7 +50,7 @@
 
                                 <h3>Cari Kos</h3>
 
-                                <form action="{{ route('search.kos') }}" method="GET">
+                                <form action="<?php echo e(route('search.kos')); ?>" method="GET">
 
                                     <div class="form-group mb-3">
                                         <label class="ts-text-small font-weight-bold text-muted mb-2">Lokasi atau Nama Kos</label>
@@ -56,7 +58,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text bg-white border-right-0"><i class="fa fa-map-marker-alt text-muted"></i></span>
                                             </div>
-                                            <input type="text" class="form-control border-left-0 pl-0" name="keyword" placeholder="Contoh: Surabaya, Sidoarjo..." style="padding: 12px 15px;" value="{{ request('keyword') }}">
+                                            <input type="text" class="form-control border-left-0 pl-0" name="keyword" placeholder="Contoh: Surabaya, Sidoarjo..." style="padding: 12px 15px;" value="<?php echo e(request('keyword')); ?>">
                                         </div>
                                     </div>
 
@@ -64,9 +66,9 @@
                                         <label class="ts-text-small font-weight-bold text-muted mb-2">Tipe Kos</label>
                                         <select class="form-control" name="type" style="height: auto; padding: 12px 15px;">
                                             <option value="">Semua Tipe</option>
-                                            <option value="putra" {{ request('type') === 'putra' ? 'selected' : '' }}>Putra</option>
-                                            <option value="putri" {{ request('type') === 'putri' ? 'selected' : '' }}>Putri</option>
-                                            <option value="campur" {{ request('type') === 'campur' ? 'selected' : '' }}>Campur</option>
+                                            <option value="putra" <?php echo e(request('type') === 'putra' ? 'selected' : ''); ?>>Putra</option>
+                                            <option value="putri" <?php echo e(request('type') === 'putri' ? 'selected' : ''); ?>>Putri</option>
+                                            <option value="campur" <?php echo e(request('type') === 'campur' ? 'selected' : ''); ?>>Campur</option>
                                         </select>
                                     </div>
 
@@ -74,9 +76,9 @@
                                         <label class="ts-text-small font-weight-bold text-muted mb-2">Rentang Harga</label>
                                         <select class="form-control" name="price" style="height: auto; padding: 12px 15px;">
                                             <option value="">Semua Harga</option>
-                                            <option value="murah" {{ request('price') === 'murah' ? 'selected' : '' }}>< Rp 1.000.000</option>
-                                            <option value="menengah" {{ request('price') === 'menengah' ? 'selected' : '' }}>Rp 1.000.000 - Rp 2.000.000</option>
-                                            <option value="mahal" {{ request('price') === 'mahal' ? 'selected' : '' }}>> Rp 2.000.000</option>
+                                            <option value="murah" <?php echo e(request('price') === 'murah' ? 'selected' : ''); ?>>< Rp 1.000.000</option>
+                                            <option value="menengah" <?php echo e(request('price') === 'menengah' ? 'selected' : ''); ?>>Rp 1.000.000 - Rp 2.000.000</option>
+                                            <option value="mahal" <?php echo e(request('price') === 'mahal' ? 'selected' : ''); ?>>> Rp 2.000.000</option>
                                         </select>
                                     </div>
 
@@ -140,35 +142,35 @@
                             =========================================================================================-->
                         <section id="ts-items-list">
 
-                            @foreach($listKos as $kos)
+                            <?php $__currentLoopData = $listKos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $kos): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="card ts-item ts-item__list ts-card mb-4">
 
-                                <div class="ts-ribbon">{{ $kos['status'] === 'Aktif' ? 'Hot' : 'New' }}</div>
+                                <div class="ts-ribbon"><?php echo e($kos['status'] === 'Aktif' ? 'Hot' : 'New'); ?></div>
 
-                                <a href="{{ route('owner.kos.show', $kos['slug']) }}" class="card-img ts-item__image" data-bg-image="{{ asset($kos['thumbnail']) }}"></a>
+                                <a href="<?php echo e(route('owner.kos.show', $kos['slug'])); ?>" class="card-img ts-item__image" data-bg-image="<?php echo e(asset($kos['thumbnail'])); ?>"></a>
 
                                 <div class="card-body ts-item__body">
 
                                     <figure class="ts-item__info">
-                                        <h4>{{ $kos['title'] }}</h4>
-                                        <aside><i class="fa fa-map-marker mr-2"></i>{{ $kos['city'] }}</aside>
+                                        <h4><?php echo e($kos['title']); ?></h4>
+                                        <aside><i class="fa fa-map-marker mr-2"></i><?php echo e($kos['city']); ?></aside>
                                     </figure>
 
-                                    <div class="ts-item__info-badge">Rp {{ number_format($kos['price'], 0, ',', '.') }}</div>
+                                    <div class="ts-item__info-badge">Rp <?php echo e(number_format($kos['price'], 0, ',', '.')); ?></div>
 
                                     <div class="ts-description-lists">
-                                        <dl><dt>Tipe</dt><dd>{{ ucfirst($kos['type']) }}</dd></dl>
+                                        <dl><dt>Tipe</dt><dd><?php echo e(ucfirst($kos['type'])); ?></dd></dl>
                                         <dl><dt>Kamar</dt><dd>1</dd></dl>
                                         <dl><dt>K. Mandi</dt><dd>Dalam</dd></dl>
                                     </div>
                                 </div>
 
-                                <a href="{{ route('owner.kos.show', $kos['slug']) }}" class="card-footer ts-item__footer">
+                                <a href="<?php echo e(route('owner.kos.show', $kos['slug'])); ?>" class="card-footer ts-item__footer">
                                     <span class="ts-btn-arrow">Detail</span>
                                 </a>
 
                             </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                         </section>
                         <!--end #ts-items-list-->
@@ -204,8 +206,10 @@
     <!--*********************************************************************************************************-->
     <!--************ FOOTER *************************************************************************************-->
     <!--*********************************************************************************************************-->
-    @include('partials.footer')
+    <?php echo $__env->make('partials.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
 </div>
 <!--end .ts-page-wrapper-->
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\USER\PUSATKOS\resources\views/owner/kos/index.blade.php ENDPATH**/ ?>
