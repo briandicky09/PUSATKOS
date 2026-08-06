@@ -41,4 +41,12 @@ class HomeController extends Controller
 
         return view('home.index', compact('featuredKos'));
     }
+
+    /**
+     * Tampilkan halaman tentang PUSATKOS.
+     */
+    public function about(): View
+    {
+        return view('owner.tentang');
+    }
 }

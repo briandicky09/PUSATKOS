@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/tentang', [HomeController::class, 'about'])->name('about');
 
 // Pencarian Kos Umum
 Route::get('/search', [KosController::class, 'index'])->name('search.kos');

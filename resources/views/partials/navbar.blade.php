@@ -59,8 +59,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('home') }}#artikel">Artikel</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}#tentang">Tentang</a>
+                    <li class="nav-item {{ request()->routeIs('about') ? 'active' : '' }}">
+                        <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">Tentang @if(request()->routeIs('about'))<span class="sr-only">(current)</span>@endif</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('home') }}#kontak">Kontak</a>

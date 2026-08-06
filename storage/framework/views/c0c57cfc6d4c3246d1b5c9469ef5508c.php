@@ -59,8 +59,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo e(route('home')); ?>#artikel">Artikel</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo e(route('home')); ?>#tentang">Tentang</a>
+                    <li class="nav-item <?php echo e(request()->routeIs('about') ? 'active' : ''); ?>">
+                        <a class="nav-link <?php echo e(request()->routeIs('about') ? 'active' : ''); ?>" href="<?php echo e(route('about')); ?>">Tentang <?php if(request()->routeIs('about')): ?><span class="sr-only">(current)</span><?php endif; ?></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo e(route('home')); ?>#kontak">Kontak</a>
