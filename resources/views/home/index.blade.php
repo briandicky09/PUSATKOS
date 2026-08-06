@@ -182,7 +182,7 @@
                     <div class="col-sm-6 col-lg-4">
                         <div class="card ts-item ts-card ts-item__lg">
                             <div class="ts-ribbon"><i class="fa fa-thumbs-up"></i></div>
-                            <a href="{{ route('owner.kos.show', $kos['slug']) }}" class="card-img ts-item__image" data-bg-image="{{ asset($kos['thumbnail']) }}">
+                            <a href="{{ route('kos.show', $kos['slug']) }}" class="card-img ts-item__image" data-bg-image="{{ asset($kos['thumbnail']) }}">
                                 <div class="ts-item__info-badge">Rp {{ number_format($kos['price'], 0, ',', '.') }} /bln</div>
                                 <figure class="ts-item__info">
                                     <h4>{{ $kos['title'] }}</h4>
@@ -196,7 +196,7 @@
                                     <dl><dt>K. Mandi</dt><dd>Dalam</dd></dl>
                                 </div>
                             </div>
-                            <a href="{{ route('owner.kos.show', $kos['slug']) }}" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
+                            <a href="{{ route('kos.show', $kos['slug']) }}" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
                         </div>
                     </div>
                     @endforeach
@@ -228,56 +228,56 @@
                     <!--Item 4-->
                     <div class="col-sm-6 col-lg-3">
                         <div class="card ts-item ts-card">
-                            <a href="{{ route('owner.kos.show', 'kos-putri-melati') }}" class="card-img ts-item__image" data-bg-image="{{ asset('assets/img/img-item-thumb-04.jpg') }}">
+                            <a href="{{ route('kos.show', 'kos-putri-melati') }}" class="card-img ts-item__image" data-bg-image="{{ asset('assets/img/img-item-thumb-04.jpg') }}">
                                 <div class="ts-item__info-badge">Rp 1.100.000 /bln</div>
                                 <figure class="ts-item__info">
                                     <h4>Kos Anggrek</h4>
                                     <aside><i class="fa fa-map-marker mr-2"></i>Sleman, Yogyakarta</aside>
                                 </figure>
                             </a>
-                            <a href="{{ route('owner.kos.show', 'kos-putri-melati') }}" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
+                            <a href="{{ route('kos.show', 'kos-putri-melati') }}" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
                         </div>
                     </div>
 
                     <!--Item 5-->
                     <div class="col-sm-6 col-lg-3">
                         <div class="card ts-item ts-card">
-                            <a href="{{ route('owner.kos.show', 'kos-putri-melati') }}" class="card-img ts-item__image" data-bg-image="{{ asset('assets/img/img-item-thumb-05.jpg') }}">
+                            <a href="{{ route('kos.show', 'kos-putri-melati') }}" class="card-img ts-item__image" data-bg-image="{{ asset('assets/img/img-item-thumb-05.jpg') }}">
                                 <div class="ts-item__info-badge">Rp 1.750.000 /bln</div>
                                 <figure class="ts-item__info">
                                     <h4>Kos Wijaya Kusuma</h4>
                                     <aside><i class="fa fa-map-marker mr-2"></i>Gubeng, Surabaya</aside>
                                 </figure>
                             </a>
-                            <a href="{{ route('owner.kos.show', 'kos-putri-melati') }}" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
+                            <a href="{{ route('kos.show', 'kos-putri-melati') }}" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
                         </div>
                     </div>
 
                     <!--Item 6-->
                     <div class="col-sm-6 col-lg-3">
                         <div class="card ts-item ts-card">
-                            <a href="{{ route('owner.kos.show', 'kos-putri-melati') }}" class="card-img ts-item__image" data-bg-image="{{ asset('assets/img/img-item-thumb-06.jpg') }}">
+                            <a href="{{ route('kos.show', 'kos-putri-melati') }}" class="card-img ts-item__image" data-bg-image="{{ asset('assets/img/img-item-thumb-06.jpg') }}">
                                 <div class="ts-item__info-badge">Rp 90.000 /hari</div>
                                 <figure class="ts-item__info">
                                     <h4>Kos Harian Sudirman</h4>
                                     <aside><i class="fa fa-map-marker mr-2"></i>Sudirman, Jakarta Pusat</aside>
                                 </figure>
                             </a>
-                            <a href="{{ route('owner.kos.show', 'kos-putri-melati') }}" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
+                            <a href="{{ route('kos.show', 'kos-putri-melati') }}" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
                         </div>
                     </div>
 
                     <!--Item 7-->
                     <div class="col-sm-6 col-lg-3">
                         <div class="card ts-item ts-card">
-                            <a href="{{ route('owner.kos.show', 'kos-putri-melati') }}" class="card-img ts-item__image" data-bg-image="{{ asset('assets/img/img-item-thumb-07.jpg') }}">
+                            <a href="{{ route('kos.show', 'kos-putri-melati') }}" class="card-img ts-item__image" data-bg-image="{{ asset('assets/img/img-item-thumb-07.jpg') }}">
                                 <div class="ts-item__info-badge">Rp 1.300.000 /bln</div>
                                 <figure class="ts-item__info">
                                     <h4>Kos Cendana Putri</h4>
                                     <aside><i class="fa fa-map-marker mr-2"></i>Lowokwaru, Malang</aside>
                                 </figure>
                             </a>
-                            <a href="{{ route('owner.kos.show', 'kos-putri-melati') }}" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
+                            <a href="{{ route('kos.show', 'kos-putri-melati') }}" class="card-footer"><span class="ts-btn-arrow">Detail</span></a>
                         </div>
                     </div>
 

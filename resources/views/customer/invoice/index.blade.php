@@ -241,7 +241,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('owner.kos.show', $kos['slug'] ?? 'kos-putri-melati') }}">Property</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('kos.show', $kos['slug'] ?? 'kos-putri-melati') }}">Property</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Tagihan Saya</li>
                         </ol>
                     </nav>
@@ -483,7 +483,7 @@
                                 </div>
 
                                 <div class="text-center mt-3">
-                                    <a href="{{ route('owner.kos.show', $kos['slug'] ?? 'kos-putri-melati') }}" class="btn btn-link text-decoration-none">
+                                    <a href="{{ route('kos.show', $kos['slug'] ?? 'kos-putri-melati') }}" class="btn btn-link text-decoration-none">
                                         <i class="fa fa-arrow-left mr-1"></i>
                                         Kembali ke Detail Properti
                                     </a>

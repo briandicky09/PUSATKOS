@@ -23,7 +23,7 @@
                 <h5 class="font-weight-bold text-dark mb-0">Rp {{ number_format($kos['price'], 0, ',', '.') }} <span class="text-muted font-weight-normal ts-text-small">/ bulan</span></h5>
             </div>
             <div class="card-footer bg-white border-top-0 pb-4 pt-0">
-                <a href="{{ route('owner.kos.show', $kos['slug']) }}" class="btn btn-outline-dark w-100 font-weight-bold" style="border-radius: 4px;">Lihat Detail</a>
+                <a href="{{ route('kos.show', $kos['slug']) }}" class="btn btn-outline-dark w-100 font-weight-bold" style="border-radius: 4px;">Lihat Detail</a>
             </div>
         </div>
     </div>

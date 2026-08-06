@@ -10,8 +10,8 @@
                class="list-group-item list-group-item-action {{ request()->routeIs('search.kos') ? 'active' : '' }}">
                 <i class="fa fa-search mr-2"></i> Cari Kos
             </a>
-            <a href="{{ route('customer.invoice.index') }}"
-               class="list-group-item list-group-item-action {{ request()->routeIs('customer.invoice.*') ? 'active' : '' }}">
+            <a href="{{ route('member.invoice.index') }}"
+               class="list-group-item list-group-item-action {{ request()->routeIs('member.invoice.*') ? 'active' : '' }}">
                 <i class="fa fa-file-invoice mr-2"></i> Tagihan / Invoice
             </a>
             <a href="{{ route('home') }}" class="list-group-item list-group-item-action">
@@ -20,3 +20,4 @@
         </div>
     </div>
 </div>
+
