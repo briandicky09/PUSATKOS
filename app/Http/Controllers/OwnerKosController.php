@@ -90,6 +90,16 @@ class OwnerKosController extends Controller
     }
 
     /**
+     * Halaman manajemen kos untuk owner.
+     */
+    public function manage(): View
+    {
+        $listKos = $this->dummyKos();
+
+        return view('owner.kos.manage', compact('listKos'));
+    }
+
+    /**
      * Halaman detail kos milik owner.
      */
     public function show(string $slug): View
@@ -104,6 +114,6 @@ class OwnerKosController extends Controller
             'thumbnail' => 'assets/img/img-item-thumb-01.jpg',
         ];
 
-        return view('owner.kos.show', compact('kos'));
+        return view('owner.kos.detail', compact('kos'));
     }
 }
