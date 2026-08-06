@@ -43,6 +43,7 @@ Route::prefix('kos')->name('kos.')->group(function () {
 Route::prefix('owner')->name('owner.')->group(function () {
     Route::prefix('kos')->name('kos.')->group(function () {
         Route::get('/', [OwnerKosController::class, 'index'])->name('index');
+        Route::get('/my', [OwnerKosController::class, 'myKos'])->name('my');
         Route::get('/create', [OwnerKosController::class, 'create'])->name('create');
         Route::get('/{slug}', [OwnerKosController::class, 'show'])->name('show');
     });

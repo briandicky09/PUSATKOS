@@ -61,6 +61,16 @@ class OwnerKosController extends Controller
     }
 
     /**
+     * Halaman Kos Saya untuk owner.
+     */
+    public function myKos(): View
+    {
+        $listKos = $this->dummyKos();
+
+        return view('owner.kos.my', compact('listKos'));
+    }
+
+    /**
      * Halaman detail kos milik owner.
      */
     public function show(string $slug): View
