@@ -25,7 +25,7 @@
                     <nav class="nav flex-row flex-md-column mb-4">
                         <a href="{{ route('home') }}" class="nav-link">Home</a>
                         <a href="{{ route('search.kos') }}" class="nav-link">Cari Kos</a>
-                        <a href="{{ route('home') }}#promo" class="nav-link">Promo</a>
+                        <a href="{{ route('promo') }}" class="nav-link">Promo</a>
                         <a href="{{ route('home') }}#artikel" class="nav-link">Artikel</a>
                     </nav>
                 </div>

@@ -24,6 +24,10 @@ Route::get('/artikel', function () {
     return view('artikel.index');
 })->name('artikel');
 
+Route::get('/promo', function () {
+    return view('promo.index');
+})->name('promo');
+
 // Pencarian Kos Umum
 Route::get('/search', function () {
     return redirect('/kos');

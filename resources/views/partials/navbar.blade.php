@@ -53,8 +53,8 @@
                     <li class="nav-item {{ request()->routeIs('kos.index') || request()->routeIs('search.kos') || request()->is('kos') ? 'active' : '' }}">
                         <a class="nav-link {{ request()->routeIs('kos.index') || request()->routeIs('search.kos') || request()->is('kos') ? 'active' : '' }}" href="{{ route('kos.index') }}">Cari Kos</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}#promo">Promo</a>
+                    <li class="nav-item {{ request()->routeIs('promo') ? 'active' : '' }}">
+                        <a class="nav-link {{ request()->routeIs('promo') ? 'active' : '' }}" href="{{ route('promo') }}">Promo @if(request()->routeIs('promo'))<span class="sr-only">(current)</span>@endif</a>
                     </li>
                     <li class="nav-item {{ request()->routeIs('artikel') ? 'active' : '' }}">
                         <a class="nav-link {{ request()->routeIs('artikel') ? 'active' : '' }}" href="{{ route('artikel') }}">Artikel @if(request()->routeIs('artikel'))<span class="sr-only">(current)</span>@endif</a>
