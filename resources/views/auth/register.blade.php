@@ -50,6 +50,19 @@
                                         <input type="email" class="form-control" id="reg-email" name="email" placeholder="Email" required>
                                     </div>
 
+                                    <!--Role Akun-->
+                                    <div class="col-md-12 form-group mb-3">
+                                        <label class="d-block text-muted mb-2" style="font-size: 13px;">Daftar sebagai</label>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="role-owner" name="role" value="owner" class="custom-control-input" {{ old('role') === 'owner' ? 'checked' : '' }} required>
+                                            <label class="custom-control-label" for="role-owner">Owner</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="role-member" name="role" value="member" class="custom-control-input" {{ old('role', 'member') === 'member' ? 'checked' : '' }} required>
+                                            <label class="custom-control-label" for="role-member">Member/User</label>
+                                        </div>
+                                    </div>
+
                                     <!--Password-->
                                     <div class="col-md-6 form-group mb-3">
                                         <input type="password" class="form-control" id="reg-password" name="password" placeholder="Kata Sandi" required>
