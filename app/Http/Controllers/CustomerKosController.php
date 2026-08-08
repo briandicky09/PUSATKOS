@@ -18,7 +18,7 @@ class CustomerKosController extends Controller
                 'price' => 850000,
                 'city' => 'Surabaya',
                 'type' => 'Putri',
-                'thumbnail' => 'assets/img/img-item-thumb-01.jpg',
+                'thumbnail' => 'assets/img/kos/1.png',
                 'periode' => 'Berakhir 12 September 2026',
             ],
         ];
