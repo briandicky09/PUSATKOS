@@ -43,6 +43,21 @@ class OwnerKosController extends Controller
     }
 
     /**
+     * Dashboard owner.
+     */
+    public function dashboard(): View
+    {
+        $listKos = $this->dummyKos();
+        $totalKos = count($listKos);
+        $kosAktif = collect($listKos)->where('status', 'Aktif')->count();
+        $kosNonaktif = $totalKos - $kosAktif;
+        $rataHarga = (int) round(collect($listKos)->avg('price') ?? 0);
+        $recentKos = array_slice($listKos, 0, 3);
+
+        return view('owner.dashboard', compact('totalKos', 'kosAktif', 'kosNonaktif', 'rataHarga', 'recentKos'));
+    }
+
+    /**
      * Halaman daftar kos milik owner.
      */
     public function index(): View

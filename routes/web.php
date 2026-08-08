@@ -45,6 +45,8 @@ Route::prefix('kos')->name('kos.')->group(function () {
 
 // Area Owner
 Route::prefix('owner')->name('owner.')->group(function () {
+    Route::get('/', [OwnerKosController::class, 'dashboard'])->name('dashboard');
+
     Route::prefix('kos')->name('kos.')->group(function () {
         Route::get('/', [OwnerKosController::class, 'index'])->name('index');
         Route::get('/my', [OwnerKosController::class, 'myKos'])->name('my');

@@ -44,7 +44,7 @@
                         <p class="mb-4">
                             Mulai dari filter kota, kampus, dan lokasi, hingga dukungan customer service yang siap membantu, PUSATKOS bertujuan menjadi platform terbaik untuk hunian kos di Indonesia.
                         </p>
-                        <a href="{{ route('owner.kos.create') }}" class="btn btn-primary">Daftar Jadi Mitra Pemilik Kos</a>
+                        <a href="{{ route('register') }}" class="btn btn-primary">Daftar Jadi Mitra Pemilik Kos</a>
                     </div>
                     <div class="col-lg-4"></div>
                 </div>
