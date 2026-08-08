@@ -38,6 +38,7 @@
                         <div class="card shadow-sm border-0 mb-4">
                             <div class="card-body">
                                 <h3 class="h5">Cara memilih kos yang aman dan nyaman</h3>
+                                <img src="{{ asset('assets/img/artikel-1.png') }}" alt="Artikel: Cara memilih kos yang aman dan nyaman" class="img-fluid rounded mb-3" style="max-width: 360px; width: 100%; height: auto;">
                                 <p class="text-muted">05 Agustus 2026</p>
                                 <p>
                                     Memilih kos bukan sekadar mencari tempat tidur dan kamar mandi. Faktor keamanan, lokasi, fasilitas, dan kenyamanan lingkungan sangat memengaruhi kualitas hidup selama tinggal.
@@ -53,6 +54,7 @@
                         <div class="card shadow-sm border-0 mb-4">
                             <div class="card-body">
                                 <h3 class="h5">5 hal yang wajib diperhatikan sebelum booking kos</h3>
+                                <img src="{{ asset('assets/img/artikel-2.jpg') }}" alt="Artikel: 5 hal yang wajib diperhatikan sebelum booking kos" class="img-fluid rounded mb-3" style="max-width: 360px; width: 100%; height: auto;">
                                 <p class="text-muted">02 Agustus 2026</p>
                                 <p>
                                     Sebelum memesan kos, pastikan kamu sudah mengonfirmasi detail seperti harga sewa, aturan hunian, dan fasilitas yang termasuk dalam biaya. Hal ini membantu menghindari kejutan di kemudian hari.
@@ -65,15 +67,6 @@
                             </div>
                         </div>
 
-                        <div class="card shadow-sm border-0">
-                            <div class="card-body">
-                                <h3 class="h5">Mengapa banyak orang memilih kos dengan fasilitas lengkap?</h3>
-                                <p class="text-muted">28 Juli 2026</p>
-                                <p>
-                                    Kos dengan fasilitas lengkap seperti Wi-Fi, laundry, dan parkir mempermudah aktivitas harian. Bagi mahasiswa, pekerja, dan keluarga, fasilitas yang lengkap bisa mengurangi biaya tambahan serta meningkatkan kenyamanan.
-                                </p>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="col-lg-4">
