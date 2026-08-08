@@ -68,25 +68,29 @@
                     <div class="col-lg-8">
                         <div class="row">
                             @forelse($listKos as $kos)
-                            <div class="col-md-6 mb-4">
-                                <div class="card ts-item ts-card ts-item__lg h-100">
+                            <div class="col-12 mb-4">
+                                <div class="card ts-item ts-item__list ts-card h-100">
                                     <div class="ts-ribbon"><i class="fa fa-thumbs-up"></i></div>
-                                    <a href="{{ route('kos.show', $kos['slug']) }}" class="card-img ts-item__image" data-bg-image="{{ asset($kos['thumbnail']) }}">
-                                        <div class="ts-item__info-badge">Rp {{ number_format($kos['price'], 0, ',', '.') }} /bln</div>
+                                    <a href="{{ route('kos.show', $kos['slug']) }}" class="card-img ts-item__image" data-bg-image="{{ asset($kos['thumbnail']) }}"></a>
+
+                                    <div class="card-body ts-item__body">
                                         <figure class="ts-item__info">
                                             <h4>{{ $kos['title'] }}</h4>
                                             <aside><i class="fa fa-map-marker mr-2"></i>{{ $kos['city'] }}</aside>
                                         </figure>
-                                    </a>
-                                    <div class="card-body">
-                                        <p class="text-muted mb-3">{{ Str::limit($kos['description'], 120) }}</p>
+
+                                        <div class="ts-item__info-badge">Rp {{ number_format($kos['price'], 0, ',', '.') }} /bln</div>
+
                                         <div class="ts-description-lists">
                                             <dl><dt>Tipe</dt><dd>{{ $kos['type'] }}</dd></dl>
                                             <dl><dt>Kamar</dt><dd>{{ $kos['bedrooms'] ?? '1' }}</dd></dl>
                                             <dl><dt>K. Mandi</dt><dd>{{ $kos['bathrooms'] ?? 'Dalam' }}</dd></dl>
                                         </div>
                                     </div>
-                                    <a href="{{ route('kos.show', $kos['slug']) }}" class="card-footer"><span class="ts-btn-arrow">Lihat Detail</span></a>
+
+                                    <a href="{{ route('kos.show', $kos['slug']) }}" class="card-footer ts-item__footer">
+                                        <span class="ts-btn-arrow">Lihat Detail</span>
+                                    </a>
                                 </div>
                             </div>
                             @empty
