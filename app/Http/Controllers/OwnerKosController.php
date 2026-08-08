@@ -19,7 +19,7 @@ class OwnerKosController extends Controller
                 'city' => 'Surabaya',
                 'type' => 'Putri',
                 'status' => 'Aktif',
-                'thumbnail' => 'assets/img/img-item-thumb-01.jpg',
+                'thumbnail' => 'assets/img/kos/1.png',
             ],
             [
                 'title' => 'Kos Putra Anggrek',
@@ -28,7 +28,7 @@ class OwnerKosController extends Controller
                 'city' => 'Malang',
                 'type' => 'Putra',
                 'status' => 'Aktif',
-                'thumbnail' => 'assets/img/img-item-thumb-02.jpg',
+                'thumbnail' => 'assets/img/kos/2.png',
             ],
             [
                 'title' => 'Kos Eksklusif Mawar',
@@ -37,7 +37,7 @@ class OwnerKosController extends Controller
                 'city' => 'Sidoarjo',
                 'type' => 'Eksklusif',
                 'status' => 'Nonaktif',
-                'thumbnail' => 'assets/img/img-item-thumb-03.jpg',
+                'thumbnail' => 'assets/img/kos/3.png',
             ],
         ];
     }
@@ -126,7 +126,7 @@ class OwnerKosController extends Controller
             'city' => 'Surabaya',
             'type' => 'Putri',
             'status' => 'Aktif',
-            'thumbnail' => 'assets/img/img-item-thumb-01.jpg',
+            'thumbnail' => 'assets/img/kos/1.png',
         ];
 
         return view('owner.kos.detail', compact('kos'));

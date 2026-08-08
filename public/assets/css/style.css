@@ -5652,3 +5652,46 @@ img.mfp-img {
         padding-right: .375rem;
     }
 }
+
+/* Custom Image Frame & Anti-Distortion Rules */
+[data-bg-image] {
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+}
+
+[class*="ts-gallery-carousel"] .ts-image {
+    height: 380px !important;
+    max-height: 45vh;
+    border-radius: .5rem;
+    overflow: hidden;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+}
+
+.ts-card .card-img,
+.ts-item__image {
+    height: 220px !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    overflow: hidden;
+}
+
+img.img-fluid,
+.ts-image img,
+.card-img img {
+    object-fit: cover !important;
+    object-position: center center !important;
+    width: 100% !important;
+}
+
+@media (max-width: 768px) {
+    [class*="ts-gallery-carousel"] .ts-image {
+        height: 260px !important;
+    }
+}
+
