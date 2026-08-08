@@ -19,7 +19,7 @@ class HomeController extends Controller
                 'price' => 850000,
                 'city' => 'Surabaya',
                 'type' => 'Putri',
-                'thumbnail' => 'assets/img/img-item-thumb-01.jpg',
+                'thumbnail' => 'assets/img/kos-melati.png',
             ],
             [
                 'title' => 'Kos Putra Anggrek',
@@ -27,7 +27,7 @@ class HomeController extends Controller
                 'price' => 750000,
                 'city' => 'Malang',
                 'type' => 'Putra',
-                'thumbnail' => 'assets/img/img-item-thumb-02.jpg',
+                'thumbnail' => 'assets/img/kos-anggrek.jpg',
             ],
             [
                 'title' => 'Kos Eksklusif Mawar',
@@ -35,7 +35,7 @@ class HomeController extends Controller
                 'price' => 1500000,
                 'city' => 'Sidoarjo',
                 'type' => 'Eksklusif',
-                'thumbnail' => 'assets/img/img-item-thumb-03.jpg',
+                'thumbnail' => 'assets/img/kos-mawar.webp',
             ],
         ];
 
