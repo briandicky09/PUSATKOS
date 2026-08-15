@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KosController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OwnerKosController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,21 +18,12 @@ use Illuminate\Support\Facades\Route;
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/tentang', [HomeController::class, 'about'])->name('about');
-Route::get('/kontak', function () {
-    return view('contact.index');
-})->name('contact');
-Route::get('/artikel', function () {
-    return view('artikel.index');
-})->name('artikel');
-
-Route::get('/promo', function () {
-    return view('promo.index');
-})->name('promo');
+Route::view('/kontak', 'contact.index')->name('contact');
+Route::view('/artikel', 'artikel.index')->name('artikel');
+Route::view('/promo', 'promo.index')->name('promo');
 
 // Pencarian Kos Umum
-Route::get('/search', function () {
-    return redirect('/kos');
-})->name('search.kos');
+Route::redirect('/search', '/kos')->name('search.kos');
 Route::get('/kos', [KosController::class, 'index'])->name('kos.index');
 
 // Autentikasi
@@ -70,8 +62,28 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
 // Area Member
 Route::prefix('member')->name('member.')->group(function () {
+    // Member area - mirror public pages under /member
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/tentang', [HomeController::class, 'about'])->name('about');
+    Route::view('/kontak', 'contact.index')->name('contact');
+    Route::view('/artikel', 'artikel.index')->name('artikel');
+    Route::view('/promo', 'promo.index')->name('promo');
+
+    // Pencarian Kos Umum untuk member area
+    Route::redirect('/search', '/member/kos')->name('search.kos');
+    Route::get('/kos', [KosController::class, 'index'])->name('kos.index');
+    Route::prefix('kos')->name('kos.')->group(function () {
+        Route::get('/{slug}', [KosController::class, 'show'])->name('show');
+    });
     Route::prefix('invoice')->name('invoice.')->group(function () {
         Route::get('/', [MemberController::class, 'invoice'])->name('index');
         Route::get('/{nomor_invoice}', [MemberController::class, 'invoiceDetail'])->name('show');
     });
+    // Logout for member area
+    Route::post('/logout', function () {
+        if (Auth::check()) {
+            Auth::logout();
+        }
+        return redirect('/');
+    })->name('logout');
 });
