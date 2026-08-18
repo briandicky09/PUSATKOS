@@ -53,7 +53,7 @@
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="mb-0">Kos Terbaru</h5>
-                        <a href="{{ route('owner.kos.manage') }}" class="btn btn-sm btn-outline-primary">Kelola Kos</a>
+                        <a href="{{ route('owner.kos.my') }}" class="btn btn-sm btn-outline-primary">Kelola Kos</a>
                     </div>
 
                     <div class="row">

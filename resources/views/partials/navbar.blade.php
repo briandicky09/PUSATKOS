@@ -98,4 +98,10 @@
     </nav>
     <!--end #ts-primary-navigation-->
 
+    @if($isMemberArea)
+    <a href="{{ route('member.pesan') }}" class="member-floating-chat" aria-label="Pesan">
+        <img src="{{ asset('assets/svg/logo-pesan.png') }}" alt="Logo pesan" class="member-floating-chat__logo">
+    </a>
+    @endif
+
 </header>

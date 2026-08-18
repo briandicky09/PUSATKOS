@@ -13,7 +13,7 @@
                             <h4 class="mb-1 font-weight-bold text-dark">Detail Kos</h4>
                             <p class="text-muted mb-0">Informasi lengkap properti kos Anda.</p>
                         </div>
-                        <a href="{{ route('owner.kos.manage') }}" class="btn btn-outline-secondary">Kembali</a>
+                        <a href="{{ route('owner.kos.my') }}" class="btn btn-outline-secondary">Kembali</a>
                     </div>
 
                     <div class="row">
@@ -31,7 +31,7 @@
                             </div>
                             <div class="border rounded p-3">
                                 <h6 class="font-weight-bold">Aksi</h6>
-                                <a href="#" class="btn btn-outline-primary btn-sm mb-2 d-block">Edit Kos</a>
+                                <a href="{{ route('owner.kos.edit', $kos['slug']) }}" class="btn btn-outline-primary btn-sm mb-2 d-block">Edit Kos</a>
                                 <a href="#" class="btn btn-outline-danger btn-sm d-block">Hapus Kos</a>
                             </div>
                         </div>

@@ -39,19 +39,11 @@
                     <li class="nav-item {{ request()->routeIs('owner.kos.my') ? 'active' : '' }}">
                         <a class="nav-link {{ request()->routeIs('owner.kos.my') ? 'active' : '' }}" href="{{ route('owner.kos.my') }}">Kos Saya</a>
                     </li>
-                    <li class="nav-item {{ request()->routeIs('owner.kos.manage') ? 'active' : '' }}">
-                        <a class="nav-link {{ request()->routeIs('owner.kos.manage') ? 'active' : '' }}" href="{{ route('owner.kos.manage') }}">Manajemen</a>
-                    </li>
                     <li class="nav-item {{ request()->routeIs('owner.kos.create') ? 'active' : '' }}">
                         <a class="nav-link {{ request()->routeIs('owner.kos.create') ? 'active' : '' }}" href="{{ route('owner.kos.create') }}">Tambah Kos</a>
                     </li>
                 </ul>
 
-                <ul class="navbar-nav ml-auto d-none d-md-flex">
-                    <li class="nav-item">
-                        <a href="{{ route('owner.kos.index') }}" class="btn btn-outline-dark btn-sm mr-2">Lihat Listing</a>
-                    </li>
-                </ul>
             </div>
         </div>
     </nav>

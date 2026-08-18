@@ -45,6 +45,8 @@ Route::prefix('owner')->name('owner.')->group(function () {
         Route::get('/manage', [OwnerKosController::class, 'manage'])->name('manage');
         Route::get('/create', [OwnerKosController::class, 'create'])->name('create');
         Route::post('/store', [OwnerKosController::class, 'store'])->name('store');
+        Route::get('/{slug}/edit', [OwnerKosController::class, 'edit'])->name('edit');
+        Route::put('/{slug}/update', [OwnerKosController::class, 'update'])->name('update');
         Route::get('/{slug}', [OwnerKosController::class, 'show'])->name('show');
     });
 });
@@ -75,6 +77,9 @@ Route::prefix('member')->name('member.')->group(function () {
     Route::prefix('kos')->name('kos.')->group(function () {
         Route::get('/{slug}', [KosController::class, 'show'])->name('show');
     });
+    Route::get('/pesan', function () {
+        return view('member.message.index');
+    })->name('pesan');
     Route::prefix('invoice')->name('invoice.')->group(function () {
         Route::get('/', [MemberController::class, 'invoice'])->name('index');
         Route::get('/{nomor_invoice}', [MemberController::class, 'invoiceDetail'])->name('show');

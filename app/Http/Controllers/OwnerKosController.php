@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class OwnerKosController extends Controller
@@ -115,6 +117,45 @@ class OwnerKosController extends Controller
     }
 
     /**
+     * Form edit kos milik owner.
+     */
+    public function edit(string $slug): View
+    {
+        $kos = collect($this->dummyKos())->firstWhere('slug', $slug) ?? [
+            'title' => 'Kos Putri Melati',
+            'slug' => $slug,
+            'price' => 850000,
+            'city' => 'Surabaya',
+            'type' => 'Putri',
+            'status' => 'Aktif',
+            'thumbnail' => 'assets/img/kos/1.png',
+            'description' => 'Deskripsi kos belum tersedia.',
+            'address' => 'Jl. Raya Sidoarjo No. 17',
+        ];
+
+        return view('owner.kos.edit', compact('kos'));
+    }
+
+    /**
+     * Update kos milik owner.
+     */
+    public function update(Request $request, string $slug): RedirectResponse
+    {
+        $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'type' => ['required', 'string'],
+            'city' => ['required', 'string', 'max:255'],
+            'price' => ['required', 'numeric'],
+            'address' => ['nullable', 'string'],
+            'description' => ['nullable', 'string'],
+        ]);
+
+        session()->flash('success', 'Data kos berhasil diperbarui.');
+
+        return redirect()->route('owner.kos.show', $slug);
+    }
+
+    /**
      * Halaman detail kos milik owner.
      */
     public function show(string $slug): View
@@ -127,6 +168,8 @@ class OwnerKosController extends Controller
             'type' => 'Putri',
             'status' => 'Aktif',
             'thumbnail' => 'assets/img/kos/1.png',
+            'description' => 'Deskripsi kos belum tersedia.',
+            'address' => 'Jl. Raya Sidoarjo No. 17',
         ];
 
         return view('owner.kos.detail', compact('kos'));
