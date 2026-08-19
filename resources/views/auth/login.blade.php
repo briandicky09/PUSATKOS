@@ -54,7 +54,7 @@
                                         <input type="checkbox" class="custom-control-input" id="remember-me" name="remember">
                                         <label class="custom-control-label ts-text-small text-muted" for="remember-me">Ingat saya</label>
                                     </div>
-                                    <a href="#" class="ts-text-small font-weight-bold" style="color: #007bff;">Lupa kata sandi?</a>
+                                    <a href="{{ route('password.request') }}" class="ts-text-small font-weight-bold" style="color: #007bff;">Lupa kata sandi?</a>
                                 </div>
 
                                 <!-- TOMBOL MASUK (Warna Biru Muda) -->

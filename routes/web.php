@@ -29,6 +29,7 @@ Route::get('/kos', [KosController::class, 'index'])->name('kos.index');
 // Autentikasi
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::get('/lupa-password', [AuthController::class, 'showForgotPassword'])->name('password.request');
 
 // Kos Publik
 Route::prefix('kos')->name('kos.')->group(function () {
