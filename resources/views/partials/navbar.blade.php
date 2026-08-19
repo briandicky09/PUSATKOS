@@ -84,19 +84,42 @@
                     </li>
                 </ul>
                 @else
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link member-profile-toggle dropdown-toggle" href="#" id="memberProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Menu profil">
-                            <img src="{{ asset('assets/svg/logo-profil.png') }}" alt="Profil" class="member-profile__logo">
+                <ul class="navbar-nav ml-auto d-flex flex-row align-items-center">
+                    <!-- Notification Dropdown -->
+                    <li class="nav-item dropdown mr-3">
+                        <a class="nav-link" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-bell fa-lg text-dark"></i>
+                            <span class="badge badge-danger badge-pill position-absolute" style="top: 5px; right: 0; font-size: 0.6rem;">0</span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right member-profile-menu" aria-labelledby="memberProfileDropdown">
-                            <a class="dropdown-item" href="{{ route('member.profile') }}">Profil saya</a>
-                            <a class="dropdown-item" href="{{ route('member.invoice.index') }}">Riwayat Transaksi</a>
-                            <a class="dropdown-item" href="{{ route('member.contact') }}">Pusat bantuan</a>
+                        <div class="dropdown-menu dropdown-menu-right shadow-sm border-0" aria-labelledby="notificationDropdown" style="width: 320px; padding: 0; border-radius: 8px;">
+                            <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+                                <h6 class="mb-0 font-weight-bold">Notifikasi</h6>
+                                <a href="#" class="text-dark" onclick="event.stopPropagation(); $(this).closest('.dropdown-menu').removeClass('show');"><i class="fa fa-times"></i></a>
+                            </div>
+                            <div class="p-2 border-bottom bg-light">
+                                <span class="badge badge-pill border px-3 py-2 bg-white text-dark"><i class="fa fa-info-circle mr-1"></i> Utama</span>
+                            </div>
+                            <div class="text-center py-5">
+                                <i class="fa fa-envelope-open-text fa-4x mb-3" style="color: #dee2e6 !important;"></i>
+                                <h6 class="font-weight-bold text-dark mt-2">Belum ada notifikasi...</h6>
+                                <p class="text-muted small mb-0 px-4">Belum ada notifikasi. Ketika ada notifikasi baru, akan muncul di halaman ini.</p>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <!-- Profile Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link member-profile-toggle dropdown-toggle p-0" href="#" id="memberProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Menu profil">
+                            <img src="{{ asset('assets/svg/logo-profil.png') }}" alt="Profil" class="member-profile__logo" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right member-profile-menu shadow-sm border-0 mt-2" aria-labelledby="memberProfileDropdown" style="border-radius: 8px;">
+                            <a class="dropdown-item py-2" href="{{ route('member.profile') }}">Profil saya</a>
+                            <a class="dropdown-item py-2" href="{{ route('member.invoice.index') }}">Riwayat Transaksi</a>
+                            <a class="dropdown-item py-2" href="{{ route('member.contact') }}">Pusat bantuan</a>
                             <div class="dropdown-divider"></div>
                             <form id="form-logout" action="{{ route('member.logout') }}" method="POST">
                                 @csrf
-                                <button type="submit" class="dropdown-item text-danger">Logout</button>
+                                <button type="submit" class="dropdown-item text-danger py-2">Logout</button>
                             </form>
                         </div>
                     </li>

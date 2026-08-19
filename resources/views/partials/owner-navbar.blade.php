@@ -44,6 +44,37 @@
                     </li>
                 </ul>
 
+                <ul class="navbar-nav ml-auto d-flex flex-row align-items-center">
+                    <!-- Notification Dropdown -->
+                    <li class="nav-item dropdown mr-3">
+                        <a class="nav-link" href="#" id="notificationOwnerDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-bell fa-lg text-dark"></i>
+                            <span class="badge badge-danger badge-pill position-absolute" style="top: 5px; right: 0; font-size: 0.6rem;">0</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow-sm border-0" aria-labelledby="notificationOwnerDropdown" style="width: 320px; padding: 0; border-radius: 8px;">
+                            <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+                                <h6 class="mb-0 font-weight-bold">Notifikasi</h6>
+                                <a href="#" class="text-dark" onclick="event.stopPropagation(); $(this).closest('.dropdown-menu').removeClass('show');"><i class="fa fa-times"></i></a>
+                            </div>
+                            <div class="p-2 border-bottom bg-light">
+                                <span class="badge badge-pill border px-3 py-2 bg-white text-dark"><i class="fa fa-info-circle mr-1"></i> Utama</span>
+                            </div>
+                            <div class="text-center py-5">
+                                <i class="fa fa-envelope-open-text fa-4x mb-3" style="color: #dee2e6 !important;"></i>
+                                <h6 class="font-weight-bold text-dark mt-2">Belum ada notifikasi...</h6>
+                                <p class="text-muted small mb-0 px-4">Belum ada notifikasi. Ketika ada notifikasi baru, akan muncul di halaman ini.</p>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <!-- Profile Dropdown/Icon -->
+                    <li class="nav-item">
+                        <a class="nav-link p-0" href="#">
+                            <img src="{{ asset('assets/svg/logo-profil.png') }}" alt="Profil Owner" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+                        </a>
+                    </li>
+                </ul>
+
             </div>
         </div>
     </nav>

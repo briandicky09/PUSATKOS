@@ -174,4 +174,36 @@ class OwnerKosController extends Controller
 
         return view('owner.kos.detail', compact('kos'));
     }
+
+    /**
+     * Halaman notifikasi owner.
+     */
+    public function notifikasi(): View
+    {
+        $notifications = [
+            [
+                'title' => 'Pesanan Baru',
+                'message' => 'Ada pesanan baru untuk Kos Putri Melati dari Dewi Sartika.',
+                'time' => '10 menit yang lalu',
+                'is_read' => false,
+                'icon' => 'fa-bell text-primary',
+            ],
+            [
+                'title' => 'Pembayaran Berhasil',
+                'message' => 'Pembayaran untuk INV-2026-08-0001 telah berhasil dikonfirmasi.',
+                'time' => '1 jam yang lalu',
+                'is_read' => true,
+                'icon' => 'fa-check-circle text-success',
+            ],
+            [
+                'title' => 'Pertanyaan Baru',
+                'message' => 'Ada pesan pertanyaan baru terkait Kos Putra Anggrek.',
+                'time' => '1 hari yang lalu',
+                'is_read' => true,
+                'icon' => 'fa-envelope text-info',
+            ],
+        ];
+
+        return view('owner.notifikasi.index', compact('notifications'));
+    }
 }

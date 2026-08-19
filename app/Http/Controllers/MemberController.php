@@ -131,4 +131,36 @@ class MemberController extends Controller
 
         return view('member.invoice.show', compact('invoice'));
     }
+
+    /**
+     * Halaman notifikasi member.
+     */
+    public function notifikasi(): View
+    {
+        $notifications = [
+            [
+                'title' => 'Tagihan Baru',
+                'message' => 'Tagihan untuk Kos Putri Melati bulan ini telah terbit. Segera lakukan pembayaran.',
+                'time' => '2 jam yang lalu',
+                'is_read' => false,
+                'icon' => 'fa-file-invoice text-danger',
+            ],
+            [
+                'title' => 'Pengingat Pembayaran',
+                'message' => 'Jatuh tempo pembayaran tagihan Kos Putri Melati adalah 3 hari lagi.',
+                'time' => '1 hari yang lalu',
+                'is_read' => true,
+                'icon' => 'fa-clock text-warning',
+            ],
+            [
+                'title' => 'Booking Dikonfirmasi',
+                'message' => 'Booking Anda untuk Kos Putri Melati telah dikonfirmasi oleh pemilik.',
+                'time' => '3 hari yang lalu',
+                'is_read' => true,
+                'icon' => 'fa-check text-success',
+            ],
+        ];
+
+        return view('member.notifikasi.index', compact('notifications'));
+    }
 }

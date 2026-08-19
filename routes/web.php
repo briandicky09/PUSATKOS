@@ -39,6 +39,7 @@ Route::prefix('kos')->name('kos.')->group(function () {
 // Area Owner
 Route::prefix('owner')->name('owner.')->group(function () {
     Route::get('/', [OwnerKosController::class, 'dashboard'])->name('dashboard');
+    Route::get('/notifikasi', [OwnerKosController::class, 'notifikasi'])->name('notifikasi');
 
     Route::prefix('kos')->name('kos.')->group(function () {
         Route::get('/', [OwnerKosController::class, 'index'])->name('index');
@@ -82,6 +83,7 @@ Route::prefix('member')->name('member.')->group(function () {
         return view('member.message.index');
     })->name('pesan');
     Route::get('/profil', [MemberController::class, 'profile'])->name('profile');
+    Route::get('/notifikasi', [MemberController::class, 'notifikasi'])->name('notifikasi');
     Route::prefix('invoice')->name('invoice.')->group(function () {
         Route::get('/', [MemberController::class, 'invoice'])->name('index');
         Route::get('/{nomor_invoice}', [MemberController::class, 'invoiceDetail'])->name('show');
