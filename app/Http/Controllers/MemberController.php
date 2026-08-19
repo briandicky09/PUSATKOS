@@ -3,9 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
+    /**
+     * Halaman profil member.
+     */
+    public function profile(): View
+    {
+        return view('member.profile.index', [
+            'user' => Auth::user(),
+        ]);
+    }
+
     /**
      * Data dummy invoice untuk member.
      * Nantinya diganti dengan query ke model Invoice.

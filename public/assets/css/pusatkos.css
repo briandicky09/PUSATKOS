@@ -26,6 +26,31 @@
     align-items: center;
 }
 
+.member-profile-toggle {
+    display: flex;
+    align-items: center;
+    padding: .35rem .75rem !important;
+}
+
+.member-profile-toggle::after {
+    margin-left: .45rem;
+}
+
+.member-profile__logo {
+    width: 2.25rem;
+    height: 2.25rem;
+    object-fit: contain;
+}
+
+.member-profile-menu {
+    min-width: 12rem;
+    margin-top: .35rem;
+}
+
+.member-profile-menu form {
+    margin: 0;
+}
+
 /* Cara Booking - reuse ts-circle token, just center within column */
 .ts-how-it-works .ts-circle {
     width: 4.5rem;

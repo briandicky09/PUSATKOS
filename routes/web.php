@@ -80,6 +80,7 @@ Route::prefix('member')->name('member.')->group(function () {
     Route::get('/pesan', function () {
         return view('member.message.index');
     })->name('pesan');
+    Route::get('/profil', [MemberController::class, 'profile'])->name('profile');
     Route::prefix('invoice')->name('invoice.')->group(function () {
         Route::get('/', [MemberController::class, 'invoice'])->name('index');
         Route::get('/{nomor_invoice}', [MemberController::class, 'invoiceDetail'])->name('show');

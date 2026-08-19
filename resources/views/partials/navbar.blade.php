@@ -59,14 +59,18 @@
                     <li class="nav-item {{ (request()->routeIs('promo') || request()->routeIs('member.promo') || request()->is('member/promo')) ? 'active' : '' }}">
                         <a class="nav-link {{ (request()->routeIs('promo') || request()->routeIs('member.promo') || request()->is('member/promo')) ? 'active' : '' }}" href="{{ $isMemberArea ? url('/member' . route('promo', [], false)) : route('promo') }}">Promo @if(request()->routeIs('promo') || request()->routeIs('member.promo'))<span class="sr-only">(current)</span>@endif</a>
                     </li>
-                    <li class="nav-item {{ (request()->routeIs('artikel') || request()->routeIs('member.artikel') || request()->is('member/artikel')) ? 'active' : '' }}">
-                        <a class="nav-link {{ (request()->routeIs('artikel') || request()->routeIs('member.artikel') || request()->is('member/artikel')) ? 'active' : '' }}" href="{{ $isMemberArea ? url('/member' . route('artikel', [], false)) : route('artikel') }}">Artikel @if(request()->routeIs('artikel') || request()->routeIs('member.artikel'))<span class="sr-only">(current)</span>@endif</a>
-                    </li>
-                    <li class="nav-item {{ (request()->routeIs('about') || request()->routeIs('member.about') || request()->is('member/tentang')) ? 'active' : '' }}">
-                        <a class="nav-link {{ (request()->routeIs('about') || request()->routeIs('member.about') || request()->is('member/tentang')) ? 'active' : '' }}" href="{{ $isMemberArea ? url('/member' . route('about', [], false)) : route('about') }}">Tentang @if(request()->routeIs('about') || request()->routeIs('member.about'))<span class="sr-only">(current)</span>@endif</a>
-                    </li>
-                    <li class="nav-item {{ (request()->routeIs('contact') || request()->routeIs('member.contact') || request()->is('member/kontak')) ? 'active' : '' }}">
-                        <a class="nav-link {{ (request()->routeIs('contact') || request()->routeIs('member.contact') || request()->is('member/kontak')) ? 'active' : '' }}" href="{{ $isMemberArea ? url('/member' . route('contact', [], false)) : route('contact') }}">Kontak @if(request()->routeIs('contact') || request()->routeIs('member.contact'))<span class="sr-only">(current)</span>@endif</a>
+                    @php
+                        $isMoreActive = request()->routeIs('artikel', 'member.artikel', 'about', 'member.about', 'contact', 'member.contact') || request()->is('member/artikel', 'member/tentang', 'member/kontak');
+                    @endphp
+                    <li class="nav-item dropdown {{ $isMoreActive ? 'active' : '' }}">
+                        <a class="nav-link dropdown-toggle {{ $isMoreActive ? 'active' : '' }}" href="#" id="moreDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Lainnya
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="moreDropdown">
+                            <a class="dropdown-item" href="{{ $isMemberArea ? url('/member' . route('artikel', [], false)) : route('artikel') }}">Artikel</a>
+                            <a class="dropdown-item" href="{{ $isMemberArea ? url('/member' . route('about', [], false)) : route('about') }}">Tentang</a>
+                            <a class="dropdown-item" href="{{ $isMemberArea ? url('/member' . route('contact', [], false)) : route('contact') }}">Kontak</a>
+                        </div>
                     </li>
                 </ul>
 
@@ -80,12 +84,21 @@
                     </li>
                 </ul>
                 @else
-                <ul class="navbar-nav ml-auto d-none d-md-flex">
-                    <li class="nav-item">
-                        <form id="form-logout" action="{{ url('/member/logout') }}" method="POST" style="display:inline">
-                            @csrf
-                            <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
-                        </form>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link member-profile-toggle dropdown-toggle" href="#" id="memberProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Menu profil">
+                            <img src="{{ asset('assets/svg/logo-profil.png') }}" alt="Profil" class="member-profile__logo">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right member-profile-menu" aria-labelledby="memberProfileDropdown">
+                            <a class="dropdown-item" href="{{ route('member.profile') }}">Profil saya</a>
+                            <a class="dropdown-item" href="{{ route('member.invoice.index') }}">Riwayat Transaksi</a>
+                            <a class="dropdown-item" href="{{ route('member.contact') }}">Pusat bantuan</a>
+                            <div class="dropdown-divider"></div>
+                            <form id="form-logout" action="{{ route('member.logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="dropdown-item text-danger">Logout</button>
+                            </form>
+                        </div>
                     </li>
                 </ul>
                 @endif
