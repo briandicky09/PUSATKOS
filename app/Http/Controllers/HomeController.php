@@ -19,6 +19,8 @@ class HomeController extends Controller
                 'price' => 850000,
                 'city' => 'Surabaya',
                 'type' => 'Putri',
+                'rating' => 4.8,
+                'available_rooms' => 3,
                 'thumbnail' => 'assets/img/kos/1.png',
             ],
             [
@@ -27,6 +29,8 @@ class HomeController extends Controller
                 'price' => 750000,
                 'city' => 'Malang',
                 'type' => 'Putra',
+                'rating' => 4.6,
+                'available_rooms' => 2,
                 'thumbnail' => 'assets/img/kos/2.png',
             ],
             [
@@ -34,7 +38,9 @@ class HomeController extends Controller
                 'slug' => 'kos-eksklusif-mawar',
                 'price' => 1500000,
                 'city' => 'Sidoarjo',
-                'type' => 'Eksklusif',
+                'type' => 'Campur',
+                'rating' => 3.9,
+                'available_rooms' => 3,
                 'thumbnail' => 'assets/img/kos/3.png',
             ],
         ];

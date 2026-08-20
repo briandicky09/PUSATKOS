@@ -369,6 +369,71 @@
             <!--end container-->
         </section>
 
+        <!--REVIEWS
+        =============================================================================================================-->
+        <section id="reviews" class="pk-reviews">
+            <div class="container">
+                <div class="row">
+                    <div class="offset-lg-4 col-sm-12 col-lg-8 pk-detail-section">
+                        <hr class="mb-3">
+
+                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+                            <div>
+                                <h3 class="mb-1">Ulasan Penghuni</h3>
+                                <p class="text-muted mb-0">Pengalaman penghuni di {{ $kos['title'] }}</p>
+                            </div>
+                            <div class="pk-reviews__summary">
+                                <i class="fa fa-star"></i>
+                                <strong>{{ number_format($kos['rating'] ?? 0, 1) }}</strong>
+                                <span>({{ $kos['review_count'] ?? 0 }} ulasan)</span>
+                            </div>
+                        </div>
+
+                        <div class="ts-box pk-reviews__breakdown mb-4">
+                            <div class="row">
+                                @foreach($kos['rating_breakdown'] ?? [] as $rating)
+                                <div class="col-md-6 mb-3 mb-md-2">
+                                    <div class="pk-review-score">
+                                        <span>{{ $rating['label'] }}</span>
+                                        <span class="pk-review-score__stars" aria-label="Rating {{ $rating['score'] }} dari 5">
+                                            @for($star = 1; $star <= 5; $star++)
+                                                <i class="fa fa-star{{ $star <= round($rating['score']) ? '' : '-o' }}"></i>
+                                            @endfor
+                                        </span>
+                                        <strong>{{ number_format($rating['score'], 1) }}</strong>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        @foreach($kos['reviews'] ?? [] as $review)
+                        <article class="pk-review-item">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="d-flex align-items-center">
+                                    <div class="pk-review-item__avatar"><i class="fa fa-user"></i></div>
+                                    <div>
+                                        <h5 class="mb-1">{{ $review['name'] }}</h5>
+                                        <small class="text-muted">{{ $review['date'] }}</small>
+                                    </div>
+                                </div>
+                                <span class="pk-review-item__score"><i class="fa fa-star"></i> {{ number_format($review['score'], 1) }}</span>
+                            </div>
+                            <p class="mb-0 mt-4">{{ $review['comment'] }}</p>
+
+                            @if(!empty($review['reply']))
+                            <div class="pk-review-item__reply">
+                                <strong>Balasan dari Pemilik Kos</strong>
+                                <p class="mb-0 mt-1">{{ $review['reply'] }}</p>
+                            </div>
+                            @endif
+                        </article>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!--SIMILAR PROPERTIES
         =============================================================================================================-->
         @if(!empty($similarKos))
@@ -376,15 +441,18 @@
             <div class="container">
                 <div class="row">
 
-                    <div class="offset-lg-4 col-sm-12 col-lg-8">
+                    <div class="offset-lg-4 col-sm-12 col-lg-8 pk-detail-section">
 
                         <hr class="mb-5">
 
-                        <h3>Kos Serupa</h3>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3 class="mb-0">Kos Serupa</h3>
+                            <span class="text-muted pk-similar-count">{{ count($similarKos) }} pilihan</span>
+                        </div>
 
                         @foreach($similarKos as $similar)
                         <!--Item-->
-                        <div class="card ts-item ts-item__list ts-card">
+                        <div class="card ts-item ts-item__list ts-card pk-similar-card">
 
                             @if($loop->first)
                             <div class="ts-ribbon"><i class="fa fa-thumbs-up"></i></div>

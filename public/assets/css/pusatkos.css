@@ -51,6 +51,173 @@
     margin: 0;
 }
 
+.pk-detail-section {
+    min-width: 0;
+}
+
+.pk-reviews {
+    margin-top: -4rem;
+}
+
+.pk-reviews > .container {
+    position: relative;
+}
+
+.pk-reviews__breakdown {
+    border: 1px solid #e5e5e5;
+    box-shadow: none;
+}
+
+.pk-review-item + .pk-review-item {
+    margin-top: .5rem;
+}
+
+.pk-similar-count {
+    font-size: .8rem;
+}
+
+.pk-similar-card {
+    margin-bottom: 1.25rem;
+    overflow: visible;
+}
+
+.pk-similar-card:last-child {
+    margin-bottom: 0;
+}
+
+.pk-similar-card .ts-item__image {
+    min-height: 13rem;
+}
+
+.pk-similar-card .ts-description-lists {
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem 1rem;
+}
+
+.pk-similar-card .ts-description-lists dl {
+    margin-right: 0;
+}
+
+.pk-similar-card .ts-item__footer {
+    display: block;
+}
+
+.pk-reviews__summary {
+    color: #3f3f3f;
+    font-size: .95rem;
+}
+
+.pk-reviews__summary i,
+.pk-review-item__score i {
+    color: #159447;
+    margin-right: .35rem;
+}
+
+.pk-reviews__summary strong {
+    color: #191919;
+    font-size: 1.75rem;
+    margin-right: .25rem;
+}
+
+.pk-reviews__breakdown {
+    padding: 1.5rem;
+}
+
+.pk-review-score {
+    align-items: center;
+    display: grid;
+    gap: .5rem;
+    grid-template-columns: minmax(7rem, 1fr) auto 2rem;
+}
+
+.pk-review-score__stars {
+    color: #4a4a4a;
+    white-space: nowrap;
+}
+
+.pk-review-score__stars i {
+    margin-right: .12rem;
+}
+
+.pk-review-score strong {
+    text-align: right;
+}
+
+.pk-review-item {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 1.25rem 0 1.5rem;
+}
+
+.pk-review-item__avatar {
+    align-items: center;
+    background-color: #edf0f2;
+    border-radius: 50%;
+    color: #7b858c;
+    display: flex;
+    height: 3.5rem;
+    justify-content: center;
+    margin-right: 1rem;
+    width: 3.5rem;
+}
+
+.pk-review-item__score {
+    border: 1px solid #d7d7d7;
+    border-radius: .25rem;
+    color: #333;
+    font-weight: 500;
+    padding: .45rem .7rem;
+    white-space: nowrap;
+}
+
+.pk-review-item__reply {
+    border-left: 3px solid #e5e5e5;
+    margin-top: 1.25rem;
+    padding: .25rem 0 .25rem 1.25rem;
+}
+
+.pk-review-item__reply strong {
+    color: #191919;
+}
+
+@media (max-width: 575px) {
+    .pk-reviews {
+        margin-top: -2rem;
+    }
+
+    .pk-detail-section {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .pk-reviews__breakdown {
+        padding: 1rem;
+    }
+
+    .pk-review-item .d-flex.justify-content-between {
+        gap: .75rem;
+    }
+
+    .pk-review-item__score {
+        font-size: .8rem;
+        padding: .35rem .5rem;
+    }
+
+    .pk-reviews__summary {
+        margin-top: 1rem;
+        width: 100%;
+    }
+
+    .pk-review-score {
+        grid-template-columns: minmax(6rem, 1fr) auto 2rem;
+    }
+
+    .pk-review-score__stars {
+        font-size: .85rem;
+    }
+}
+
 /* Cara Booking - reuse ts-circle token, just center within column */
 .ts-how-it-works .ts-circle {
     width: 4.5rem;

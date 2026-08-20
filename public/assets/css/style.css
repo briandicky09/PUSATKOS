@@ -1441,6 +1441,38 @@ button {
     position: relative;
 }
 
+.ts-card__meta {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem .75rem;
+    margin-bottom: .45rem;
+}
+
+.ts-card__type {
+    border: 1px solid #d7d7d7;
+    border-radius: .2rem;
+    color: #444;
+    font-size: .75rem;
+    padding: .2rem .55rem;
+}
+
+.ts-card__rating {
+    color: #159447;
+    font-size: .8rem;
+    font-weight: 500;
+}
+
+.ts-card__rating i {
+    color: #159447;
+}
+
+.ts-card__availability {
+    color: #e33434;
+    font-size: .75rem;
+    font-style: italic;
+}
+
 .ts-card .card-img {
     border-top-left-radius: .1875rem;
     border-top-right-radius: .1875rem;

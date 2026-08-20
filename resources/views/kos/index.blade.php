@@ -75,6 +75,11 @@
 
                                     <div class="card-body ts-item__body">
                                         <figure class="ts-item__info">
+                                            <div class="ts-card__meta">
+                                                <span class="ts-card__type">{{ $kos['type'] }}</span>
+                                                <span class="ts-card__rating"><i class="fa fa-star"></i> {{ number_format($kos['rating'] ?? 0, 1) }}</span>
+                                                <span class="ts-card__availability">Sisa {{ $kos['available_rooms'] ?? 0 }} kamar</span>
+                                            </div>
                                             <h4>{{ $kos['title'] }}</h4>
                                             <aside><i class="fa fa-map-marker mr-2"></i>{{ $kos['city'] }}</aside>
                                         </figure>
