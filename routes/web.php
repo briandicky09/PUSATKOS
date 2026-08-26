@@ -82,6 +82,9 @@ Route::prefix('member')->name('member.')->group(function () {
     Route::get('/pesan', function () {
         return view('member.message.index');
     })->name('pesan');
+    Route::get('/booking/{slug}', [MemberController::class, 'booking'])->name('booking.create');
+    Route::post('/booking/{slug}/payment', [MemberController::class, 'payment'])->name('booking.payment');
+    Route::post('/payment/confirm', [MemberController::class, 'confirmPayment'])->name('payment.confirm');
     Route::get('/profil', [MemberController::class, 'profile'])->name('profile');
     Route::get('/notifikasi', [MemberController::class, 'notifikasi'])->name('notifikasi');
     Route::prefix('invoice')->name('invoice.')->group(function () {

@@ -2,11 +2,67 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
+    /**
+     * Form booking kos.
+     */
+    public function booking(string $slug): View
+    {
+        $kos = $this->findKos($slug);
+
+        return view('member.booking.index', compact('kos'));
+    }
+
+    /**
+     * Ringkasan pembayaran setelah form booking diisi.
+     */
+    public function payment(Request $request, string $slug): View
+    {
+        $kos = $this->findKos($slug);
+        $booking = $request->validate([
+            'tenant_name' => ['required', 'string', 'max:100'],
+            'tenant_email' => ['required', 'email', 'max:150'],
+            'tenant_phone' => ['required', 'string', 'max:30'],
+            'check_in' => ['required', 'date'],
+            'duration' => ['required', 'integer', 'min:1', 'max:12'],
+            'notes' => ['nullable', 'string', 'max:500'],
+        ]);
+
+        $booking['duration_label'] = $booking['duration'] . ' Bulan';
+        $booking['subtotal'] = $kos['price'] * $booking['duration'];
+        $booking['admin_fee'] = 25000;
+        $booking['total'] = $booking['subtotal'] + $booking['admin_fee'];
+
+        return view('member.booking.payment', compact('kos', 'booking'));
+    }
+
+    /**
+     * Konfirmasi pembayaran dan kembali ke daftar invoice.
+     */
+    public function confirmPayment(Request $request)
+    {
+        $request->validate([
+            'payment_method' => ['required', 'string', 'max:50'],
+        ]);
+
+        return redirect()->route('member.invoice.index')->with('success', 'Booking berhasil dibuat. Silakan ikuti instruksi pembayaran pada invoice Anda.');
+    }
+
+    private function findKos(string $slug): array
+    {
+        $kosController = app(KosController::class);
+        $kos = collect($kosController->dummyKos())->firstWhere('slug', $slug);
+
+        abort_unless($kos, 404);
+
+        return $kos;
+    }
+
     /**
      * Halaman profil member.
      */

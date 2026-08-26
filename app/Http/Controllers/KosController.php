@@ -10,7 +10,7 @@ class KosController extends Controller
      * Data dummy kos untuk halaman publik.
      * Nantinya diganti dengan query ke model Kos.
      */
-    protected function dummyKos(): array
+    public function dummyKos(): array
     {
         return [
             [

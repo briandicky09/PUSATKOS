@@ -178,7 +178,7 @@
                                     <i class="fab fa-whatsapp mr-2"></i>Hubungi via WhatsApp
                                 </a>
 
-                                <a href="{{ route('member.invoice.index') }}"
+                                <a href="{{ route('member.booking.create', $kos['slug']) }}"
                                     class="btn btn-primary btn-block">
                                     <i class="fa fa-calendar-check mr-2"></i>Booking / Sewa Sekarang
                                 </a>
