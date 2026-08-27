@@ -117,6 +117,77 @@ class OwnerKosController extends Controller
     }
 
     /**
+     * Halaman penilaian kos untuk owner.
+     */
+    public function penilaian(): View
+    {
+        $ratings = [
+            [
+                'kos' => 'Kos Putri Melati',
+                'slug' => 'kos-putri-melati',
+                'rating' => 4.8,
+                'total' => 24,
+                'latest' => 'Tempatnya bersih dan pemilik sangat responsif.',
+                'reviewer' => 'Dewi Sartika',
+                'date' => '18 Agustus 2026',
+            ],
+            [
+                'kos' => 'Kos Putra Anggrek',
+                'slug' => 'kos-putra-anggrek',
+                'rating' => 4.5,
+                'total' => 16,
+                'latest' => 'Lokasi strategis, fasilitas sesuai dengan deskripsi.',
+                'reviewer' => 'Rizky Maulana',
+                'date' => '12 Agustus 2026',
+            ],
+            [
+                'kos' => 'Kos Eksklusif Mawar',
+                'slug' => 'kos-eksklusif-mawar',
+                'rating' => 4.2,
+                'total' => 9,
+                'latest' => 'Kamar nyaman, semoga pilihan fasilitasnya bertambah.',
+                'reviewer' => 'Anisa Putri',
+                'date' => '5 Agustus 2026',
+            ],
+        ];
+
+        $totalUlasan = collect($ratings)->sum('total');
+        $rataRating = round(collect($ratings)->avg('rating'), 1);
+
+        return view('owner.kos.penilaian', compact('ratings', 'totalUlasan', 'rataRating'));
+    }
+
+    /**
+     * Halaman laporan statistik owner.
+     */
+    public function statistik(): View
+    {
+        $summary = [
+            'pendapatan' => 31250000,
+            'booking' => 42,
+            'tingkat_hunian' => 78,
+            'pertumbuhan' => 12.5,
+        ];
+
+        $monthlyRevenue = [
+            ['month' => 'Mar', 'value' => 4200000],
+            ['month' => 'Apr', 'value' => 5100000],
+            ['month' => 'Mei', 'value' => 4600000],
+            ['month' => 'Jun', 'value' => 5800000],
+            ['month' => 'Jul', 'value' => 5300000],
+            ['month' => 'Agu', 'value' => 7000000],
+        ];
+
+        $kosPerformance = [
+            ['title' => 'Kos Putri Melati', 'occupancy' => 92, 'booking' => 18, 'revenue' => 15300000],
+            ['title' => 'Kos Putra Anggrek', 'occupancy' => 81, 'booking' => 15, 'revenue' => 11250000],
+            ['title' => 'Kos Eksklusif Mawar', 'occupancy' => 60, 'booking' => 9, 'revenue' => 13500000],
+        ];
+
+        return view('owner.laporan.statistik', compact('summary', 'monthlyRevenue', 'kosPerformance'));
+    }
+
+    /**
      * Form edit kos milik owner.
      */
     public function edit(string $slug): View

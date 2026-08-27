@@ -36,11 +36,15 @@
                     <li class="nav-item {{ request()->routeIs('owner.dashboard') ? 'active' : '' }}">
                         <a class="nav-link {{ request()->routeIs('owner.dashboard') ? 'active' : '' }}" href="{{ route('owner.dashboard') }}">Dashboard</a>
                     </li>
-                    <li class="nav-item {{ request()->routeIs('owner.kos.my') ? 'active' : '' }}">
-                        <a class="nav-link {{ request()->routeIs('owner.kos.my') ? 'active' : '' }}" href="{{ route('owner.kos.my') }}">Kos Saya</a>
-                    </li>
-                    <li class="nav-item {{ request()->routeIs('owner.kos.create') ? 'active' : '' }}">
-                        <a class="nav-link {{ request()->routeIs('owner.kos.create') ? 'active' : '' }}" href="{{ route('owner.kos.create') }}">Tambah Kos</a>
+                    <li class="nav-item dropdown {{ request()->routeIs('owner.kos.*') ? 'active' : '' }}">
+                        <a class="nav-link dropdown-toggle {{ request()->routeIs('owner.kos.*') ? 'active' : '' }}" href="#" id="ownerKosDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Manajemen Kos
+                        </a>
+                        <div class="dropdown-menu shadow-sm border-0" aria-labelledby="ownerKosDropdown">
+                            <a class="dropdown-item {{ request()->routeIs('owner.kos.my') ? 'active' : '' }}" href="{{ route('owner.kos.my') }}"><i class="fa fa-home fa-fw mr-2"></i>Kos Saya</a>
+                            <a class="dropdown-item {{ request()->routeIs('owner.kos.create') ? 'active' : '' }}" href="{{ route('owner.kos.create') }}"><i class="fa fa-plus fa-fw mr-2"></i>Tambah Kos</a>
+                            <a class="dropdown-item {{ request()->routeIs('owner.kos.penilaian') ? 'active' : '' }}" href="{{ route('owner.kos.penilaian') }}"><i class="fa fa-star fa-fw mr-2"></i>Penilaian Kos</a>
+                        </div>
                     </li>
                 </ul>
 
@@ -67,11 +71,21 @@
                         </div>
                     </li>
                     
-                    <!-- Profile Dropdown/Icon -->
-                    <li class="nav-item">
-                        <a class="nav-link p-0" href="#">
-                            <img src="{{ asset('assets/svg/logo-profil.png') }}" alt="Profil Owner" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+                    <!-- Profile Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link member-profile-toggle dropdown-toggle p-0" href="#" id="ownerProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Menu profil">
+                            <img src="{{ asset('assets/svg/logo-profil.png') }}" alt="Profil" class="member-profile__logo" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
                         </a>
+                        <div class="dropdown-menu dropdown-menu-right member-profile-menu shadow-sm border-0 mt-2" aria-labelledby="ownerProfileDropdown" style="border-radius: 8px;">
+                            <a class="dropdown-item py-2" href="{{ route('owner.dashboard') }}">Profil saya</a>
+                            <a class="dropdown-item py-2" href="{{ route('owner.statistik') }}">Laporan Statistik</a>
+                            <a class="dropdown-item py-2" href="{{ route('contact') }}">Pusat bantuan</a>
+                            <div class="dropdown-divider"></div>
+                            <form id="owner-form-logout" action="{{ route('owner.logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="dropdown-item text-danger py-2">Logout</button>
+                            </form>
+                        </div>
                     </li>
                 </ul>
 

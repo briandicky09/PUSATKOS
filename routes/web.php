@@ -40,11 +40,20 @@ Route::prefix('kos')->name('kos.')->group(function () {
 Route::prefix('owner')->name('owner.')->group(function () {
     Route::get('/', [OwnerKosController::class, 'dashboard'])->name('dashboard');
     Route::get('/notifikasi', [OwnerKosController::class, 'notifikasi'])->name('notifikasi');
+    Route::get('/statistik', [OwnerKosController::class, 'statistik'])->name('statistik');
+    Route::post('/logout', function () {
+        if (Auth::check()) {
+            Auth::logout();
+        }
+
+        return redirect('/');
+    })->name('logout');
 
     Route::prefix('kos')->name('kos.')->group(function () {
         Route::get('/', [OwnerKosController::class, 'index'])->name('index');
         Route::get('/my', [OwnerKosController::class, 'myKos'])->name('my');
         Route::get('/manage', [OwnerKosController::class, 'manage'])->name('manage');
+        Route::get('/penilaian', [OwnerKosController::class, 'penilaian'])->name('penilaian');
         Route::get('/create', [OwnerKosController::class, 'create'])->name('create');
         Route::post('/store', [OwnerKosController::class, 'store'])->name('store');
         Route::get('/{slug}/edit', [OwnerKosController::class, 'edit'])->name('edit');
