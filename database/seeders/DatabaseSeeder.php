@@ -1,0 +1,127 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Booking;
+use App\Models\Invoice;
+use App\Models\Kos;
+use App\Models\Payment;
+use App\Models\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+
+class DatabaseSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        // 1. Users: Owner & Customer
+        $owner = User::firstOrCreate(
+            ['email' => 'owner@pusatkos.id'],
+            [
+                'name' => 'Rokhim Wicaksono',
+                'phone' => '08028621673',
+                'password' => Hash::make('password123'),
+                'role' => 'owner',
+                'email_verified_at' => now(),
+            ]
+        );
+
+        $customer = User::firstOrCreate(
+            ['email' => 'dewi@email.com'],
+            [
+                'name' => 'Dewi Sartika',
+                'phone' => '081234567890',
+                'password' => Hash::make('password123'),
+                'role' => 'customer',
+                'email_verified_at' => now(),
+            ]
+        );
+
+        // 2. Kos: 2 Properti milik Owner
+        $kosMelati = Kos::firstOrCreate(
+            ['slug' => 'kos-putri-melati'],
+            [
+                'owner_id' => $owner->id,
+                'title' => 'Kos Putri Melati',
+                'description' => 'Menikmati hunian eksklusif di kawasan Kalirungkut. Fasilitas lengkap, kamar mandi dalam, AC, Wi-Fi, dan lingkungan tenang.',
+                'price' => 850000.00,
+                'type' => 'Putri',
+                'city' => 'Surabaya',
+                'address' => 'Jl. Kalirungkut No. 88, Ruko Rungkut Makmur Blok C, Surabaya',
+                'thumbnail' => 'assets/img/kos/1.png',
+                'status' => 'active',
+            ]
+        );
+
+        $kosAnggrek = Kos::firstOrCreate(
+            ['slug' => 'kos-putra-anggrek'],
+            [
+                'owner_id' => $owner->id,
+                'title' => 'Kos Putra Anggrek',
+                'description' => 'Kos putra lokasi strategis dekat kampus dan pusat kota Malang. Lingkungan aman dan fasilitas modern.',
+                'price' => 750000.00,
+                'type' => 'Putra',
+                'city' => 'Malang',
+                'address' => 'Jl. Soekarno Hatta No. 12, Malang',
+                'thumbnail' => 'assets/img/kos/2.png',
+                'status' => 'active',
+            ]
+        );
+
+        // 3. Booking: Dewi Sartika memesan Kos Putri Melati
+        $booking = Booking::firstOrCreate(
+            ['booking_code' => 'BKG-202608-0001'],
+            [
+                'customer_id' => $customer->id,
+                'kos_id' => $kosMelati->id,
+                'tenant_name' => 'Dewi Sartika',
+                'tenant_phone' => '081234567890',
+                'tenant_email' => 'dewi@email.com',
+                'start_date' => '2026-08-05',
+                'end_date' => '2026-09-05',
+                'duration_months' => 1,
+                'kos_price' => 850000.00,
+                'subtotal' => 850000.00,
+                'admin_fee' => 25000.00,
+                'total_amount' => 875000.00,
+                'notes' => 'Mohon disiapkan kamar di lantai 1.',
+                'status' => 'confirmed',
+            ]
+        );
+
+        // 4. Invoice: Berasal dari Booking BKG-202608-0001
+        $invoice = Invoice::firstOrCreate(
+            ['invoice_number' => 'INV-2026-08-0001'],
+            [
+                'booking_id' => $booking->id,
+                'customer_id' => $customer->id,
+                'kos_id' => $kosMelati->id,
+                'amount' => 850000.00,
+                'admin_fee' => 25000.00,
+                'tax' => 0.00,
+                'total_amount' => 875000.00,
+                'due_date' => '2026-08-03',
+                'paid_at' => '2026-08-02 14:30:00',
+                'status' => 'paid',
+            ]
+        );
+
+        // 5. Payment: Pelunasan atas Invoice INV-2026-08-0001
+        Payment::firstOrCreate(
+            ['payment_code' => 'PAY-202608-0001'],
+            [
+                'invoice_id' => $invoice->id,
+                'payment_method' => 'transfer_bank',
+                'payment_channel' => 'BCA',
+                'transaction_id' => 'TRX-BCA-202608020001',
+                'amount' => 875000.00,
+                'payment_proof' => 'assets/img/payment-sample.jpg',
+                'status' => 'success',
+                'paid_at' => '2026-08-02 14:30:00',
+            ]
+        );
+    }
+}

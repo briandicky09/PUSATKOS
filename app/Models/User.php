@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
         'role', // owner | customer
     ];
@@ -45,5 +46,29 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Properti kos yang dimiliki oleh owner ini.
+     */
+    public function kos(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Kos::class, 'owner_id');
+    }
+
+    /**
+     * Booking yang dilakukan oleh customer ini.
+     */
+    public function bookings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Booking::class, 'customer_id');
+    }
+
+    /**
+     * Tagihan/invoice milik customer ini.
+     */
+    public function invoices(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Invoice::class, 'customer_id');
     }
 }
