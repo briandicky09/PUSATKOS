@@ -237,3 +237,54 @@
         margin-bottom: 1.5rem;
     }
 }
+
+/* Fallback icons untuk Font Awesome saat mode offline */
+.fa-search-location:empty::before,
+.fa.fa-search-location:not([data-fa-processed])::before {
+    content: "\f002"; /* fa-search */
+}
+
+.fa-headset:empty::before,
+.fa.fa-headset:not([data-fa-processed])::before {
+    content: "\f025"; /* fa-headphones */
+}
+
+.fa-phone-alt:empty::before,
+.fa.fa-phone-alt:not([data-fa-processed])::before {
+    content: "\f095"; /* fa-phone */
+}
+
+.fa-wallet:empty::before,
+.fa.fa-wallet:not([data-fa-processed])::before {
+    content: "\f3d1"; /* fa-money-bill-alt */
+}
+
+.fa-door-open:empty::before,
+.fa.fa-door-open:not([data-fa-processed])::before {
+    content: "\f015"; /* fa-home */
+}
+
+.fa-map-marked-alt:empty::before,
+.fa.fa-map-marked-alt:not([data-fa-processed])::before {
+    content: "\f3c5"; /* fa-map-marker-alt */
+}
+
+.fa-file-invoice:empty::before,
+.fa.fa-file-invoice:not([data-fa-processed])::before {
+    content: "\f15c"; /* fa-file-alt */
+}
+
+.fa-receipt:empty::before,
+.fa.fa-receipt:not([data-fa-processed])::before {
+    content: "\f02f"; /* fa-print */
+}
+
+.fa-comment-dots:empty::before,
+.fa.fa-comment-dots:not([data-fa-processed])::before {
+    content: "\f086"; /* fa-comments */
+}
+
+.fa-envelope-open-text:empty::before,
+.fa.fa-envelope-open-text:not([data-fa-processed])::before {
+    content: "\f2b6"; /* fa-envelope-open */
+}
