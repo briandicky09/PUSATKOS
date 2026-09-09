@@ -22,7 +22,7 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-start mb-2">
                                     <h5 class="card-title mb-0">{{ $kos['title'] }}</h5>
-                                    <span class="badge {{ $kos['status'] === 'Aktif' ? 'badge-success' : 'badge-secondary' }}">{{ $kos['status'] }}</span>
+                                    <span class="badge {{ ($kos['status'] === 'Aktif' || $kos['status'] === 'active') ? 'badge-success' : 'badge-secondary' }}">{{ $kos['status'] === 'active' ? 'Aktif' : ($kos['status'] === 'inactive' ? 'Nonaktif' : $kos['status']) }}</span>
                                 </div>
                                 <p class="text-muted small mb-2"><i class="fa fa-map-marker-alt mr-2"></i>{{ $kos['city'] }}</p>
                                 <p class="mb-2"><strong>Rp {{ number_format($kos['price'], 0, ',', '.') }}</strong></p>

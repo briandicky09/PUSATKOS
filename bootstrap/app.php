@@ -23,6 +23,11 @@ return Application::configure(basePath: dirname(__DIR__))
 
             return route('member.home');
         });
+
+        // Alias middleware untuk role authorization
+        $middleware->alias([
+            'role' => \App\Http\Middleware\EnsureUserHasRole::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

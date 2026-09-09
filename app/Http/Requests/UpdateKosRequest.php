@@ -13,8 +13,24 @@ class UpdateKosRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        // Authorization berbasis kepemilikan/role akan diimplementasikan pada tahap Authentication & Authorization
-        return true;
+        $kos = $this->route('kos');
+
+        if ($kos instanceof \App\Models\Kos) {
+            return $this->user() !== null && $this->user()->can('update', $kos);
+        }
+
+        if (is_string($kos)) {
+            $kosModel = \App\Models\Kos::where('slug', $kos)->first();
+            return $this->user() !== null && $kosModel !== null && $this->user()->can('update', $kosModel);
+        }
+
+        $slug = $this->route('slug');
+        if (is_string($slug)) {
+            $kosModel = \App\Models\Kos::where('slug', $slug)->first();
+            return $this->user() !== null && $kosModel !== null && $this->user()->can('update', $kosModel);
+        }
+
+        return false;
     }
 
     /**
@@ -36,12 +52,18 @@ class UpdateKosRequest extends FormRequest
      */
     public function rules(): array
     {
-        $routeSlug = $this->route('slug');
-        $ignoreSlug = is_object($routeSlug) ? ($routeSlug->slug ?? null) : $routeSlug;
+        $kos = $this->route('kos');
+        $ignoreId = $kos instanceof \App\Models\Kos ? $kos->id : null;
 
         $slugRule = Rule::unique('kos', 'slug');
-        if (!empty($ignoreSlug)) {
-            $slugRule->ignore($ignoreSlug, 'slug');
+        if ($ignoreId) {
+            $slugRule->ignore($ignoreId);
+        } else {
+            $routeSlug = $this->route('slug');
+            $ignoreSlug = is_object($routeSlug) ? ($routeSlug->slug ?? null) : $routeSlug;
+            if (!empty($ignoreSlug)) {
+                $slugRule->ignore($ignoreSlug, 'slug');
+            }
         }
 
         return [

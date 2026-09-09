@@ -40,8 +40,8 @@ Route::middleware('guest')->group(function () {
 // Logout Global
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Area Owner (Membutuhkan Autentikasi)
-Route::prefix('owner')->name('owner.')->middleware('auth')->group(function () {
+// Area Owner (Membutuhkan Autentikasi dan Role Owner)
+Route::prefix('owner')->name('owner.')->middleware(['auth', 'role:owner'])->group(function () {
     Route::get('/', [OwnerKosController::class, 'dashboard'])->name('dashboard');
     Route::get('/notifikasi', [OwnerKosController::class, 'notifikasi'])->name('notifikasi');
     Route::get('/statistik', [OwnerKosController::class, 'statistik'])->name('statistik');
@@ -54,14 +54,15 @@ Route::prefix('owner')->name('owner.')->middleware('auth')->group(function () {
         Route::get('/penilaian', [OwnerKosController::class, 'penilaian'])->name('penilaian');
         Route::get('/create', [OwnerKosController::class, 'create'])->name('create');
         Route::post('/store', [OwnerKosController::class, 'store'])->name('store');
-        Route::get('/{slug}/edit', [OwnerKosController::class, 'edit'])->name('edit');
-        Route::put('/{slug}/update', [OwnerKosController::class, 'update'])->name('update');
-        Route::get('/{slug}', [OwnerKosController::class, 'show'])->name('show');
+        Route::get('/{kos:slug}/edit', [OwnerKosController::class, 'edit'])->name('edit');
+        Route::put('/{kos:slug}/update', [OwnerKosController::class, 'update'])->name('update');
+        Route::delete('/{kos:slug}', [OwnerKosController::class, 'destroy'])->name('destroy');
+        Route::get('/{kos:slug}', [OwnerKosController::class, 'show'])->name('show');
     });
 });
 
-// Area Customer (Legacy)
-Route::prefix('customer')->name('customer.')->group(function () {
+// Area Customer (Legacy - Membutuhkan Autentikasi dan Role Customer)
+Route::prefix('customer')->name('customer.')->middleware(['auth', 'role:customer'])->group(function () {
     Route::prefix('kos')->name('kos.')->group(function () {
         Route::get('/', [CustomerKosController::class, 'index'])->name('index');
     });
@@ -71,8 +72,8 @@ Route::prefix('customer')->name('customer.')->group(function () {
     });
 });
 
-// Area Member (Membutuhkan Autentikasi)
-Route::prefix('member')->name('member.')->middleware('auth')->group(function () {
+// Area Member (Membutuhkan Autentikasi dan Role Customer)
+Route::prefix('member')->name('member.')->middleware(['auth', 'role:customer'])->group(function () {
     // Member area - mirror public pages under /member
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/tentang', [HomeController::class, 'about'])->name('about');

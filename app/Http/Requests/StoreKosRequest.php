@@ -13,8 +13,7 @@ class StoreKosRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        // Authorization berbasis role akan diimplementasikan pada tahap Authentication & Authorization
-        return true;
+        return $this->user() !== null && $this->user()->can('create', \App\Models\Kos::class);
     }
 
     /**

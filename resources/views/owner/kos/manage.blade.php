@@ -37,7 +37,7 @@
                                         <td>{{ $kos['city'] }}</td>
                                         <td>Rp {{ number_format($kos['price'], 0, ',', '.') }}</td>
                                         <td>
-                                            <span class="badge {{ $kos['status'] === 'Aktif' ? 'badge-success' : 'badge-secondary' }}">{{ $kos['status'] }}</span>
+                                            <span class="badge {{ ($kos['status'] === 'Aktif' || $kos['status'] === 'active') ? 'badge-success' : 'badge-secondary' }}">{{ $kos['status'] === 'active' ? 'Aktif' : ($kos['status'] === 'inactive' ? 'Nonaktif' : $kos['status']) }}</span>
                                         </td>
                                         <td>
                                             <a href="{{ route('owner.kos.show', $kos['slug']) }}" class="btn btn-sm btn-outline-primary">Detail</a>

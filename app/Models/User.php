@@ -71,4 +71,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Invoice::class, 'customer_id');
     }
+
+    /**
+     * Cek apakah user memiliki peran sebagai owner.
+     */
+    public function isOwner(): bool
+    {
+        return $this->role === 'owner';
+    }
+
+    /**
+     * Cek apakah user memiliki peran sebagai customer.
+     */
+    public function isCustomer(): bool
+    {
+        return $this->role === 'customer';
+    }
 }

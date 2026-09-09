@@ -32,7 +32,11 @@
                             <div class="border rounded p-3">
                                 <h6 class="font-weight-bold">Aksi</h6>
                                 <a href="{{ route('owner.kos.edit', $kos['slug']) }}" class="btn btn-outline-primary btn-sm mb-2 d-block">Edit Kos</a>
-                                <a href="#" class="btn btn-outline-danger btn-sm d-block">Hapus Kos</a>
+                                <form action="{{ route('owner.kos.destroy', $kos['slug']) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kos ini?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-outline-danger btn-sm d-block w-100">Hapus Kos</button>
+                                </form>
                             </div>
                         </div>
                     </div>

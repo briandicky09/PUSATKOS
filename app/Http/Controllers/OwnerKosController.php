@@ -2,59 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreKosRequest;
+use App\Http\Requests\UpdateKosRequest;
+use App\Models\Kos;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class OwnerKosController extends Controller
 {
-    /**
-     * Data dummy kos milik owner. Nantinya diganti dengan query ke model Kos.
-     */
-    protected function dummyKos(): array
-    {
-        return [
-            [
-                'title' => 'Kos Putri Melati',
-                'slug' => 'kos-putri-melati',
-                'price' => 850000,
-                'city' => 'Surabaya',
-                'type' => 'Putri',
-                'status' => 'Aktif',
-                'thumbnail' => 'assets/img/kos/1.png',
-            ],
-            [
-                'title' => 'Kos Putra Anggrek',
-                'slug' => 'kos-putra-anggrek',
-                'price' => 750000,
-                'city' => 'Malang',
-                'type' => 'Putra',
-                'status' => 'Aktif',
-                'thumbnail' => 'assets/img/kos/2.png',
-            ],
-            [
-                'title' => 'Kos Eksklusif Mawar',
-                'slug' => 'kos-eksklusif-mawar',
-                'price' => 1500000,
-                'city' => 'Sidoarjo',
-                'type' => 'Eksklusif',
-                'status' => 'Nonaktif',
-                'thumbnail' => 'assets/img/kos/3.png',
-            ],
-        ];
-    }
+    use AuthorizesRequests;
 
     /**
      * Dashboard owner.
      */
-    public function dashboard(): View
+    public function dashboard(Request $request): View
     {
-        $listKos = $this->dummyKos();
-        $totalKos = count($listKos);
-        $kosAktif = collect($listKos)->where('status', 'Aktif')->count();
-        $kosNonaktif = $totalKos - $kosAktif;
-        $rataHarga = (int) round(collect($listKos)->avg('price') ?? 0);
-        $recentKos = array_slice($listKos, 0, 3);
+        $user = $request->user();
+        $listKos = $user->kos()->latest()->get();
+        $totalKos = $listKos->count();
+        $kosAktif = $listKos->where('status', 'active')->count();
+        $kosNonaktif = $listKos->where('status', 'inactive')->count();
+        $rataHarga = (int) round($listKos->avg('price') ?? 0);
+        $recentKos = $listKos->take(3);
 
         return view('owner.dashboard', compact('totalKos', 'kosAktif', 'kosNonaktif', 'rataHarga', 'recentKos'));
     }
@@ -62,9 +34,10 @@ class OwnerKosController extends Controller
     /**
      * Halaman daftar kos milik owner.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $listKos = $this->dummyKos();
+        $this->authorize('viewAny', Kos::class);
+        $listKos = $request->user()->kos()->latest()->get();
 
         return view('owner.kos.index', compact('listKos'));
     }
@@ -74,34 +47,57 @@ class OwnerKosController extends Controller
      */
     public function create(): View
     {
+        $this->authorize('create', Kos::class);
+
         return view('owner.kos.create');
     }
 
     /**
-     * Simpan kos baru (versi sementara, tanpa database).
+     * Simpan kos baru milik owner yang sedang login.
+     * owner_id otomatis di-inject dari authenticated user (server-side).
      */
-    public function store(\Illuminate\Http\Request $request): \Illuminate\Http\RedirectResponse
+    public function store(StoreKosRequest $request): RedirectResponse
     {
-        $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'type' => ['required', 'string'],
-            'city' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'numeric'],
-            'address' => ['nullable', 'string'],
-            'description' => ['nullable', 'string'],
-        ]);
+        // Otorisasi dicek di StoreKosRequest & KosPolicy::create
+        $validated = $request->validated();
 
-        session()->flash('success', 'Kos berhasil ditambahkan.');
+        // Mencegah manipulasi owner_id dari frontend
+        unset($validated['owner_id']);
 
-        return redirect()->route('owner.kos.my');
+        if (empty($validated['slug'])) {
+            $validated['slug'] = Str::slug($validated['title']);
+        }
+
+        // Pastikan slug unik (termasuk cek soft-deleted records)
+        $originalSlug = $validated['slug'];
+        $counter = 1;
+        while (Kos::withTrashed()->where('slug', $validated['slug'])->exists()) {
+            $validated['slug'] = $originalSlug . '-' . $counter;
+            $counter++;
+        }
+
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('kos', 'public');
+            $validated['thumbnail'] = 'storage/' . $path;
+        } else {
+            $validated['thumbnail'] = 'assets/img/kos/1.png';
+        }
+
+        $validated['status'] = 'active';
+
+        // Simpan kos dengan owner_id mutlak dari user yang sedang login
+        $kos = $request->user()->kos()->create($validated);
+
+        return redirect()->route('owner.kos.my')->with('success', 'Kos berhasil ditambahkan.');
     }
 
     /**
      * Halaman Kos Saya untuk owner.
      */
-    public function myKos(): View
+    public function myKos(Request $request): View
     {
-        $listKos = $this->dummyKos();
+        $this->authorize('viewAny', Kos::class);
+        $listKos = $request->user()->kos()->latest()->get();
 
         return view('owner.kos.my', compact('listKos'));
     }
@@ -109,11 +105,66 @@ class OwnerKosController extends Controller
     /**
      * Halaman manajemen kos untuk owner.
      */
-    public function manage(): View
+    public function manage(Request $request): View
     {
-        $listKos = $this->dummyKos();
+        $this->authorize('viewAny', Kos::class);
+        $listKos = $request->user()->kos()->latest()->get();
 
         return view('owner.kos.manage', compact('listKos'));
+    }
+
+    /**
+     * Halaman detail kos milik owner.
+     */
+    public function show(Kos $kos): View
+    {
+        $this->authorize('view', $kos);
+
+        return view('owner.kos.detail', compact('kos'));
+    }
+
+    /**
+     * Form edit kos milik owner.
+     */
+    public function edit(Kos $kos): View
+    {
+        $this->authorize('update', $kos);
+
+        return view('owner.kos.edit', compact('kos'));
+    }
+
+    /**
+     * Update data kos milik owner.
+     */
+    public function update(UpdateKosRequest $request, Kos $kos): RedirectResponse
+    {
+        $this->authorize('update', $kos);
+
+        $validated = $request->validated();
+
+        // Mencegah perubahan owner_id melalui request payload
+        unset($validated['owner_id']);
+
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('kos', 'public');
+            $validated['thumbnail'] = 'storage/' . $path;
+        }
+
+        $kos->update($validated);
+
+        return redirect()->route('owner.kos.show', $kos->slug)->with('success', 'Data kos berhasil diperbarui.');
+    }
+
+    /**
+     * Hapus kos milik owner menggunakan Soft Delete.
+     */
+    public function destroy(Kos $kos): RedirectResponse
+    {
+        $this->authorize('delete', $kos);
+
+        $kos->delete();
+
+        return redirect()->route('owner.kos.my')->with('success', 'Kos berhasil dihapus.');
     }
 
     /**
@@ -185,65 +236,6 @@ class OwnerKosController extends Controller
         ];
 
         return view('owner.laporan.statistik', compact('summary', 'monthlyRevenue', 'kosPerformance'));
-    }
-
-    /**
-     * Form edit kos milik owner.
-     */
-    public function edit(string $slug): View
-    {
-        $kos = collect($this->dummyKos())->firstWhere('slug', $slug) ?? [
-            'title' => 'Kos Putri Melati',
-            'slug' => $slug,
-            'price' => 850000,
-            'city' => 'Surabaya',
-            'type' => 'Putri',
-            'status' => 'Aktif',
-            'thumbnail' => 'assets/img/kos/1.png',
-            'description' => 'Deskripsi kos belum tersedia.',
-            'address' => 'Jl. Raya Sidoarjo No. 17',
-        ];
-
-        return view('owner.kos.edit', compact('kos'));
-    }
-
-    /**
-     * Update kos milik owner.
-     */
-    public function update(Request $request, string $slug): RedirectResponse
-    {
-        $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'type' => ['required', 'string'],
-            'city' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'numeric'],
-            'address' => ['nullable', 'string'],
-            'description' => ['nullable', 'string'],
-        ]);
-
-        session()->flash('success', 'Data kos berhasil diperbarui.');
-
-        return redirect()->route('owner.kos.show', $slug);
-    }
-
-    /**
-     * Halaman detail kos milik owner.
-     */
-    public function show(string $slug): View
-    {
-        $kos = collect($this->dummyKos())->firstWhere('slug', $slug) ?? [
-            'title' => 'Kos Putri Melati',
-            'slug' => $slug,
-            'price' => 850000,
-            'city' => 'Surabaya',
-            'type' => 'Putri',
-            'status' => 'Aktif',
-            'thumbnail' => 'assets/img/kos/1.png',
-            'description' => 'Deskripsi kos belum tersedia.',
-            'address' => 'Jl. Raya Sidoarjo No. 17',
-        ];
-
-        return view('owner.kos.detail', compact('kos'));
     }
 
     /**
