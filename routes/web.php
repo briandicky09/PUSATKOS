@@ -6,7 +6,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KosController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OwnerKosController;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-// Homepage
+// Homepage & Informasi Publik
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/tentang', [HomeController::class, 'about'])->name('about');
 Route::view('/kontak', 'contact.index')->name('contact');
@@ -25,29 +24,28 @@ Route::view('/promo', 'promo.index')->name('promo');
 // Pencarian Kos Umum
 Route::redirect('/search', '/kos')->name('search.kos');
 Route::get('/kos', [KosController::class, 'index'])->name('kos.index');
-
-// Autentikasi
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::get('/lupa-password', [AuthController::class, 'showForgotPassword'])->name('password.request');
-
-// Kos Publik
 Route::prefix('kos')->name('kos.')->group(function () {
     Route::get('/{slug}', [KosController::class, 'show'])->name('show');
 });
 
-// Area Owner
-Route::prefix('owner')->name('owner.')->group(function () {
+// Autentikasi (Hanya untuk Guest)
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::get('/lupa-password', [AuthController::class, 'showForgotPassword'])->name('password.request');
+});
+
+// Logout Global
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Area Owner (Membutuhkan Autentikasi)
+Route::prefix('owner')->name('owner.')->middleware('auth')->group(function () {
     Route::get('/', [OwnerKosController::class, 'dashboard'])->name('dashboard');
     Route::get('/notifikasi', [OwnerKosController::class, 'notifikasi'])->name('notifikasi');
     Route::get('/statistik', [OwnerKosController::class, 'statistik'])->name('statistik');
-    Route::post('/logout', function () {
-        if (Auth::check()) {
-            Auth::logout();
-        }
-
-        return redirect('/');
-    })->name('logout');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::prefix('kos')->name('kos.')->group(function () {
         Route::get('/', [OwnerKosController::class, 'index'])->name('index');
@@ -62,7 +60,7 @@ Route::prefix('owner')->name('owner.')->group(function () {
     });
 });
 
-// Area Customer
+// Area Customer (Legacy)
 Route::prefix('customer')->name('customer.')->group(function () {
     Route::prefix('kos')->name('kos.')->group(function () {
         Route::get('/', [CustomerKosController::class, 'index'])->name('index');
@@ -73,8 +71,8 @@ Route::prefix('customer')->name('customer.')->group(function () {
     });
 });
 
-// Area Member
-Route::prefix('member')->name('member.')->group(function () {
+// Area Member (Membutuhkan Autentikasi)
+Route::prefix('member')->name('member.')->middleware('auth')->group(function () {
     // Member area - mirror public pages under /member
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/tentang', [HomeController::class, 'about'])->name('about');
@@ -101,10 +99,5 @@ Route::prefix('member')->name('member.')->group(function () {
         Route::get('/{nomor_invoice}', [MemberController::class, 'invoiceDetail'])->name('show');
     });
     // Logout for member area
-    Route::post('/logout', function () {
-        if (Auth::check()) {
-            Auth::logout();
-        }
-        return redirect('/');
-    })->name('logout');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

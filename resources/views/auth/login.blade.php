@@ -34,24 +34,33 @@
                                 <h4 class="mb-1 font-weight-bold">Masuk ke Akun Kamu</h4>
                             </div>
 
-                            {{-- TODO: arahkan action ke route POST login setelah autentikasi diimplementasikan --}}
-                            <form id="form-login" class="ts-form" method="POST" action="#">
+                            <form id="form-login" class="ts-form" method="POST" action="{{ route('login') }}">
                                 @csrf
 
                                 <!--Email-->
                                 <div class="form-group mb-3">
-                                    <input type="email" class="form-control" id="login-email" name="email" placeholder="Email (nama@email.com)" required>
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="login-email" name="email" value="{{ old('email') }}" placeholder="Email (nama@email.com)" required autofocus>
+                                    @error('email')
+                                        <span class="invalid-feedback d-block" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
 
                                 <!--Password-->
                                 <div class="form-group mb-3">
-                                    <input type="password" class="form-control" id="login-password" name="password" placeholder="Kata Sandi" required>
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="login-password" name="password" placeholder="Kata Sandi" required>
+                                    @error('password')
+                                        <span class="invalid-feedback d-block" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
 
                                 <!--Remember + Forgot-->
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="remember-me" name="remember">
+                                        <input type="checkbox" class="custom-control-input" id="remember-me" name="remember" {{ old('remember') ? 'checked' : '' }}>
                                         <label class="custom-control-label ts-text-small text-muted" for="remember-me">Ingat saya</label>
                                     </div>
                                     <a href="{{ route('password.request') }}" class="ts-text-small font-weight-bold" style="color: #007bff;">Lupa kata sandi?</a>

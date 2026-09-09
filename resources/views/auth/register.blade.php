@@ -30,24 +30,38 @@
                                 <h4 class="mb-1 font-weight-bold">Daftar Akun Baru</h4>
                             </div>
 
-                            {{-- TODO: arahkan action ke route POST register setelah autentikasi diimplementasikan --}}
-                            <form id="form-register" class="ts-form" method="POST" action="#">
+                            <form id="form-register" class="ts-form" method="POST" action="{{ route('register') }}">
                                 @csrf
 
                                 <div class="row">
                                     <!--Nama Lengkap-->
                                     <div class="col-md-12 form-group mb-3">
-                                        <input type="text" class="form-control" id="reg-nama" name="nama" placeholder="Nama Lengkap" required>
+                                        <input type="text" class="form-control @error('nama') is-invalid @enderror" id="reg-nama" name="nama" value="{{ old('nama') }}" placeholder="Nama Lengkap" required autofocus>
+                                        @error('nama')
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
 
                                     <!--No HP-->
                                     <div class="col-md-12 form-group mb-3">
-                                        <input type="tel" class="form-control" id="reg-hp" name="handphone" placeholder="No. Handphone (08xxxxxxxx)" required>
+                                        <input type="tel" class="form-control @error('handphone') is-invalid @enderror" id="reg-hp" name="handphone" value="{{ old('handphone') }}" placeholder="No. Handphone (08xxxxxxxx)" required>
+                                        @error('handphone')
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
 
                                     <!--Email-->
                                     <div class="col-md-12 form-group mb-3">
-                                        <input type="email" class="form-control" id="reg-email" name="email" placeholder="Email" required>
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="reg-email" name="email" value="{{ old('email') }}" placeholder="Email" required>
+                                        @error('email')
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
 
                                     <!--Role Akun-->
@@ -55,17 +69,27 @@
                                         <label class="d-block text-muted mb-2" style="font-size: 13px;">Daftar sebagai</label>
                                         <div class="custom-control custom-radio custom-control-inline">
                                             <input type="radio" id="role-owner" name="role" value="owner" class="custom-control-input" {{ old('role') === 'owner' ? 'checked' : '' }} required>
-                                            <label class="custom-control-label" for="role-owner">Owner</label>
+                                            <label class="custom-control-label" for="role-owner">Owner (Pemilik Kos)</label>
                                         </div>
                                         <div class="custom-control custom-radio custom-control-inline">
                                             <input type="radio" id="role-member" name="role" value="member" class="custom-control-input" {{ old('role', 'member') === 'member' ? 'checked' : '' }} required>
-                                            <label class="custom-control-label" for="role-member">Member/User</label>
+                                            <label class="custom-control-label" for="role-member">Member (Pencari Kos)</label>
                                         </div>
+                                        @error('role')
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
 
                                     <!--Password-->
                                     <div class="col-md-6 form-group mb-3">
-                                        <input type="password" class="form-control" id="reg-password" name="password" placeholder="Kata Sandi" required>
+                                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="reg-password" name="password" placeholder="Kata Sandi" required>
+                                        @error('password')
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
 
                                     <!--Konfirmasi Password-->
@@ -77,10 +101,15 @@
 
                                 <!-- Checkbox S&K -->
                                 <div class="custom-control custom-checkbox mb-4 mt-2">
-                                    <input type="checkbox" class="custom-control-input" id="agree-terms" name="agree" required>
+                                    <input type="checkbox" class="custom-control-input @error('agree') is-invalid @enderror" id="agree-terms" name="agree" {{ old('agree') ? 'checked' : '' }} required>
                                     <label class="custom-control-label text-muted" for="agree-terms" style="font-size: 13px;">
                                         Saya menyetujui <a href="#" class="text-dark font-weight-bold">Syarat &amp; Ketentuan</a> dan <a href="#" class="text-dark font-weight-bold">Kebijakan Privasi</a>
                                     </label>
+                                    @error('agree')
+                                        <span class="invalid-feedback d-block" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
 
                                 <!-- TOMBOL DAFTAR (Warna Biru Muda) -->
