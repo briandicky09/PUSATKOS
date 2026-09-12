@@ -151,6 +151,7 @@ class OwnerKosController extends Controller
         }
 
         $kos->update($validated);
+        $kos->refresh();
 
         return redirect()->route('owner.kos.show', $kos->slug)->with('success', 'Data kos berhasil diperbarui.');
     }

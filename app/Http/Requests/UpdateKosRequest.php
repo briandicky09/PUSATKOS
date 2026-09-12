@@ -39,8 +39,23 @@ class UpdateKosRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         if ($this->filled('title') && !$this->filled('slug')) {
+            $kos = $this->route('kos');
+            $kosId = $kos instanceof \App\Models\Kos ? $kos->id : null;
+            if (!$kosId && is_string($kos)) {
+                $kosModel = \App\Models\Kos::where('slug', $kos)->first();
+                $kosId = $kosModel?->id;
+            }
+
+            $baseSlug = Str::slug($this->input('title'));
+            $slug = $baseSlug;
+            $counter = 1;
+            while (\App\Models\Kos::withTrashed()->where('slug', $slug)->where('id', '!=', $kosId)->exists()) {
+                $slug = $baseSlug . '-' . $counter;
+                $counter++;
+            }
+
             $this->merge([
-                'slug' => Str::slug($this->input('title')),
+                'slug' => $slug,
             ]);
         }
     }
@@ -75,6 +90,7 @@ class UpdateKosRequest extends FormRequest
             'address' => ['nullable', 'string', 'max:1000'],
             'description' => ['nullable', 'string'],
             'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'status' => ['nullable', 'string', Rule::in(['active', 'inactive'])],
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kos;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
@@ -53,14 +54,12 @@ class MemberController extends Controller
         return redirect()->route('member.invoice.index')->with('success', 'Booking berhasil dibuat. Silakan ikuti instruksi pembayaran pada invoice Anda.');
     }
 
-    private function findKos(string $slug): array
+    private function findKos(string $slug): Kos
     {
-        $kosController = app(KosController::class);
-        $kos = collect($kosController->dummyKos())->firstWhere('slug', $slug);
-
-        abort_unless($kos, 404);
-
-        return $kos;
+        return Kos::with('owner')
+            ->where('slug', $slug)
+            ->where('status', 'active')
+            ->firstOrFail();
     }
 
     /**

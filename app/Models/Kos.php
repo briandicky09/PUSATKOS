@@ -56,4 +56,52 @@ class Kos extends Model
     {
         return $this->hasMany(Invoice::class, 'kos_id');
     }
+
+    /**
+     * Scope untuk kos yang aktif saja.
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
+    /**
+     * Accessor thumbnail default jika kosong.
+     */
+    public function getThumbnailAttribute($value): string
+    {
+        return $value ?: 'assets/img/kos/1.png';
+    }
+
+    /**
+     * Accessor nama pemilik untuk tampilan view.
+     */
+    public function getOwnerNameAttribute(): ?string
+    {
+        return $this->owner?->name;
+    }
+
+    /**
+     * Accessor nomor telepon pemilik.
+     */
+    public function getOwnerPhoneAttribute(): ?string
+    {
+        return $this->owner?->phone;
+    }
+
+    /**
+     * Accessor email pemilik.
+     */
+    public function getOwnerEmailAttribute(): ?string
+    {
+        return $this->owner?->email;
+    }
+
+    /**
+     * Accessor label status bahasa Indonesia.
+     */
+    public function getStatusLabelAttribute(): string
+    {
+        return $this->status === 'active' ? 'Aktif' : 'Nonaktif';
+    }
 }

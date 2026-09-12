@@ -55,7 +55,15 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12 form-group mb-0">
+                                <div class="col-md-6 form-group mb-3">
+                                    <label class="ts-text-small font-weight-bold text-muted mb-1">Status Properti</label>
+                                    <select class="custom-select" name="status">
+                                        <option value="active" {{ old('status', $kos['status']) === 'active' ? 'selected' : '' }}>Aktif</option>
+                                        <option value="inactive" {{ old('status', $kos['status']) === 'inactive' ? 'selected' : '' }}>Nonaktif</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 form-group mb-0">
                                     <label class="ts-text-small font-weight-bold text-muted mb-1">Alamat Lengkap</label>
                                     <input type="text" class="form-control" name="address" value="{{ old('address', $kos['address'] ?? '') }}" placeholder="Jl. Raya Sidoarjo No. 17">
                                 </div>

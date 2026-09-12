@@ -27,7 +27,7 @@
                             <div class="border rounded p-3 mb-3">
                                 <h6 class="font-weight-bold">Informasi Harga</h6>
                                 <p class="mb-1"><strong>Rp {{ number_format($kos['price'], 0, ',', '.') }}</strong>/bulan</p>
-                                <p class="mb-0"><span class="badge {{ $kos['status'] === 'Aktif' ? 'badge-success' : 'badge-secondary' }}">{{ $kos['status'] }}</span></p>
+                                <p class="mb-0"><span class="badge {{ ($kos['status'] === 'active' || $kos['status'] === 'Aktif') ? 'badge-success' : 'badge-secondary' }}">{{ $kos['status'] === 'active' ? 'Aktif' : ($kos['status'] === 'inactive' ? 'Nonaktif' : $kos['status']) }}</span></p>
                             </div>
                             <div class="border rounded p-3">
                                 <h6 class="font-weight-bold">Aksi</h6>

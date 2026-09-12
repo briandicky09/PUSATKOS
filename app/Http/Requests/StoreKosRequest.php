@@ -22,8 +22,15 @@ class StoreKosRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         if ($this->filled('title') && !$this->filled('slug')) {
+            $baseSlug = Str::slug($this->input('title'));
+            $slug = $baseSlug;
+            $counter = 1;
+            while (\App\Models\Kos::withTrashed()->where('slug', $slug)->exists()) {
+                $slug = $baseSlug . '-' . $counter;
+                $counter++;
+            }
             $this->merge([
-                'slug' => Str::slug($this->input('title')),
+                'slug' => $slug,
             ]);
         }
     }

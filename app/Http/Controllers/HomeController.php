@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kos;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -11,39 +12,8 @@ class HomeController extends Controller
      */
     public function index(): View
     {
-        // Data dummy kos unggulan yang ditampilkan di homepage.
-        $featuredKos = [
-            [
-                'title' => 'Kos Putri Melati',
-                'slug' => 'kos-putri-melati',
-                'price' => 850000,
-                'city' => 'Surabaya',
-                'type' => 'Putri',
-                'rating' => 4.8,
-                'available_rooms' => 3,
-                'thumbnail' => 'assets/img/kos/1.png',
-            ],
-            [
-                'title' => 'Kos Putra Anggrek',
-                'slug' => 'kos-putra-anggrek',
-                'price' => 750000,
-                'city' => 'Malang',
-                'type' => 'Putra',
-                'rating' => 4.6,
-                'available_rooms' => 2,
-                'thumbnail' => 'assets/img/kos/2.png',
-            ],
-            [
-                'title' => 'Kos Eksklusif Mawar',
-                'slug' => 'kos-eksklusif-mawar',
-                'price' => 1500000,
-                'city' => 'Sidoarjo',
-                'type' => 'Campur',
-                'rating' => 3.9,
-                'available_rooms' => 3,
-                'thumbnail' => 'assets/img/kos/3.png',
-            ],
-        ];
+        // Ambil data kos aktif dari database
+        $featuredKos = Kos::where('status', 'active')->latest()->take(6)->get();
 
         return view('home.index', compact('featuredKos'));
     }
