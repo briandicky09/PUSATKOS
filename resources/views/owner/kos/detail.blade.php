@@ -22,6 +22,21 @@
                             <h5 class="font-weight-bold">{{ $kos['title'] }}</h5>
                             <p class="text-muted">{{ $kos['city'] }} • {{ ucfirst($kos['type']) }}</p>
                             <p>{{ $kos['description'] ?? 'Deskripsi kos belum tersedia.' }}</p>
+
+                            <div class="border rounded p-3 mt-4">
+                                <h6 class="font-weight-bold mb-3"><i class="fa fa-list-ul mr-2 text-primary"></i>Fasilitas Kos</h6>
+                                @if(isset($kos->facilities) && $kos->facilities->isNotEmpty())
+                                    <div class="d-flex flex-wrap">
+                                        @foreach($kos->facilities as $facility)
+                                            <span class="badge badge-light border text-dark mr-2 mb-2 p-2" style="font-size: 0.85rem; font-weight: 500;">
+                                                <i class="fa fa-check text-success mr-1"></i>{{ $facility->name }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <p class="text-muted mb-0"><small>Belum ada fasilitas yang ditambahkan.</small></p>
+                                @endif
+                            </div>
                         </div>
                         <div class="col-lg-5">
                             <div class="border rounded p-3 mb-3">

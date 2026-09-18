@@ -85,6 +85,48 @@
                             </div>
                         </div>
 
+                        <div class="border rounded p-3 p-md-4 mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h6 class="font-weight-bold text-dark mb-1">Fasilitas Kos</h6>
+                                    <p class="text-muted small mb-0">Pilih fasilitas yang tersedia pada properti kos ini.</p>
+                                </div>
+                            </div>
+
+                            @error('facilities')
+                                <div class="alert alert-danger py-2 mb-3">{{ $message }}</div>
+                            @enderror
+                            @error('facilities.*')
+                                <div class="alert alert-danger py-2 mb-3">{{ $message }}</div>
+                            @enderror
+
+                            @php
+                                $selectedFacilities = old('facilities', isset($kos->facilities) ? $kos->facilities->pluck('id')->toArray() : []);
+                            @endphp
+
+                            <div class="row">
+                                @forelse($facilities as $facility)
+                                    <div class="col-6 col-md-4 col-lg-3 mb-3">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox"
+                                                   class="custom-control-input"
+                                                   id="facility-{{ $facility->id }}"
+                                                   name="facilities[]"
+                                                   value="{{ $facility->id }}"
+                                                   {{ in_array($facility->id, $selectedFacilities) ? 'checked' : '' }}>
+                                            <label class="custom-control-label font-weight-normal text-dark" for="facility-{{ $facility->id }}" style="cursor: pointer;">
+                                                {{ $facility->name }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="col-12">
+                                        <p class="text-muted mb-0 small">Belum ada fasilitas yang terdaftar di sistem.</p>
+                                    </div>
+                                @endforelse
+                            </div>
+                        </div>
+
                         <div class="d-flex flex-wrap">
                             <button type="submit" class="btn btn-primary font-weight-bold px-4 mr-2 mb-2">
                                 <i class="fa fa-save mr-2"></i>Simpan Perubahan

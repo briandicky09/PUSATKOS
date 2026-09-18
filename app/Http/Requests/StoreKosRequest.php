@@ -51,6 +51,8 @@ class StoreKosRequest extends FormRequest
             'address' => ['nullable', 'string', 'max:1000'],
             'description' => ['nullable', 'string'],
             'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'facilities' => ['nullable', 'array'],
+            'facilities.*' => ['integer', 'distinct', 'exists:facilities,id'],
         ];
     }
 
@@ -69,6 +71,8 @@ class StoreKosRequest extends FormRequest
             'address' => 'alamat',
             'description' => 'deskripsi kos',
             'thumbnail' => 'foto kos',
+            'facilities' => 'fasilitas kos',
+            'facilities.*' => 'fasilitas kos',
         ];
     }
 
@@ -82,6 +86,9 @@ class StoreKosRequest extends FormRequest
         return [
             'slug.unique' => 'Nama kos atau slug ini sudah digunakan, silakan gunakan nama lain.',
             'type.in' => 'Tipe kos yang dipilih harus salah satu dari: Putra, Putri, Campur, atau Eksklusif.',
+            'facilities.array' => 'Fasilitas kos harus berupa daftar pilihan yang valid.',
+            'facilities.*.exists' => 'Fasilitas yang dipilih tidak valid atau tidak ditemukan.',
+            'facilities.*.distinct' => 'Fasilitas yang dipilih tidak boleh duplikat.',
         ];
     }
 }

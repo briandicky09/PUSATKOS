@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Booking;
+use App\Models\Facility;
 use App\Models\Invoice;
 use App\Models\Kos;
 use App\Models\Payment;
@@ -17,6 +18,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // 0. Master Facilities
+        $this->call(FacilitySeeder::class);
+
         // 1. Users: Owner & Customer
         $owner = User::firstOrCreate(
             ['email' => 'owner@pusatkos.id'],
@@ -70,6 +74,13 @@ class DatabaseSeeder extends Seeder
                 'status' => 'active',
             ]
         );
+
+        // Pasang relasi fasilitas pada seeder kos
+        $melatiFacilities = Facility::whereIn('name', ['WiFi', 'AC', 'Kamar Mandi Dalam', 'Kasur', 'Lemari', 'Listrik'])->pluck('id');
+        $kosMelati->facilities()->sync($melatiFacilities);
+
+        $anggrekFacilities = Facility::whereIn('name', ['WiFi', 'Kasur', 'Lemari', 'Meja', 'Kursi', 'Parkir Motor', 'Listrik'])->pluck('id');
+        $kosAnggrek->facilities()->sync($anggrekFacilities);
 
         // 3. Booking: Dewi Sartika memesan Kos Putri Melati
         $booking = Booking::firstOrCreate(

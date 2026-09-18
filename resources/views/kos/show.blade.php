@@ -315,14 +315,15 @@
 
                         </section>
 
+                        @if(!empty($kos['features']))
                         <!--FEATURES
                         =========================================================================================-->
                         <section id="features">
 
-                            <h3>Fasilitas</h3>
+                            <h3>Fasilitas Utama</h3>
 
                             <ul class="list-unstyled ts-list-icons ts-column-count-4 ts-column-count-sm-2 ts-column-count-md-2">
-                                @foreach($kos['features'] ?? [] as $feature)
+                                @foreach($kos['features'] as $feature)
                                 <li>
                                     <i class="fa {{ $feature['icon'] }}"></i>
                                     {{ $feature['name'] }}
@@ -331,6 +332,7 @@
                             </ul>
 
                         </section>
+                        @endif
 
                         <!--MAP PLACEHOLDER
                         =========================================================================================-->
@@ -350,13 +352,25 @@
                         =========================================================================================-->
                         <section id="amenities">
 
-                            <h3>Fasilitas Tambahan</h3>
+                            <h3>Fasilitas Kos</h3>
 
-                            <ul class="ts-list-colored-bullets ts-text-color-light ts-column-count-3 ts-column-count-md-2">
-                                @foreach($kos['facilities'] ?? [] as $facility)
-                                <li>{{ $facility }}</li>
-                                @endforeach
-                            </ul>
+                            @if(isset($kos->facilities) && $kos->facilities->isNotEmpty())
+                                <div class="d-flex flex-wrap mb-4">
+                                    @foreach($kos->facilities as $facility)
+                                        <span class="badge badge-light border text-dark mr-2 mb-2 p-2" style="font-size: 0.9rem; font-weight: 500;">
+                                            <i class="fa fa-check-circle text-primary mr-1"></i>{{ $facility->name }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            @elseif(!empty($kos['facilities']))
+                                <ul class="ts-list-colored-bullets ts-text-color-light ts-column-count-3 ts-column-count-md-2">
+                                    @foreach($kos['facilities'] as $facility)
+                                        <li>{{ is_object($facility) ? $facility->name : $facility }}</li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                <p class="text-muted">Belum ada fasilitas yang ditambahkan.</p>
+                            @endif
 
                         </section>
 

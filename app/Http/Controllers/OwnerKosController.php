@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreKosRequest;
 use App\Http\Requests\UpdateKosRequest;
+use App\Models\Facility;
 use App\Models\Kos;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
@@ -48,8 +49,9 @@ class OwnerKosController extends Controller
     public function create(): View
     {
         $this->authorize('create', Kos::class);
+        $facilities = Facility::orderBy('name')->get();
 
-        return view('owner.kos.create');
+        return view('owner.kos.create', compact('facilities'));
     }
 
     /**
@@ -63,6 +65,10 @@ class OwnerKosController extends Controller
 
         // Mencegah manipulasi owner_id dari frontend
         unset($validated['owner_id']);
+
+        // Pisahkan facilities dari data tabel kos
+        $facilityIds = $validated['facilities'] ?? [];
+        unset($validated['facilities']);
 
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['title']);
@@ -87,6 +93,9 @@ class OwnerKosController extends Controller
 
         // Simpan kos dengan owner_id mutlak dari user yang sedang login
         $kos = $request->user()->kos()->create($validated);
+
+        // Sinkronisasi relasi fasilitas
+        $kos->facilities()->sync($facilityIds);
 
         return redirect()->route('owner.kos.my')->with('success', 'Kos berhasil ditambahkan.');
     }
@@ -119,6 +128,7 @@ class OwnerKosController extends Controller
     public function show(Kos $kos): View
     {
         $this->authorize('view', $kos);
+        $kos->load('facilities');
 
         return view('owner.kos.detail', compact('kos'));
     }
@@ -129,8 +139,10 @@ class OwnerKosController extends Controller
     public function edit(Kos $kos): View
     {
         $this->authorize('update', $kos);
+        $kos->load('facilities');
+        $facilities = Facility::orderBy('name')->get();
 
-        return view('owner.kos.edit', compact('kos'));
+        return view('owner.kos.edit', compact('kos', 'facilities'));
     }
 
     /**
@@ -145,12 +157,20 @@ class OwnerKosController extends Controller
         // Mencegah perubahan owner_id melalui request payload
         unset($validated['owner_id']);
 
+        // Pisahkan facilities dari atribut tabel kos
+        $facilityIds = $validated['facilities'] ?? [];
+        unset($validated['facilities']);
+
         if ($request->hasFile('thumbnail')) {
             $path = $request->file('thumbnail')->store('kos', 'public');
             $validated['thumbnail'] = 'storage/' . $path;
         }
 
         $kos->update($validated);
+
+        // Sinkronisasi relasi fasilitas
+        $kos->facilities()->sync($facilityIds);
+
         $kos->refresh();
 
         return redirect()->route('owner.kos.show', $kos->slug)->with('success', 'Data kos berhasil diperbarui.');
