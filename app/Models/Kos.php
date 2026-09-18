@@ -51,6 +51,14 @@ class Kos extends Model
     }
 
     /**
+     * Seluruh foto galeri milik kos ini terurut berdasarkan sort_order.
+     */
+    public function photos(): HasMany
+    {
+        return $this->hasMany(KosPhoto::class, 'kos_id')->orderBy('sort_order', 'asc');
+    }
+
+    /**
      * Seluruh pemesanan / booking yang terjadi pada kos ini.
      */
     public function bookings(): HasMany

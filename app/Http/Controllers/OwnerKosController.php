@@ -9,6 +9,8 @@ use App\Models\Kos;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -66,9 +68,10 @@ class OwnerKosController extends Controller
         // Mencegah manipulasi owner_id dari frontend
         unset($validated['owner_id']);
 
-        // Pisahkan facilities dari data tabel kos
+        // Pisahkan facilities dan photos dari data tabel kos
         $facilityIds = $validated['facilities'] ?? [];
         unset($validated['facilities']);
+        unset($validated['photos']);
 
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['title']);
@@ -91,11 +94,38 @@ class OwnerKosController extends Controller
 
         $validated['status'] = 'active';
 
-        // Simpan kos dengan owner_id mutlak dari user yang sedang login
-        $kos = $request->user()->kos()->create($validated);
+        $newUploadedFiles = [];
+        DB::beginTransaction();
+        try {
+            // Simpan kos dengan owner_id mutlak dari user yang sedang login
+            $kos = $request->user()->kos()->create($validated);
 
-        // Sinkronisasi relasi fasilitas
-        $kos->facilities()->sync($facilityIds);
+            // Sinkronisasi relasi fasilitas
+            $kos->facilities()->sync($facilityIds);
+
+            // Simpan banyak foto galeri jika ada
+            if ($request->hasFile('photos')) {
+                $sortOrder = 1;
+                foreach ($request->file('photos') as $file) {
+                    $photoPath = $file->store('kos/photos', 'public');
+                    $newUploadedFiles[] = $photoPath;
+
+                    $kos->photos()->create([
+                        'photo_path' => $photoPath,
+                        'sort_order' => $sortOrder++,
+                    ]);
+                }
+            }
+
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            // Bersihkan file yang baru diupload jika transaksi database gagal
+            foreach ($newUploadedFiles as $filePath) {
+                Storage::disk('public')->delete($filePath);
+            }
+            throw $e;
+        }
 
         return redirect()->route('owner.kos.my')->with('success', 'Kos berhasil ditambahkan.');
     }
@@ -128,7 +158,7 @@ class OwnerKosController extends Controller
     public function show(Kos $kos): View
     {
         $this->authorize('view', $kos);
-        $kos->load('facilities');
+        $kos->load(['facilities', 'photos']);
 
         return view('owner.kos.detail', compact('kos'));
     }
@@ -139,7 +169,7 @@ class OwnerKosController extends Controller
     public function edit(Kos $kos): View
     {
         $this->authorize('update', $kos);
-        $kos->load('facilities');
+        $kos->load(['facilities', 'photos']);
         $facilities = Facility::orderBy('name')->get();
 
         return view('owner.kos.edit', compact('kos', 'facilities'));
@@ -157,19 +187,65 @@ class OwnerKosController extends Controller
         // Mencegah perubahan owner_id melalui request payload
         unset($validated['owner_id']);
 
-        // Pisahkan facilities dari atribut tabel kos
+        // Pisahkan facilities, photos, dan delete_photos dari atribut tabel kos
         $facilityIds = $validated['facilities'] ?? [];
-        unset($validated['facilities']);
+        $deletePhotoIds = $validated['delete_photos'] ?? [];
+        unset($validated['facilities'], $validated['photos'], $validated['delete_photos']);
 
         if ($request->hasFile('thumbnail')) {
             $path = $request->file('thumbnail')->store('kos', 'public');
             $validated['thumbnail'] = 'storage/' . $path;
         }
 
-        $kos->update($validated);
+        $newUploadedFiles = [];
+        $filesToDelete = [];
 
-        // Sinkronisasi relasi fasilitas
-        $kos->facilities()->sync($facilityIds);
+        DB::beginTransaction();
+        try {
+            $kos->update($validated);
+
+            // Sinkronisasi relasi fasilitas
+            $kos->facilities()->sync($facilityIds);
+
+            // 1. Hapus foto yang dipilih (hanya foto milik kos ini - anti IDOR)
+            if (!empty($deletePhotoIds)) {
+                $photosToDelete = $kos->photos()->whereIn('id', $deletePhotoIds)->get();
+                foreach ($photosToDelete as $photo) {
+                    $filesToDelete[] = $photo->photo_path;
+                    $photo->delete();
+                }
+            }
+
+            // 2. Tambah foto baru jika ada
+            if ($request->hasFile('photos')) {
+                $currentMaxSort = (int) $kos->photos()->max('sort_order');
+                $sortOrder = $currentMaxSort + 1;
+
+                foreach ($request->file('photos') as $file) {
+                    $photoPath = $file->store('kos/photos', 'public');
+                    $newUploadedFiles[] = $photoPath;
+
+                    $kos->photos()->create([
+                        'photo_path' => $photoPath,
+                        'sort_order' => $sortOrder++,
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            // Hapus file fisik dari storage setelah DB commit berhasil
+            foreach ($filesToDelete as $filePath) {
+                Storage::disk('public')->delete($filePath);
+            }
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            // Bersihkan file baru jika DB gagal commit
+            foreach ($newUploadedFiles as $filePath) {
+                Storage::disk('public')->delete($filePath);
+            }
+            throw $e;
+        }
 
         $kos->refresh();
 

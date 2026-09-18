@@ -53,6 +53,8 @@ class StoreKosRequest extends FormRequest
             'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
             'facilities' => ['nullable', 'array'],
             'facilities.*' => ['integer', 'distinct', 'exists:facilities,id'],
+            'photos' => ['nullable', 'array'],
+            'photos.*' => ['image', 'mimes:jpeg,jpg,png,webp', 'max:2048'],
         ];
     }
 
@@ -73,6 +75,8 @@ class StoreKosRequest extends FormRequest
             'thumbnail' => 'foto kos',
             'facilities' => 'fasilitas kos',
             'facilities.*' => 'fasilitas kos',
+            'photos' => 'galeri foto kos',
+            'photos.*' => 'foto galeri',
         ];
     }
 
@@ -89,6 +93,10 @@ class StoreKosRequest extends FormRequest
             'facilities.array' => 'Fasilitas kos harus berupa daftar pilihan yang valid.',
             'facilities.*.exists' => 'Fasilitas yang dipilih tidak valid atau tidak ditemukan.',
             'facilities.*.distinct' => 'Fasilitas yang dipilih tidak boleh duplikat.',
+            'photos.array' => 'Galeri foto harus berupa daftar file gambar.',
+            'photos.*.image' => 'File galeri foto harus berupa gambar.',
+            'photos.*.mimes' => 'Format foto galeri yang diperbolehkan hanya: jpeg, jpg, png, webp.',
+            'photos.*.max' => 'Ukuran file foto galeri maksimal 2MB per foto.',
         ];
     }
 }

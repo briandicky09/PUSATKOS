@@ -93,6 +93,10 @@ class UpdateKosRequest extends FormRequest
             'status' => ['nullable', 'string', Rule::in(['active', 'inactive'])],
             'facilities' => ['nullable', 'array'],
             'facilities.*' => ['integer', 'distinct', 'exists:facilities,id'],
+            'photos' => ['nullable', 'array'],
+            'photos.*' => ['image', 'mimes:jpeg,jpg,png,webp', 'max:2048'],
+            'delete_photos' => ['nullable', 'array'],
+            'delete_photos.*' => ['integer', 'exists:kos_photos,id'],
         ];
     }
 
@@ -113,6 +117,10 @@ class UpdateKosRequest extends FormRequest
             'thumbnail' => 'foto kos',
             'facilities' => 'fasilitas kos',
             'facilities.*' => 'fasilitas kos',
+            'photos' => 'galeri foto kos',
+            'photos.*' => 'foto galeri',
+            'delete_photos' => 'foto yang akan dihapus',
+            'delete_photos.*' => 'foto yang akan dihapus',
         ];
     }
 
@@ -129,6 +137,12 @@ class UpdateKosRequest extends FormRequest
             'facilities.array' => 'Fasilitas kos harus berupa daftar pilihan yang valid.',
             'facilities.*.exists' => 'Fasilitas yang dipilih tidak valid atau tidak ditemukan.',
             'facilities.*.distinct' => 'Fasilitas yang dipilih tidak boleh duplikat.',
+            'photos.array' => 'Galeri foto harus berupa daftar file gambar.',
+            'photos.*.image' => 'File galeri foto harus berupa gambar.',
+            'photos.*.mimes' => 'Format foto galeri yang diperbolehkan hanya: jpeg, jpg, png, webp.',
+            'photos.*.max' => 'Ukuran file foto galeri maksimal 2MB per foto.',
+            'delete_photos.array' => 'Daftar foto yang akan dihapus harus berupa array.',
+            'delete_photos.*.exists' => 'Foto yang dipilih untuk dihapus tidak valid atau tidak ditemukan.',
         ];
     }
 }

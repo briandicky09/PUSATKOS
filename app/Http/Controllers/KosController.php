@@ -49,7 +49,7 @@ class KosController extends Controller
      */
     public function show(string $slug): View
     {
-        $kos = Kos::with(['owner', 'facilities'])
+        $kos = Kos::with(['owner', 'facilities', 'photos'])
             ->where('slug', $slug)
             ->where('status', 'active')
             ->firstOrFail();

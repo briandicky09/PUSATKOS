@@ -58,11 +58,32 @@
             <div class="owl-carousel ts-gallery-carousel ts-gallery-carousel__multi" data-owl-dots="1"
                 data-owl-items="3" data-owl-center="1" data-owl-loop="1">
 
-                @foreach($kos['gallery'] ?? ['assets/img/img-detail-01.jpg','assets/img/img-detail-02.jpg','assets/img/img-detail-05.jpg','assets/img/img-detail-04.jpg','assets/img/img-detail-03.jpg'] as $image)
+                @php
+                    $galleryImages = [];
+                    if (isset($kos->photos) && $kos->photos->isNotEmpty()) {
+                        foreach ($kos->photos as $photo) {
+                            $galleryImages[] = $photo->url;
+                        }
+                    } elseif (!empty($kos['gallery'])) {
+                        foreach ($kos['gallery'] as $img) {
+                            $galleryImages[] = asset($img);
+                        }
+                    } else {
+                        $galleryImages = [
+                            asset($kos['thumbnail'] ?? 'assets/img/img-detail-01.jpg'),
+                            asset('assets/img/img-detail-02.jpg'),
+                            asset('assets/img/img-detail-05.jpg'),
+                            asset('assets/img/img-detail-04.jpg'),
+                            asset('assets/img/img-detail-03.jpg'),
+                        ];
+                    }
+                @endphp
+
+                @foreach($galleryImages as $image)
                 <!--Slide-->
                 <div class="slide">
-                    <div class="ts-image" data-bg-image="{{ asset($image) }}">
-                        <a href="{{ asset($image) }}" class="ts-zoom popup-image"><i class="fa fa-search-plus"></i>Zoom</a>
+                    <div class="ts-image" data-bg-image="{{ $image }}">
+                        <a href="{{ $image }}" class="ts-zoom popup-image"><i class="fa fa-search-plus"></i>Zoom</a>
                     </div>
                 </div>
                 @endforeach

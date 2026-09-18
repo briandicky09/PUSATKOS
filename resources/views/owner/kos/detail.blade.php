@@ -37,6 +37,28 @@
                                     <p class="text-muted mb-0"><small>Belum ada fasilitas yang ditambahkan.</small></p>
                                 @endif
                             </div>
+
+                            <div class="border rounded p-3 mt-4">
+                                <h6 class="font-weight-bold mb-3"><i class="fa fa-images mr-2 text-primary"></i>Galeri Foto Kos</h6>
+                                @if(isset($kos->photos) && $kos->photos->isNotEmpty())
+                                    <div class="row">
+                                        @foreach($kos->photos as $photo)
+                                            <div class="col-6 col-sm-4 col-md-3 mb-3">
+                                                <div class="card h-100 border shadow-none overflow-hidden">
+                                                    <a href="{{ $photo->url }}" target="_blank">
+                                                        <img src="{{ $photo->url }}" alt="Foto Kos" class="card-img-top" style="height: 120px; object-fit: cover;">
+                                                    </a>
+                                                    <div class="card-body p-1 text-center bg-light">
+                                                        <small class="text-muted">Foto #{{ $loop->iteration }}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <p class="text-muted mb-0"><small>Belum ada foto galeri yang ditambahkan.</small></p>
+                                @endif
+                            </div>
                         </div>
                         <div class="col-lg-5">
                             <div class="border rounded p-3 mb-3">
