@@ -15,6 +15,26 @@ class StoreBookingRequest extends FormRequest
     }
 
     /**
+     * Prepare inputs for validation (handling check_in and duration aliases).
+     */
+    protected function prepareForValidation(): void
+    {
+        $merge = [];
+
+        if (!$this->has('start_date') && $this->has('check_in')) {
+            $merge['start_date'] = $this->input('check_in');
+        }
+
+        if (!$this->has('duration_months') && $this->has('duration')) {
+            $merge['duration_months'] = $this->input('duration');
+        }
+
+        if (!empty($merge)) {
+            $this->merge($merge);
+        }
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
@@ -25,8 +45,8 @@ class StoreBookingRequest extends FormRequest
             'tenant_name' => ['required', 'string', 'max:100'],
             'tenant_email' => ['required', 'email', 'max:150'],
             'tenant_phone' => ['required', 'string', 'min:9', 'max:30', 'regex:/^([0-9\s\-\+\(\)]*)$/'],
-            'check_in' => ['required', 'date', 'after_or_equal:today'],
-            'duration' => ['required', 'integer', 'min:1', 'max:12'],
+            'start_date' => ['required', 'date', 'after_or_equal:today'],
+            'duration_months' => ['required', 'integer', 'min:1', 'max:12'],
             'notes' => ['nullable', 'string', 'max:500'],
         ];
     }
@@ -42,8 +62,8 @@ class StoreBookingRequest extends FormRequest
             'tenant_name' => 'nama lengkap penyewa',
             'tenant_email' => 'alamat email',
             'tenant_phone' => 'nomor telepon / WhatsApp',
-            'check_in' => 'tanggal mulai sewa',
-            'duration' => 'durasi sewa',
+            'start_date' => 'tanggal mulai sewa',
+            'duration_months' => 'durasi sewa',
             'notes' => 'catatan',
         ];
     }
@@ -56,10 +76,11 @@ class StoreBookingRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'check_in.after_or_equal' => 'Tanggal mulai sewa tidak boleh di masa lalu.',
-            'duration.min' => 'Durasi sewa minimal 1 bulan.',
-            'duration.max' => 'Durasi sewa maksimal 12 bulan.',
+            'start_date.after_or_equal' => 'Tanggal mulai sewa tidak boleh di masa lalu.',
+            'duration_months.min' => 'Durasi sewa minimal 1 bulan.',
+            'duration_months.max' => 'Durasi sewa maksimal 12 bulan.',
             'tenant_phone.regex' => 'Format nomor telepon / WhatsApp tidak valid.',
         ];
     }
 }
+

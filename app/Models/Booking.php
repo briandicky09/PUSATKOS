@@ -8,6 +8,24 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Booking extends Model
 {
+    /**
+     * Biaya administrasi standar sesuai aturan project.
+     */
+    public const DEFAULT_ADMIN_FEE = 25000.00;
+
+    /**
+     * Generate unique booking code server-side (format: BKG-YYYYMM-XXXXX).
+     */
+    public static function generateBookingCode(): string
+    {
+        do {
+            $random = strtoupper(\Illuminate\Support\Str::random(5));
+            $code = 'BKG-' . now()->format('Ym') . '-' . $random;
+        } while (static::where('booking_code', $code)->exists());
+
+        return $code;
+    }
+
     protected $fillable = [
         'customer_id',
         'kos_id',
@@ -62,4 +80,13 @@ class Booking extends Model
     {
         return $this->hasMany(Invoice::class, 'booking_id');
     }
+
+    /**
+     * Cek apakah status booking saat ini pending.
+     */
+    public function isPending(): bool
+    {
+        return $this->status === 'pending';
+    }
 }
+

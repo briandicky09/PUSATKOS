@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBookingRequest;
+use App\Models\Booking;
 use App\Models\Kos;
+use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class MemberController extends Controller
 {
@@ -17,6 +22,77 @@ class MemberController extends Controller
         $kos = $this->findKos($slug);
 
         return view('member.booking.index', compact('kos'));
+    }
+
+    /**
+     * Menyimpan data booking baru ke database.
+     */
+    public function store(StoreBookingRequest $request, string $slug): RedirectResponse
+    {
+        $kos = $this->findKos($slug);
+        $validated = $request->validated();
+
+        $durationMonths = (int) $validated['duration_months'];
+        $startDate = Carbon::parse($validated['start_date']);
+        $endDate = $startDate->copy()->addMonths($durationMonths);
+
+        // Perhitungan finansial strictly server-side
+        $kosPrice = (float) $kos->price;
+        $subtotal = $kosPrice * $durationMonths;
+        $adminFee = Booking::DEFAULT_ADMIN_FEE;
+        $totalAmount = $subtotal + $adminFee;
+
+        $booking = DB::transaction(function () use (
+            $request,
+            $kos,
+            $validated,
+            $durationMonths,
+            $startDate,
+            $endDate,
+            $kosPrice,
+            $subtotal,
+            $adminFee,
+            $totalAmount
+        ) {
+            return Booking::create([
+                'customer_id' => $request->user()->id,
+                'kos_id' => $kos->id,
+                'booking_code' => Booking::generateBookingCode(),
+                'tenant_name' => $validated['tenant_name'],
+                'tenant_phone' => $validated['tenant_phone'],
+                'tenant_email' => $validated['tenant_email'],
+                'start_date' => $startDate->format('Y-m-d'),
+                'end_date' => $endDate->format('Y-m-d'),
+                'duration_months' => $durationMonths,
+                'kos_price' => $kosPrice,
+                'subtotal' => $subtotal,
+                'admin_fee' => $adminFee,
+                'total_amount' => $totalAmount,
+                'notes' => $validated['notes'] ?? null,
+                'status' => 'pending',
+            ]);
+        });
+
+        return redirect()
+            ->route('member.booking.show', $booking->booking_code)
+            ->with('success', 'Booking berhasil dibuat! Pesanan Anda saat ini berstatus pending.');
+    }
+
+    /**
+     * Halaman detail booking untuk customer.
+     */
+    public function show(string $bookingCode): View
+    {
+        $booking = Booking::with(['kos.owner', 'customer'])
+            ->where('booking_code', $bookingCode)
+            ->firstOrFail();
+
+        // Otorisasi: Customer hanya berhak melihat booking miliknya sendiri
+        if ((int) $booking->customer_id !== (int) Auth::id()) {
+            abort(403, 'Akses ditolak. Anda tidak memiliki izin untuk melihat booking ini.');
+        }
+
+        return view('member.booking.show', compact('booking'));
     }
 
     /**
