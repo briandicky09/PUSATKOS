@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Invoice ' . $invoice['invoice_number'] . ' - PUSATKOS')
+@section('title', 'Invoice ' . (data_get($invoice, 'invoice_number') ?? '') . ' - PUSATKOS')
 
 @push('styles')
 <style>
@@ -144,7 +144,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('member.invoice.index') }}">Invoice Saya</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">{{ $invoice['invoice_number'] }}</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ data_get($invoice, 'invoice_number') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -159,21 +159,21 @@
                         <h1>Detail Invoice</h1>
                         <h5 class="ts-opacity__90">
                             <i class="fa fa-file-invoice text-primary mr-2"></i>
-                            {{ $invoice['invoice_number'] }}
+                            {{ data_get($invoice, 'invoice_number') }}
                         </h5>
                     </div>
                     <div>
-                        @if($invoice['status'] === 'Lunas')
+                        @if(in_array(data_get($invoice, 'status'), ['paid', 'Lunas']))
                             <span class="pk-inv-status pk-inv-status--lunas">
-                                <i class="fa fa-check-circle mr-1"></i>{{ $invoice['status'] }}
+                                <i class="fa fa-check-circle mr-1"></i>Lunas
                             </span>
-                        @elseif($invoice['status'] === 'Belum Dibayar')
+                        @elseif(in_array(data_get($invoice, 'status'), ['unpaid', 'Belum Dibayar']))
                             <span class="pk-inv-status pk-inv-status--pending">
-                                <i class="fa fa-clock mr-1"></i>{{ $invoice['status'] }}
+                                <i class="fa fa-clock mr-1"></i>Belum Dibayar
                             </span>
                         @else
                             <span class="pk-inv-status pk-inv-status--expired">
-                                <i class="fa fa-times-circle mr-1"></i>{{ $invoice['status'] }}
+                                <i class="fa fa-times-circle mr-1"></i>{{ ucfirst((string) data_get($invoice, 'status')) }}
                             </span>
                         @endif
                     </div>
@@ -196,7 +196,7 @@
                                 </div>
                                 <div class="text-right">
                                     <div style="font-size: 13px; opacity: 0.9;">Nomor Invoice</div>
-                                    <div style="font-size: 18px; font-weight: 700;">{{ $invoice['invoice_number'] }}</div>
+                                    <div style="font-size: 18px; font-weight: 700;">{{ data_get($invoice, 'invoice_number') }}</div>
                                 </div>
                             </div>
                         </div>
@@ -210,11 +210,11 @@
                                     <h6><i class="fa fa-user mr-2"></i>Informasi Penyewa</h6>
                                     <dl>
                                         <dt>Nama Penyewa</dt>
-                                        <dd>{{ $invoice['tenant_name'] }}</dd>
+                                        <dd>{{ data_get($invoice, 'booking.tenant_name') ?? data_get($invoice, 'customer.name') ?? data_get($invoice, 'tenant_name') ?? '-' }}</dd>
                                         <dt>Email</dt>
-                                        <dd>{{ $invoice['tenant_email'] }}</dd>
+                                        <dd>{{ data_get($invoice, 'booking.tenant_email') ?? data_get($invoice, 'customer.email') ?? data_get($invoice, 'tenant_email') ?? '-' }}</dd>
                                         <dt>No. Telepon</dt>
-                                        <dd>{{ $invoice['tenant_phone'] }}</dd>
+                                        <dd>{{ data_get($invoice, 'booking.tenant_phone') ?? data_get($invoice, 'customer.phone') ?? data_get($invoice, 'tenant_phone') ?? '-' }}</dd>
                                     </dl>
                                 </div>
                                 <div class="pk-inv-info-col">
@@ -222,20 +222,26 @@
                                     <dl>
                                         <dt>Nama Kos</dt>
                                         <dd>
-                                            <a href="{{ route('kos.show', $invoice['kos_slug'] ?? 'kos-putri-melati') }}">
-                                                {{ $invoice['kos'] }}
-                                            </a>
+                                            @if(data_get($invoice, 'kos.slug'))
+                                                <a href="{{ route('kos.show', data_get($invoice, 'kos.slug')) }}">
+                                                    {{ data_get($invoice, 'kos.title') }}
+                                                </a>
+                                            @else
+                                                {{ data_get($invoice, 'kos.title') ?? data_get($invoice, 'kos') ?? '-' }}
+                                            @endif
                                         </dd>
-                                        <dt>Metode Pembayaran</dt>
-                                        <dd>{{ $invoice['payment_method'] }}</dd>
+                                        @if(data_get($invoice, 'kos.address'))
+                                            <dt>Alamat Kos</dt>
+                                            <dd>{{ data_get($invoice, 'kos.address') }}{{ data_get($invoice, 'kos.city') ? ', ' . data_get($invoice, 'kos.city') : '' }}</dd>
+                                        @endif
                                         <dt>Status Pembayaran</dt>
                                         <dd>
-                                            @if($invoice['status'] === 'Lunas')
-                                                <span class="pk-inv-status pk-inv-status--lunas">{{ $invoice['status'] }}</span>
-                                            @elseif($invoice['status'] === 'Belum Dibayar')
-                                                <span class="pk-inv-status pk-inv-status--pending">{{ $invoice['status'] }}</span>
+                                            @if(in_array(data_get($invoice, 'status'), ['paid', 'Lunas']))
+                                                <span class="pk-inv-status pk-inv-status--lunas">Lunas</span>
+                                            @elseif(in_array(data_get($invoice, 'status'), ['unpaid', 'Belum Dibayar']))
+                                                <span class="pk-inv-status pk-inv-status--pending">Belum Dibayar</span>
                                             @else
-                                                <span class="pk-inv-status pk-inv-status--expired">{{ $invoice['status'] }}</span>
+                                                <span class="pk-inv-status pk-inv-status--expired">{{ ucfirst((string) data_get($invoice, 'status')) }}</span>
                                             @endif
                                         </dd>
                                     </dl>
@@ -249,19 +255,21 @@
                                 <div class="pk-inv-info-col">
                                     <h6><i class="fa fa-calendar-alt mr-2"></i>Detail Waktu</h6>
                                     <dl>
-                                        <dt>Tanggal Booking</dt>
-                                        <dd>{{ $invoice['booking_date'] }}</dd>
-                                        <dt>Check In</dt>
-                                        <dd>{{ $invoice['check_in'] }}</dd>
+                                        <dt>Tanggal Invoice</dt>
+                                        <dd>{{ data_get($invoice, 'created_at') ? \Carbon\Carbon::parse(data_get($invoice, 'created_at'))->format('d M Y') : '-' }}</dd>
+                                        <dt>Tanggal Mulai Sewa</dt>
+                                        <dd>{{ data_get($invoice, 'booking.start_date') ? \Carbon\Carbon::parse(data_get($invoice, 'booking.start_date'))->format('d M Y') : (data_get($invoice, 'check_in') ?? '-') }}</dd>
+                                        <dt>Jatuh Tempo</dt>
+                                        <dd>{{ data_get($invoice, 'due_date') ? \Carbon\Carbon::parse(data_get($invoice, 'due_date'))->format('d M Y') : '-' }}</dd>
                                     </dl>
                                 </div>
                                 <div class="pk-inv-info-col">
                                     <h6>&nbsp;</h6>
                                     <dl>
-                                        <dt>Check Out</dt>
-                                        <dd>{{ $invoice['check_out'] }}</dd>
-                                        <dt>Durasi Menginap</dt>
-                                        <dd>{{ $invoice['duration'] }}</dd>
+                                        <dt>Tanggal Selesai</dt>
+                                        <dd>{{ data_get($invoice, 'booking.end_date') ? \Carbon\Carbon::parse(data_get($invoice, 'booking.end_date'))->format('d M Y') : (data_get($invoice, 'check_out') ?? '-') }}</dd>
+                                        <dt>Durasi</dt>
+                                        <dd>{{ data_get($invoice, 'booking.duration_months') ? data_get($invoice, 'booking.duration_months') . ' Bulan' : (data_get($invoice, 'duration') ?? '-') }}</dd>
                                     </dl>
                                 </div>
                             </div>
@@ -284,43 +292,45 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Biaya Sewa - {{ $invoice['kos'] }}</td>
-                                            <td>{{ $invoice['duration'] }}</td>
-                                            <td class="text-right">Rp {{ number_format($invoice['amount'], 0, ',', '.') }}</td>
+                                            <td>Biaya Sewa - {{ data_get($invoice, 'kos.title') ?? data_get($invoice, 'kos') ?? 'Kos' }}</td>
+                                            <td>{{ data_get($invoice, 'booking.duration_months') ? data_get($invoice, 'booking.duration_months') . ' Bulan' : (data_get($invoice, 'duration') ?? '-') }}</td>
+                                            <td class="text-right">Rp {{ number_format((float) (data_get($invoice, 'amount') ?? 0), 0, ',', '.') }}</td>
                                         </tr>
                                         <tr>
                                             <td>Biaya Admin</td>
                                             <td>-</td>
-                                            <td class="text-right">Rp {{ number_format($invoice['admin_fee'], 0, ',', '.') }}</td>
+                                            <td class="text-right">Rp {{ number_format((float) (data_get($invoice, 'admin_fee') ?? 25000), 0, ',', '.') }}</td>
                                         </tr>
+                                        @if((float) (data_get($invoice, 'tax') ?? 0) > 0)
                                         <tr>
                                             <td>Pajak</td>
                                             <td>-</td>
-                                            <td class="text-right">Rp {{ number_format($invoice['tax'], 0, ',', '.') }}</td>
+                                            <td class="text-right">Rp {{ number_format((float) (data_get($invoice, 'tax') ?? 0), 0, ',', '.') }}</td>
                                         </tr>
+                                        @endif
                                     </tbody>
                                     <tfoot>
                                         <tr>
                                             <td colspan="2"><strong>Total Pembayaran</strong></td>
                                             <td class="text-right text-primary" style="font-size: 18px;">
-                                                <strong>Rp {{ number_format($invoice['total'], 0, ',', '.') }}</strong>
+                                                <strong>Rp {{ number_format((float) (data_get($invoice, 'total_amount') ?? data_get($invoice, 'total') ?? 0), 0, ',', '.') }}</strong>
                                             </td>
                                         </tr>
                                     </tfoot>
                                 </table>
                             </div>
 
-                            @if($invoice['paid_at'])
+                            @if(data_get($invoice, 'paid_at'))
                             <div class="pk-inv-divider"></div>
                             <div class="alert alert-success mb-0" style="border-radius: 6px;">
                                 <i class="fa fa-check-circle mr-2"></i>
-                                Pembayaran telah diterima pada <strong>{{ $invoice['paid_at'] }}</strong> via <strong>{{ $invoice['payment_method'] }}</strong>.
+                                Pembayaran telah diterima pada <strong>{{ \Carbon\Carbon::parse(data_get($invoice, 'paid_at'))->format('d M Y H:i') }}</strong>.
                             </div>
-                            @elseif($invoice['status'] === 'Belum Dibayar')
+                            @elseif(in_array(data_get($invoice, 'status'), ['unpaid', 'Belum Dibayar']))
                             <div class="pk-inv-divider"></div>
                             <div class="alert alert-warning mb-0" style="border-radius: 6px;">
                                 <i class="fa fa-exclamation-triangle mr-2"></i>
-                                Invoice ini belum dibayar. Batas pembayaran: <strong>{{ $invoice['due_date'] }}</strong>.
+                                Invoice ini belum dibayar. Batas pembayaran (jatuh tempo): <strong>{{ data_get($invoice, 'due_date') ? \Carbon\Carbon::parse(data_get($invoice, 'due_date'))->format('d M Y') : '-' }}</strong>.
                             </div>
                             @endif
 

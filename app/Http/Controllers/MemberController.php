@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBookingRequest;
 use App\Models\Booking;
+use App\Models\Invoice;
 use App\Models\Kos;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -54,7 +55,7 @@ class MemberController extends Controller
             $adminFee,
             $totalAmount
         ) {
-            return Booking::create([
+            $booking = Booking::create([
                 'customer_id' => $request->user()->id,
                 'kos_id' => $kos->id,
                 'booking_code' => Booking::generateBookingCode(),
@@ -71,6 +72,11 @@ class MemberController extends Controller
                 'notes' => $validated['notes'] ?? null,
                 'status' => 'pending',
             ]);
+
+            // Buat Invoice secara otomatis di dalam DB::transaction yang sama
+            Invoice::createFromBooking($booking);
+
+            return $booking;
         });
 
         return redirect()
@@ -149,115 +155,35 @@ class MemberController extends Controller
     }
 
     /**
-     * Data dummy invoice untuk member.
-     * Nantinya diganti dengan query ke model Invoice.
-     */
-    protected function dummyInvoices(): array
-    {
-        return [
-            [
-                'invoice_number' => 'INV-2026-08-0001',
-                'kos' => 'Kos Putri Melati',
-                'kos_slug' => 'kos-putri-melati',
-                'tenant_name' => 'Dewi Sartika',
-                'tenant_email' => 'dewi@email.com',
-                'tenant_phone' => '+62 812-3456-7890',
-                'amount' => 850000,
-                'admin_fee' => 25000,
-                'tax' => 0,
-                'total' => 875000,
-                'status' => 'Lunas',
-                'payment_method' => 'Transfer Bank BCA',
-                'booking_date' => '1 Agustus 2026',
-                'check_in' => '5 Agustus 2026',
-                'check_out' => '5 September 2026',
-                'duration' => '1 Bulan',
-                'due_date' => '3 Agustus 2026',
-                'paid_at' => '2 Agustus 2026',
-            ],
-            [
-                'invoice_number' => 'INV-2026-07-0003',
-                'kos' => 'Kos Putri Melati',
-                'kos_slug' => 'kos-putri-melati',
-                'tenant_name' => 'Dewi Sartika',
-                'tenant_email' => 'dewi@email.com',
-                'tenant_phone' => '+62 812-3456-7890',
-                'amount' => 850000,
-                'admin_fee' => 25000,
-                'tax' => 0,
-                'total' => 875000,
-                'status' => 'Lunas',
-                'payment_method' => 'E-Wallet GoPay',
-                'booking_date' => '28 Juni 2026',
-                'check_in' => '5 Juli 2026',
-                'check_out' => '5 Agustus 2026',
-                'duration' => '1 Bulan',
-                'due_date' => '30 Juni 2026',
-                'paid_at' => '29 Juni 2026',
-            ],
-            [
-                'invoice_number' => 'INV-2026-08-0005',
-                'kos' => 'Kos Eksklusif Mawar',
-                'kos_slug' => 'kos-eksklusif-mawar',
-                'tenant_name' => 'Dewi Sartika',
-                'tenant_email' => 'dewi@email.com',
-                'tenant_phone' => '+62 812-3456-7890',
-                'amount' => 1500000,
-                'admin_fee' => 25000,
-                'tax' => 0,
-                'total' => 1525000,
-                'status' => 'Belum Dibayar',
-                'payment_method' => '-',
-                'booking_date' => '5 Agustus 2026',
-                'check_in' => '10 Agustus 2026',
-                'check_out' => '10 September 2026',
-                'duration' => '1 Bulan',
-                'due_date' => '8 Agustus 2026',
-                'paid_at' => null,
-            ],
-            [
-                'invoice_number' => 'INV-2026-06-0002',
-                'kos' => 'Kos Putra Anggrek',
-                'kos_slug' => 'kos-putra-anggrek',
-                'tenant_name' => 'Dewi Sartika',
-                'tenant_email' => 'dewi@email.com',
-                'tenant_phone' => '+62 812-3456-7890',
-                'amount' => 750000,
-                'admin_fee' => 25000,
-                'tax' => 0,
-                'total' => 775000,
-                'status' => 'Kadaluarsa',
-                'payment_method' => '-',
-                'booking_date' => '1 Juni 2026',
-                'check_in' => '5 Juni 2026',
-                'check_out' => '5 Juli 2026',
-                'duration' => '1 Bulan',
-                'due_date' => '3 Juni 2026',
-                'paid_at' => null,
-            ],
-        ];
-    }
-
-    /**
-     * Halaman daftar invoice member.
+     * Halaman daftar invoice member (berdasarkan customer yang sedang login).
      */
     public function invoice(): View
     {
-        $invoices = $this->dummyInvoices();
+        $invoices = Invoice::with(['booking', 'kos'])
+            ->where('customer_id', Auth::id())
+            ->latest('id')
+            ->get();
 
         return view('member.invoice.index', compact('invoices'));
     }
 
     /**
-     * Halaman detail invoice member.
+     * Halaman detail invoice member (dengan proteksi otorisasi anti-IDOR).
      */
     public function invoiceDetail(string $nomor): View
     {
-        $invoice = collect($this->dummyInvoices())->firstWhere('invoice_number', $nomor);
+        $invoice = Invoice::with(['booking.kos', 'kos', 'customer', 'payments'])
+            ->where(function ($query) use ($nomor) {
+                $query->where('invoice_number', $nomor);
+                if (is_numeric($nomor)) {
+                    $query->orWhere('id', $nomor);
+                }
+            })
+            ->firstOrFail();
 
-        if (!$invoice) {
-            $invoice = $this->dummyInvoices()[0];
-            $invoice['invoice_number'] = $nomor;
+        // Otorisasi: Customer hanya berhak melihat invoice miliknya sendiri
+        if ((int) $invoice->customer_id !== (int) Auth::id()) {
+            abort(403, 'Akses ditolak. Anda tidak memiliki izin untuk melihat invoice ini.');
         }
 
         return view('member.invoice.show', compact('invoice'));

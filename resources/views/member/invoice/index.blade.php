@@ -112,9 +112,9 @@
                 <div class="pk-invoice-summary">
                     @php
                         $totalInvoice = count($invoices);
-                        $totalLunas = collect($invoices)->where('status', 'Lunas')->count();
-                        $totalBelum = collect($invoices)->where('status', 'Belum Dibayar')->count();
-                        $totalAmount = collect($invoices)->sum('total');
+                        $totalLunas = collect($invoices)->filter(fn($i) => in_array(data_get($i, 'status'), ['paid', 'Lunas']))->count();
+                        $totalBelum = collect($invoices)->filter(fn($i) => in_array(data_get($i, 'status'), ['unpaid', 'Belum Dibayar']))->count();
+                        $totalAmount = collect($invoices)->sum(fn($i) => (float) (data_get($i, 'total_amount') ?? data_get($i, 'total')));
                     @endphp
                     <div class="pk-summary-item">
                         <div class="pk-summary-value">{{ $totalInvoice }}</div>
@@ -153,28 +153,28 @@
                                     @forelse($invoices as $invoice)
                                     <tr>
                                         <td>
-                                            <strong>{{ $invoice['invoice_number'] }}</strong>
+                                            <strong>{{ data_get($invoice, 'invoice_number') }}</strong>
                                         </td>
-                                        <td>{{ $invoice['kos'] }}</td>
-                                        <td>{{ $invoice['booking_date'] }}</td>
+                                        <td>{{ data_get($invoice, 'kos.title') ?? data_get($invoice, 'kos') ?? '-' }}</td>
+                                        <td>{{ data_get($invoice, 'created_at') ? \Carbon\Carbon::parse(data_get($invoice, 'created_at'))->format('d M Y') : '-' }}</td>
                                         <td>
-                                            @if($invoice['status'] === 'Lunas')
+                                            @if(in_array(data_get($invoice, 'status'), ['paid', 'Lunas']))
                                                 <span class="pk-status-badge pk-status-badge--lunas">
-                                                    <i class="fa fa-check-circle mr-1"></i>{{ $invoice['status'] }}
+                                                    <i class="fa fa-check-circle mr-1"></i>Lunas
                                                 </span>
-                                            @elseif($invoice['status'] === 'Belum Dibayar')
+                                            @elseif(in_array(data_get($invoice, 'status'), ['unpaid', 'Belum Dibayar']))
                                                 <span class="pk-status-badge pk-status-badge--pending">
-                                                    <i class="fa fa-clock mr-1"></i>{{ $invoice['status'] }}
+                                                    <i class="fa fa-clock mr-1"></i>Belum Dibayar
                                                 </span>
                                             @else
                                                 <span class="pk-status-badge pk-status-badge--expired">
-                                                    <i class="fa fa-times-circle mr-1"></i>{{ $invoice['status'] }}
+                                                    <i class="fa fa-times-circle mr-1"></i>{{ ucfirst((string) data_get($invoice, 'status')) }}
                                                 </span>
                                             @endif
                                         </td>
-                                        <td><strong>Rp {{ number_format($invoice['total'], 0, ',', '.') }}</strong></td>
+                                        <td><strong>Rp {{ number_format((float) (data_get($invoice, 'total_amount') ?? data_get($invoice, 'total')), 0, ',', '.') }}</strong></td>
                                         <td class="text-center">
-                                            <a href="{{ route('member.invoice.show', $invoice['invoice_number']) }}"
+                                            <a href="{{ route('member.invoice.show', data_get($invoice, 'invoice_number')) }}"
                                                class="btn btn-outline-primary btn-sm">
                                                 <i class="fa fa-eye mr-1"></i>Detail
                                             </a>

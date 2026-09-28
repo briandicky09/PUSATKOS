@@ -82,6 +82,14 @@ class Booking extends Model
     }
 
     /**
+     * Invoice tagihan utama untuk booking ini.
+     */
+    public function invoice(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Invoice::class, 'booking_id');
+    }
+
+    /**
      * Cek apakah status booking saat ini pending.
      */
     public function isPending(): bool
