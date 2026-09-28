@@ -1,105 +1,155 @@
-# PUSATKOS - Laravel 12
+# PUSATKOS
 
-Hasil konversi template frontend **PUSATKOS-LandingPage-part3** menjadi struktur project **Laravel 12** (Blade + Bootstrap bawaan template), tanpa mengubah desain.
+PUSATKOS adalah aplikasi web pencarian dan pengelolaan kos berbasis Laravel 12. Aplikasi ini dirancang untuk kebutuhan tiga peran utama:
 
-## Isi project ini
+- Pengunjung umum mencari kos
+- Owner kos mengelola properti dan data listing
+- Customer/member yang ingin melihat detail kos, booking, invoice, dan profil
 
-Project ini berisi bagian-bagian yang **spesifik untuk PUSATKOS** (hasil konversi):
+Project ini menggunakan Blade templating, Bootstrap, dan struktur Laravel modern dengan routing, controller, model, serta view yang sudah dipisah sesuai area fungsi.
 
-- `app/Http/Controllers/` — HomeController, AuthController, OwnerKosController, CustomerKosController
-- `app/Models/` — Kos, Invoice, User
-- `routes/web.php` — semua route sesuai spesifikasi
-- `resources/views/` — seluruh layout, partial, dan halaman Blade
-- `public/assets/` — seluruh CSS, JS, font, gambar dari template ZIP asli (tidak diubah)
-- `composer.json`, `artisan`, `bootstrap/app.php`, `bootstrap/providers.php`, `public/index.php`, `.env.example` — kerangka dasar Laravel 12
+## Fitur utama
 
-Karena project ini dibangun manual di lingkungan tanpa akses ke Packagist/Composer, file-file **skeleton standar Laravel** (folder `config/*.php` selain `app.php`, `database/migrations` bawaan, `tests/`, dsb) **belum disertakan**. File-file itu identik di semua project Laravel 12 baru dan paling aman diambil dari installer resmi Laravel, seperti langkah di bawah.
+- Homepage PUSATKOS dengan rekomendasi kos unggulan
+- Halaman pencarian dan detail kos publik
+- Login dan registrasi untuk member/owner
+- Area owner untuk:
+  - dashboard
+  - daftar kos
+  - tambah/edit/hapus kos
+  - penilaian
+  - statistik
+  - notifikasi
+- Area customer/member untuk:
+  - melihat kos
+  - booking
+  - invoice
+  - profil dan notifikasi
+- Struktur route yang sudah dibagi berdasarkan role dan area fitur
+- UI dibuat konsisten dengan template frontend yang sebelumnya dikonversi ke Laravel
 
-## Cara menjalankan
+## Tech stack
 
-### 1. Buat skeleton Laravel 12 resmi di folder terpisah
+- Laravel 12
+- PHP 8.2
+- Blade
+- Bootstrap
+- MySQL / SQLite / database sesuai konfigurasi local
+
+## Struktur project
 
 ```bash
-composer create-project laravel/laravel:^12.0 pusatkos-fresh
+app/
+├── Http/
+│   ├── Controllers/
+│   └── Requests/
+├── Models/
+├── Policies/
+├── Providers/
+config/
+database/
+public/
+resources/
+├── views/
+routes/
+storage/
+tests/
+.env.example
+artisan
+composer.json
+phpunit.xml
 ```
 
-### 2. Salin folder project ini ke atas skeleton tersebut
+## Persyaratan
 
-Salin (timpa) folder-folder berikut dari project **pusatkos-laravel** (hasil konversi ini) ke dalam `pusatkos-fresh`:
+- PHP ^8.2
+- Composer
+- Database (MySQL/PostgreSQL/SQLite)
+- Web server lokal (misalnya Laravel artisan serve)
 
-```
-app/Http/Controllers/
-app/Models/
-routes/web.php
-resources/views/
-public/assets/
-```
+## Instalasi
 
-Contoh (dari dalam folder pusatkos-fresh):
+1. Clone repository:
 
 ```bash
-cp -r ../pusatkos-laravel/app/Http/Controllers/* app/Http/Controllers/
-cp -r ../pusatkos-laravel/app/Models/* app/Models/
-cp ../pusatkos-laravel/routes/web.php routes/web.php
-rm -rf resources/views && cp -r ../pusatkos-laravel/resources/views resources/views
-cp -r ../pusatkos-laravel/public/assets public/assets
+git clone https://github.com/briandicky09/PUSATKOS.git
+cd PUSATKOS
 ```
 
-### 3. Install dependency & jalankan
+2. Install dependency PHP:
 
 ```bash
 composer install
+```
+
+3. Copy file environment:
+
+```bash
+cp .env.example .env
+```
+
+4. Generate application key:
+
+```bash
 php artisan key:generate
+```
+
+5. Konfigurasi database di file `.env`.
+
+Contoh konfigurasi MySQL:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=pusatkos
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+6. Jalankan migrasi database:
+
+```bash
+php artisan migrate
+```
+
+7. Jalankan aplikasi:
+
+```bash
 php artisan serve
 ```
 
-Buka `http://localhost:8000`.
+Akses aplikasi di:
 
-> Jika Anda sudah punya Laravel 12 terinstall dan hanya ingin lihat isi konversinya, seluruh logika ada di `app/`, `routes/web.php`, dan `resources/views/` — cukup salin ketiga folder itu.
+```text
+http://localhost:8000
+```
 
-## Struktur Route
+## Route penting
 
-| Method | URI                      | Nama Route             | Controller                          |
-|--------|---------------------------|-------------------------|--------------------------------------|
-| GET    | `/`                        | `home`                  | HomeController@index                 |
-| GET    | `/login`                   | `login`                 | AuthController@showLogin             |
-| GET    | `/register`                | `register`               | AuthController@showRegister          |
-| GET    | `/owner/kos`                | `owner.kos.index`        | OwnerKosController@index             |
-| GET    | `/owner/kos/create`          | `owner.kos.create`       | OwnerKosController@create            |
-| GET    | `/owner/kos/{slug}`          | `owner.kos.show`         | OwnerKosController@show              |
-| GET    | `/customer/kos`              | `customer.kos.index`     | CustomerKosController@index          |
-| GET    | `/customer/invoice`          | `customer.invoice.index` | CustomerKosController@invoice        |
+Beberapa route utama yang tersedia:
 
-## Mapping halaman template → Blade
+```text
+/
+/login
+/register
+/kos
+/kos/{slug}
+/owner
+/owner/kos
+/owner/kos/create
+/customer/kos
+/member
+```
 
-| Template ZIP     | Blade View                              | Route                    |
-|-------------------|-------------------------------------------|----------------------------|
-| `index.html`       | `resources/views/home/index.blade.php`     | `home`                     |
-| `login.html`        | `resources/views/auth/login.blade.php`      | `login`                    |
-| `register.html`      | `resources/views/auth/register.blade.php`    | `register`                 |
-| `search.html`         | `resources/views/owner/kos/index.blade.php`   | `owner.kos.index`          |
-| `detail-01.html`       | `resources/views/owner/kos/show.blade.php`     | `owner.kos.show`           |
-| `payment.html`          | `resources/views/customer/invoice/index.blade.php` | `customer.invoice.index`   |
-| *(tidak ada di template)* | `resources/views/owner/kos/create.blade.php`    | `owner.kos.create`         |
-| *(tidak ada di template)* | `resources/views/customer/kos/index.blade.php`   | `customer.kos.index`       |
+## Status project
 
-Dua halaman terakhir (`owner/kos/create` dan `customer/kos/index`) belum ada di template ZIP, jadi dibuat baru dengan gaya visual (card, ts-form, warna, spacing) yang konsisten dengan halaman lain di template.
+Project ini masih dalam tahap pengembangan fitur, dengan fokus utama pada struktur aplikasi, manajemen kos, autentikasi, dan alur role-based access.
 
-## Data dummy
+## Kontribusi
 
-Semua halaman saat ini menggunakan **data dummy** dari masing-masing Controller (belum terhubung database):
+Pull request dan saran pengembangan sangat terbuka. Untuk perubahan besar, disarankan untuk membuka issue terlebih dahulu agar arah pengembangan dapat dibahas lebih jelas.
 
-- `HomeController` → `$featuredKos`
-- `OwnerKosController` → `$listKos`, `$kos`
-- `CustomerKosController` → `$rentedKos`, `$invoices`
+## Lisensi
 
-Model `Kos`, `Invoice`, dan `User` sudah dibuat namun masih kosong (belum ada migration/query), siap dikembangkan ke CRUD, autentikasi, booking, dan pembayaran sungguhan di tahap berikutnya.
-
-## Catatan penting
-
-- Desain, warna, layout, dan seluruh asset (CSS/JS/font/gambar) **tidak diubah** — 100% memakai file dari ZIP.
-- Semua path asset memakai `{{ asset('assets/...') }}`.
-- Semua link antar halaman memakai `{{ route(...) }}`.
-- Layout dipisah: `layouts/app.blade.php` (halaman publik), `layouts/owner.blade.php` & `layouts/customer.blade.php` (halaman dengan sidebar area akun).
-- Partial: `navbar`, `footer`, `alert`, `owner-sidebar`, `customer-sidebar`.
-- Form login/register/tambah-kos/booking sudah diberi `@csrf` dan `action` placeholder (`action="#"`) dengan komentar `TODO`, siap dihubungkan ke route POST + validasi ketika autentikasi/CRUD diimplementasikan.
+Project ini menggunakan lisensi MIT.
