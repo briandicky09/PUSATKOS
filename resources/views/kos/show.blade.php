@@ -13,7 +13,7 @@
 
         <!--BREADCRUMB
         =========================================================================================================-->
-        <section id="breadcrumb">
+        <section id="breadcrumb" class="pb-2">
             <div class="container">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
@@ -25,33 +25,7 @@
             </div>
         </section>
 
-        <!--PAGE TITLE
-        =========================================================================================================-->
-        <section id="page-title">
-            <div class="container">
-
-                <div class="d-block d-sm-flex justify-content-between">
-
-                    <!--Title-->
-                    <div class="ts-title mb-0">
-                        <h1>{{ $kos['title'] }}</h1>
-                        <h5 class="ts-opacity__90">
-                            <i class="fa fa-map-marker text-primary"></i>
-                            {{ $kos['address'] ?? $kos['city'] }}
-                        </h5>
-                    </div>
-
-                    <!--Price-->
-                    <h3>
-                        <span class="badge badge-primary p-3 font-weight-normal ts-shadow__sm">Rp {{ number_format($kos['price'], 0, ',', '.') }} /bln</span>
-                    </h3>
-
-                </div>
-
-            </div>
-        </section>
-
-        <!--GALLERY CAROUSEL
+        <!--GALLERY CAROUSEL (Pertahankan layout gambar)
         =========================================================================================================-->
         <section id="gallery-carousel">
 
@@ -92,15 +66,274 @@
 
         </section>
 
-        <!--CONTENT
+        <!--CONTENT (Nama kos berada di bawah gambar album - Layout referensi)
         =========================================================================================================-->
-        <section id="content">
+        <section id="content" class="pt-4">
             <div class="container">
-                <div class="row flex-wrap-reverse">
+                <div class="row">
 
-                    <!--LEFT SIDE
+                    <!--LEFT SIDE: MAIN CONTENT (Title, Badges, Quick Info, Description, Amenities, Map, Reviews)
+                    =============================================================================================-->
+                    <div class="col-md-7 col-lg-8">
+
+                        <!--NAMA KOS & BADGES (Di bawah gambar album sesuai referensi)-->
+                        <div id="page-title" class="mb-4">
+                            <div class="mb-2">
+                                <span class="badge badge-primary px-3 py-1 font-weight-normal" style="border-radius: 4px;">
+                                    <i class="fa fa-check-circle mr-1"></i>PUSATKOS Verified
+                                </span>
+                            </div>
+
+                            <h1 class="font-weight-bold text-dark mb-2" style="font-size: 2rem; line-height: 1.3;">
+                                {{ $kos['title'] }}
+                            </h1>
+
+                            <div class="d-flex flex-wrap align-items-center text-muted" style="gap: 10px; font-size: 0.95rem;">
+                                <span class="badge badge-light border text-dark px-2 py-1 font-weight-normal" style="border-radius: 4px;">
+                                    Kos {{ $kos['type'] ?? 'Campur' }}
+                                </span>
+                                <span>&bull;</span>
+                                <span>
+                                    <i class="fa fa-map-marker-alt text-primary mr-1"></i>
+                                    {{ $kos['address'] ?? $kos['city'] }}
+                                </span>
+                                @if(!empty($kos['rating']))
+                                    <span>&bull;</span>
+                                    <span>
+                                        <i class="fa fa-star text-warning mr-1"></i>
+                                        <strong>{{ number_format($kos['rating'], 1) }}</strong> ({{ $kos['review_count'] ?? 0 }} ulasan)
+                                    </span>
+                                @endif
+                                <span class="badge badge-{{ ($kos['status'] ?? 'active') === 'active' ? 'success' : 'secondary' }} ml-auto py-1 px-2" style="border-radius: 4px;">
+                                    {{ ($kos['status'] ?? 'active') === 'active' ? 'Tersedia' : 'Penuh' }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <hr class="mb-4">
+
+                        <!--QUICK INFO
+                        =========================================================================================-->
+                        <section id="quick-info">
+                            <h3>Info Singkat</h3>
+
+                            <!--Quick Info-->
+                            <div class="ts-quick-info ts-box">
+
+                                <!--Row-->
+                                <div class="row no-gutters">
+
+                                    <!--Bathrooms-->
+                                    <div class="col-sm-3">
+                                        <div class="ts-quick-info__item"
+                                            data-bg-image="{{ asset('assets/img/icon-quick-info-shower.png') }}">
+                                            <h6>K. Mandi</h6>
+                                            <figure>{{ $kos['bathrooms'] ?? '1' }}</figure>
+                                        </div>
+                                    </div>
+
+                                    <!--Bedrooms-->
+                                    <div class="col-sm-3">
+                                        <div class="ts-quick-info__item"
+                                            data-bg-image="{{ asset('assets/img/icon-quick-info-bed.png') }}">
+                                            <h6>Kamar Tidur</h6>
+                                            <figure>{{ $kos['bedrooms'] ?? '1' }}</figure>
+                                        </div>
+                                    </div>
+
+                                    <!--Area-->
+                                    <div class="col-sm-3">
+                                        <div class="ts-quick-info__item"
+                                            data-bg-image="{{ asset('assets/img/icon-quick-info-area.png') }}">
+                                            <h6>Luas</h6>
+                                            <figure>{{ $kos['area'] ?? '-' }}m<sup>2</sup></figure>
+                                        </div>
+                                    </div>
+
+                                    <!--Garages-->
+                                    <div class="col-sm-3">
+                                        <div class="ts-quick-info__item"
+                                            data-bg-image="{{ asset('assets/img/icon-quick-info-garages.png') }}">
+                                            <h6>Parkir</h6>
+                                            <figure>{{ $kos['garages'] ?? '-' }}</figure>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!--end row-->
+
+                            </div>
+                            <!--end ts-quick-info-->
+
+                        </section>
+
+                        <!--DESCRIPTION
+                        =========================================================================================-->
+                        <section id="description">
+
+                            <h3>Deskripsi</h3>
+
+                            <p>{{ $kos['description'] ?? 'Deskripsi belum tersedia.' }}</p>
+
+                        </section>
+
+                        @if(!empty($kos['features']))
+                        <!--FEATURES
+                        =========================================================================================-->
+                        <section id="features">
+
+                            <h3>Fasilitas Utama</h3>
+
+                            <ul class="list-unstyled ts-list-icons ts-column-count-4 ts-column-count-sm-2 ts-column-count-md-2">
+                                @foreach($kos['features'] as $feature)
+                                <li>
+                                    <i class="fa {{ $feature['icon'] }}"></i>
+                                    {{ $feature['name'] }}
+                                </li>
+                                @endforeach
+                            </ul>
+
+                        </section>
+                        @endif
+
+                        <!--AMENITIES
+                        =========================================================================================-->
+                        <section id="amenities">
+
+                            <h3>Fasilitas Kos</h3>
+
+                            @if(isset($kos->facilities) && $kos->facilities->isNotEmpty())
+                                <div class="d-flex flex-wrap mb-4">
+                                    @foreach($kos->facilities as $facility)
+                                        <span class="badge badge-light border text-dark mr-2 mb-2 p-2" style="font-size: 0.9rem; font-weight: 500;">
+                                            <i class="fa fa-check-circle text-primary mr-1"></i>{{ $facility->name }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            @elseif(!empty($kos['facilities']))
+                                <ul class="ts-list-colored-bullets ts-text-color-light ts-column-count-3 ts-column-count-md-2">
+                                    @foreach($kos['facilities'] as $facility)
+                                        <li>{{ is_object($facility) ? $facility->name : $facility }}</li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                <p class="text-muted">Belum ada fasilitas yang ditambahkan.</p>
+                            @endif
+
+                        </section>
+
+                        <!--MAP PLACEHOLDER
+                        =========================================================================================-->
+                        <section id="map-location">
+
+                            <h3>Peta Lokasi</h3>
+
+                            <div class="ts-box text-center py-5" style="background-color: #f5f7f9;">
+                                <i class="fa fa-map-marked-alt fa-3x text-muted mb-3"></i>
+                                <p class="text-muted mb-0">Peta lokasi akan segera tersedia.</p>
+                                <p class="text-muted mb-0"><small>{{ $kos['address'] ?? $kos['city'] }}</small></p>
+                            </div>
+
+                        </section>
+
+                        <!--REVIEWS
+                        =============================================================================================-->
+                        <section id="reviews" class="pk-reviews mt-4">
+                            <hr class="mb-4">
+
+                            <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+                                <div>
+                                    <h3 class="mb-1">Ulasan Penghuni</h3>
+                                    <p class="text-muted mb-0">Pengalaman penghuni di {{ $kos['title'] }}</p>
+                                </div>
+                                <div class="pk-reviews__summary">
+                                    <i class="fa fa-star"></i>
+                                    <strong>{{ number_format($kos['rating'] ?? 0, 1) }}</strong>
+                                    <span>({{ $kos['review_count'] ?? 0 }} ulasan)</span>
+                                </div>
+                            </div>
+
+                            <div class="ts-box pk-reviews__breakdown mb-4">
+                                <div class="row">
+                                    @foreach($kos['rating_breakdown'] ?? [] as $rating)
+                                    <div class="col-md-6 mb-3 mb-md-2">
+                                        <div class="pk-review-score">
+                                            <span>{{ $rating['label'] }}</span>
+                                            <span class="pk-review-score__stars" aria-label="Rating {{ $rating['score'] }} dari 5">
+                                                @for($star = 1; $star <= 5; $star++)
+                                                    <i class="fa fa-star{{ $star <= round($rating['score']) ? '' : '-o' }}"></i>
+                                                @endfor
+                                            </span>
+                                            <strong>{{ number_format($rating['score'], 1) }}</strong>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            @foreach($kos['reviews'] ?? [] as $review)
+                            <article class="pk-review-item mb-3">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="d-flex align-items-center">
+                                        <div class="pk-review-item__avatar"><i class="fa fa-user"></i></div>
+                                        <div>
+                                            <h5 class="mb-1">{{ $review['name'] }}</h5>
+                                            <small class="text-muted">{{ $review['date'] }}</small>
+                                        </div>
+                                    </div>
+                                    <span class="pk-review-item__score"><i class="fa fa-star"></i> {{ number_format($review['score'], 1) }}</span>
+                                </div>
+                                <p class="mb-0 mt-3">{{ $review['comment'] }}</p>
+
+                                @if(!empty($review['reply']))
+                                <div class="pk-review-item__reply mt-2">
+                                    <strong>Balasan dari Pemilik Kos</strong>
+                                    <p class="mb-0 mt-1">{{ $review['reply'] }}</p>
+                                </div>
+                                @endif
+                            </article>
+                            @endforeach
+                        </section>
+
+                    </div>
+                    <!--end col-md-7 col-lg-8-->
+
+                    <!--RIGHT SIDE: SIDEBAR (Card Sewa/Booking, Details, Hubungi Pemilik, Lokasi, Actions)
                     =============================================================================================-->
                     <div class="col-md-5 col-lg-4">
+
+                        <!--STICKY BOOKING CARD (Sesuai Referensi Gambar 2)-->
+                        <div class="ts-box ts-shadow__sm mb-4" style="position: sticky; top: 100px; z-index: 10; border-radius: 8px;">
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="text-danger small font-weight-bold">
+                                        <i class="fa fa-bolt mr-1"></i>Harga Sewa
+                                    </span>
+                                    <span class="badge badge-light border text-muted small">Per Bulan</span>
+                                </div>
+
+                                <div class="d-flex align-items-baseline mb-3">
+                                    <h2 class="text-primary font-weight-bold mb-0">
+                                        Rp {{ number_format($kos['price'], 0, ',', '.') }}
+                                    </h2>
+                                    <span class="text-muted ml-2">/bln</span>
+                                </div>
+
+                                <hr class="my-3">
+
+                                <div class="d-flex flex-column" style="gap: 10px;">
+                                    <a href="{{ route('member.booking.create', $kos['slug']) }}"
+                                        class="btn btn-primary btn-block btn-lg font-weight-bold py-3 shadow-sm">
+                                        <i class="fa fa-calendar-check mr-2"></i>Ajukan Sewa
+                                    </a>
+
+                                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $kos['owner_phone'] ?? '6280286216730') }}?text=Halo, saya tertarik dengan {{ urlencode($kos['title']) }}"
+                                        target="_blank" class="btn btn-outline-success btn-block py-2 font-weight-bold">
+                                        <i class="fab fa-whatsapp mr-2"></i>Tanya Pemilik
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
 
                         <!--DETAILS
                         =========================================================================================-->
@@ -191,19 +424,6 @@
 
                                 </form>
 
-                                <!-- TOMBOL HUBUNGI & BOOKING -->
-                                <hr class="my-4">
-
-                                <a href="https://wa.me/6280286216730?text=Halo, saya tertarik dengan {{ urlencode($kos['title']) }}"
-                                    target="_blank" class="btn btn-success btn-block mb-2">
-                                    <i class="fab fa-whatsapp mr-2"></i>Hubungi via WhatsApp
-                                </a>
-
-                                <a href="{{ route('member.booking.create', $kos['slug']) }}"
-                                    class="btn btn-primary btn-block">
-                                    <i class="fa fa-calendar-check mr-2"></i>Booking / Sewa Sekarang
-                                </a>
-
                             </div>
                         </section>
 
@@ -265,138 +485,7 @@
                         </section>
 
                     </div>
-                    <!--end col-md-4-->
-
-                    <!--RIGHT SIDE
-                    =============================================================================================-->
-                    <div class="col-md-7 col-lg-8">
-
-                        <!--QUICK INFO
-                        =========================================================================================-->
-                        <section id="quick-info">
-                            <h3>Info Singkat</h3>
-
-                            <!--Quick Info-->
-                            <div class="ts-quick-info ts-box">
-
-                                <!--Row-->
-                                <div class="row no-gutters">
-
-                                    <!--Bathrooms-->
-                                    <div class="col-sm-3">
-                                        <div class="ts-quick-info__item"
-                                            data-bg-image="{{ asset('assets/img/icon-quick-info-shower.png') }}">
-                                            <h6>K. Mandi</h6>
-                                            <figure>{{ $kos['bathrooms'] ?? '1' }}</figure>
-                                        </div>
-                                    </div>
-
-                                    <!--Bedrooms-->
-                                    <div class="col-sm-3">
-                                        <div class="ts-quick-info__item"
-                                            data-bg-image="{{ asset('assets/img/icon-quick-info-bed.png') }}">
-                                            <h6>Kamar Tidur</h6>
-                                            <figure>{{ $kos['bedrooms'] ?? '1' }}</figure>
-                                        </div>
-                                    </div>
-
-                                    <!--Area-->
-                                    <div class="col-sm-3">
-                                        <div class="ts-quick-info__item"
-                                            data-bg-image="{{ asset('assets/img/icon-quick-info-area.png') }}">
-                                            <h6>Luas</h6>
-                                            <figure>{{ $kos['area'] ?? '-' }}m<sup>2</sup></figure>
-                                        </div>
-                                    </div>
-
-                                    <!--Garages-->
-                                    <div class="col-sm-3">
-                                        <div class="ts-quick-info__item"
-                                            data-bg-image="{{ asset('assets/img/icon-quick-info-garages.png') }}">
-                                            <h6>Parkir</h6>
-                                            <figure>{{ $kos['garages'] ?? '-' }}</figure>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <!--end row-->
-
-                            </div>
-                            <!--end ts-quick-info-->
-
-                        </section>
-
-                        <!--DESCRIPTION
-                        =========================================================================================-->
-                        <section id="description">
-
-                            <h3>Deskripsi</h3>
-
-                            <p>{{ $kos['description'] ?? 'Deskripsi belum tersedia.' }}</p>
-
-                        </section>
-
-                        @if(!empty($kos['features']))
-                        <!--FEATURES
-                        =========================================================================================-->
-                        <section id="features">
-
-                            <h3>Fasilitas Utama</h3>
-
-                            <ul class="list-unstyled ts-list-icons ts-column-count-4 ts-column-count-sm-2 ts-column-count-md-2">
-                                @foreach($kos['features'] as $feature)
-                                <li>
-                                    <i class="fa {{ $feature['icon'] }}"></i>
-                                    {{ $feature['name'] }}
-                                </li>
-                                @endforeach
-                            </ul>
-
-                        </section>
-                        @endif
-
-                        <!--MAP PLACEHOLDER
-                        =========================================================================================-->
-                        <section id="map-location">
-
-                            <h3>Peta Lokasi</h3>
-
-                            <div class="ts-box text-center py-5" style="background-color: #f5f7f9;">
-                                <i class="fa fa-map-marked-alt fa-3x text-muted mb-3"></i>
-                                <p class="text-muted mb-0">Peta lokasi akan segera tersedia.</p>
-                                <p class="text-muted mb-0"><small>{{ $kos['address'] ?? $kos['city'] }}</small></p>
-                            </div>
-
-                        </section>
-
-                        <!--AMENITIES
-                        =========================================================================================-->
-                        <section id="amenities">
-
-                            <h3>Fasilitas Kos</h3>
-
-                            @if(isset($kos->facilities) && $kos->facilities->isNotEmpty())
-                                <div class="d-flex flex-wrap mb-4">
-                                    @foreach($kos->facilities as $facility)
-                                        <span class="badge badge-light border text-dark mr-2 mb-2 p-2" style="font-size: 0.9rem; font-weight: 500;">
-                                            <i class="fa fa-check-circle text-primary mr-1"></i>{{ $facility->name }}
-                                        </span>
-                                    @endforeach
-                                </div>
-                            @elseif(!empty($kos['facilities']))
-                                <ul class="ts-list-colored-bullets ts-text-color-light ts-column-count-3 ts-column-count-md-2">
-                                    @foreach($kos['facilities'] as $facility)
-                                        <li>{{ is_object($facility) ? $facility->name : $facility }}</li>
-                                    @endforeach
-                                </ul>
-                            @else
-                                <p class="text-muted">Belum ada fasilitas yang ditambahkan.</p>
-                            @endif
-
-                        </section>
-
-                    </div>
-                    <!--end col-md-8-->
+                    <!--end col-md-5 col-lg-4-->
 
                 </div>
                 <!--end row-->
@@ -404,138 +493,54 @@
             <!--end container-->
         </section>
 
-        <!--REVIEWS
-        =============================================================================================================-->
-        <section id="reviews" class="pk-reviews">
-            <div class="container">
-                <div class="row">
-                    <div class="offset-lg-4 col-sm-12 col-lg-8 pk-detail-section">
-                        <hr class="mb-3">
-
-                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
-                            <div>
-                                <h3 class="mb-1">Ulasan Penghuni</h3>
-                                <p class="text-muted mb-0">Pengalaman penghuni di {{ $kos['title'] }}</p>
-                            </div>
-                            <div class="pk-reviews__summary">
-                                <i class="fa fa-star"></i>
-                                <strong>{{ number_format($kos['rating'] ?? 0, 1) }}</strong>
-                                <span>({{ $kos['review_count'] ?? 0 }} ulasan)</span>
-                            </div>
-                        </div>
-
-                        <div class="ts-box pk-reviews__breakdown mb-4">
-                            <div class="row">
-                                @foreach($kos['rating_breakdown'] ?? [] as $rating)
-                                <div class="col-md-6 mb-3 mb-md-2">
-                                    <div class="pk-review-score">
-                                        <span>{{ $rating['label'] }}</span>
-                                        <span class="pk-review-score__stars" aria-label="Rating {{ $rating['score'] }} dari 5">
-                                            @for($star = 1; $star <= 5; $star++)
-                                                <i class="fa fa-star{{ $star <= round($rating['score']) ? '' : '-o' }}"></i>
-                                            @endfor
-                                        </span>
-                                        <strong>{{ number_format($rating['score'], 1) }}</strong>
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-
-                        @foreach($kos['reviews'] ?? [] as $review)
-                        <article class="pk-review-item">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div class="d-flex align-items-center">
-                                    <div class="pk-review-item__avatar"><i class="fa fa-user"></i></div>
-                                    <div>
-                                        <h5 class="mb-1">{{ $review['name'] }}</h5>
-                                        <small class="text-muted">{{ $review['date'] }}</small>
-                                    </div>
-                                </div>
-                                <span class="pk-review-item__score"><i class="fa fa-star"></i> {{ number_format($review['score'], 1) }}</span>
-                            </div>
-                            <p class="mb-0 mt-4">{{ $review['comment'] }}</p>
-
-                            @if(!empty($review['reply']))
-                            <div class="pk-review-item__reply">
-                                <strong>Balasan dari Pemilik Kos</strong>
-                                <p class="mb-0 mt-1">{{ $review['reply'] }}</p>
-                            </div>
-                            @endif
-                        </article>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!--SIMILAR PROPERTIES
         =============================================================================================================-->
-        @if(!empty($similarKos))
-        <section id="similar-properties">
+        @if(!empty($similarKos) && count($similarKos) > 0)
+        <section id="similar-properties" class="py-5 bg-white border-top">
             <div class="container">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="mb-0">Kos Serupa</h3>
+                    <span class="text-muted pk-similar-count">{{ count($similarKos) }} pilihan</span>
+                </div>
+
                 <div class="row">
-
-                    <div class="offset-lg-4 col-sm-12 col-lg-8 pk-detail-section">
-
-                        <hr class="mb-5">
-
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h3 class="mb-0">Kos Serupa</h3>
-                            <span class="text-muted pk-similar-count">{{ count($similarKos) }} pilihan</span>
-                        </div>
-
-                        @foreach($similarKos as $similar)
-                        <!--Item-->
-                        <div class="card ts-item ts-item__list ts-card pk-similar-card">
-
+                    @foreach($similarKos as $similar)
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card ts-item ts-card pk-similar-card h-100">
                             @if($loop->first)
                             <div class="ts-ribbon"><i class="fa fa-thumbs-up"></i></div>
                             @endif
 
                             <!--Card Image-->
                             <a href="{{ route('kos.show', $similar['slug']) }}" class="card-img ts-item__image"
-                                data-bg-image="{{ asset($similar['thumbnail']) }}"></a>
+                                data-bg-image="{{ asset($similar['thumbnail']) }}" style="height: 180px; background-size: cover; background-position: center;"></a>
 
                             <!--Card Body-->
-                            <div class="card-body ts-item__body">
-
-                                <figure class="ts-item__info">
-                                    <h4>{{ $similar['title'] }}</h4>
-                                    <aside>
-                                        <i class="fa fa-map-marker mr-2"></i>
+                            <div class="card-body ts-item__body p-3">
+                                <figure class="ts-item__info mb-2">
+                                    <h5 class="mb-1"><a href="{{ route('kos.show', $similar['slug']) }}">{{ $similar['title'] }}</a></h5>
+                                    <aside class="text-muted small">
+                                        <i class="fa fa-map-marker-alt mr-1 text-primary"></i>
                                         {{ $similar['city'] }}
                                     </aside>
                                 </figure>
 
-                                <div class="ts-item__info-badge">Rp {{ number_format($similar['price'], 0, ',', '.') }}</div>
+                                <div class="text-primary font-weight-bold mb-2">Rp {{ number_format($similar['price'], 0, ',', '.') }} <small class="text-muted">/bln</small></div>
 
-                                <div class="ts-description-lists">
-                                    <dl>
-                                        <dt>Luas</dt>
-                                        <dd>{{ $similar['area'] ?? '12' }}m<sup>2</sup></dd>
-                                    </dl>
-                                    <dl>
-                                        <dt>Kamar</dt>
-                                        <dd>{{ $similar['bedrooms'] ?? '1' }}</dd>
-                                    </dl>
-                                    <dl>
-                                        <dt>K. Mandi</dt>
-                                        <dd>1</dd>
-                                    </dl>
+                                <div class="d-flex justify-content-between text-muted small border-top pt-2">
+                                    <span><i class="fa fa-ruler-combined mr-1"></i>{{ $similar['area'] ?? '12' }}m²</span>
+                                    <span><i class="fa fa-bed mr-1"></i>{{ $similar['bedrooms'] ?? '1' }} Kamar</span>
+                                    <span><i class="fa fa-bath mr-1"></i>{{ $similar['bathrooms'] ?? '1' }} KM</span>
                                 </div>
                             </div>
 
                             <!--Card Footer-->
-                            <a href="{{ route('kos.show', $similar['slug']) }}" class="card-footer ts-item__footer">
-                                <span class="ts-btn-arrow">Detail</span>
+                            <a href="{{ route('kos.show', $similar['slug']) }}" class="card-footer ts-item__footer text-center py-2 bg-light">
+                                <span class="ts-btn-arrow font-weight-bold">Lihat Detail</span>
                             </a>
-
                         </div>
-                        @endforeach
-
                     </div>
-
+                    @endforeach
                 </div>
             </div>
         </section>
