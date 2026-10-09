@@ -1,6 +1,6 @@
-# Tempatin
+# PUSATKOS
 
-Tempatin adalah aplikasi web pencarian dan pengelolaan kos berbasis Laravel 12. Aplikasi ini dirancang untuk kebutuhan tiga peran utama:
+PUSATKOS adalah aplikasi web pencarian dan pengelolaan kos berbasis Laravel 12. Aplikasi ini dirancang untuk kebutuhan tiga peran utama:
 
 - Pengunjung umum mencari kos
 - Owner kos mengelola properti dan data listing
@@ -10,7 +10,7 @@ Project ini menggunakan Blade templating, Bootstrap, dan struktur Laravel modern
 
 ## Fitur utama
 
-- Homepage Tempatin dengan rekomendasi kos unggulan
+- Homepage PUSATKOS dengan rekomendasi kos unggulan
 - Halaman pencarian dan detail kos publik
 - Login dan registrasi untuk member/owner
 - Area owner untuk:
@@ -102,7 +102,7 @@ Contoh konfigurasi MySQL:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=tempatin
+DB_DATABASE=pusatkos
 DB_USERNAME=root
 DB_PASSWORD=
 ```
