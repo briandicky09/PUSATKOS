@@ -24,13 +24,6 @@
                 <a href="{{ route('login') }}" class="nav-link px-3">Masuk</a>
                 <a href="{{ route('register') }}" class="nav-link px-3 border-left">Daftar</a>
                 @endguest
-                @auth
-                    @if(Auth::user()->role === 'owner')
-                        <a href="{{ route('owner.dashboard') }}" class="nav-link px-3">Area Owner</a>
-                    @else
-                        <a href="{{ route('member.home') }}" class="nav-link px-3">Area Member</a>
-                    @endif
-                @endauth
             </div>
             <!--end navbar-nav-->
         </div>
@@ -89,16 +82,6 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('register') }}" class="btn btn-primary btn-sm">Daftar</a>
-                        </li>
-                    </ul>
-                    @else
-                    <ul class="navbar-nav ml-auto d-none d-md-flex align-items-center">
-                        <li class="nav-item">
-                            @if(Auth::user()->role === 'owner')
-                                <a href="{{ route('owner.dashboard') }}" class="btn btn-primary btn-sm"><i class="fa fa-tachometer-alt mr-1"></i> Dashboard Owner</a>
-                            @else
-                                <a href="{{ route('member.home') }}" class="btn btn-primary btn-sm"><i class="fa fa-user mr-1"></i> Area Member</a>
-                            @endif
                         </li>
                     </ul>
                     @endguest
